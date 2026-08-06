@@ -1,0 +1,14 @@
+[module]
+id = "template_module"
+name = "Template Module"
+description = "Starting point template for developing new SentryPack modules."
+author = "SentryPack Core Team"
+version = "0.1.0"
+category = "recon"
+
+[[options]]
+name = "TARGET"
+description = "Target host or IP address"
+type = "string"
+required = true
+default = "127.0.0.1"

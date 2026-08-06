@@ -1,0 +1,20 @@
+[module]
+id = "recon.nmap_scan"
+name = "Nmap Port Scanner"
+description = "Network reconnaissance using Nmap scanner."
+author = "SentryPack Team"
+version = "0.1.0"
+category = "recon"
+
+[[options]]
+name = "TARGET"
+description = "Target hostname or IP address"
+type = "string"
+required = true
+
+[[options]]
+name = "PORTS"
+description = "Port range specification"
+type = "string"
+required = false
+default = "1-1024"
