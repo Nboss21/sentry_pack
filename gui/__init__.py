@@ -1,0 +1,3 @@
+"""
+SentryPack PyQt Frontend Package.
+"""
