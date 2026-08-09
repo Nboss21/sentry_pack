@@ -2,10 +2,22 @@
 PyQt main application shell and navigation layout.
 """
 
+#import sys
+#from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QStackedWidget, QLabel
+#from gui.views.module_browser_view import ModuleBrowserView
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QStackedWidget, QLabel
 
+from PyQt6.QtWidgets import (
+    QApplication,
+    QHBoxLayout,
+    QLabel,
+    QListWidget,
+    QMainWindow,
+    QStackedWidget,
+    QWidget,
+)
 
+from gui.views.module_browser_view import ModuleBrowserView
 class MainWindow(QMainWindow):
     """Main application shell window for SentryPack Desktop GUI."""
 
@@ -32,7 +44,8 @@ class MainWindow(QMainWindow):
         self.views_stack = QStackedWidget()
         self.views_stack.addWidget(QLabel("Projects View Placeholder"))
         self.views_stack.addWidget(QLabel("Host Graph View Placeholder"))
-        self.views_stack.addWidget(QLabel("Module Browser View Placeholder"))
+        #self.views_stack.addWidget(QLabel("Module Browser View Placeholder"))
+        self.views_stack.addWidget(ModuleBrowserView())#edited on alazar branch
         self.views_stack.addWidget(QLabel("Console Output View Placeholder"))
         self.views_stack.addWidget(QLabel("C2 Sessions View Placeholder"))
         self.views_stack.addWidget(QLabel("Connection Analyser View Placeholder"))

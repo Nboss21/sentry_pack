@@ -2,7 +2,10 @@
 Nmap network scanning module.
 """
 
-from typing import List
+from __future__ import annotations
+
+from typing import Any, List
+
 from core.base_module import BaseModule, Finding, ModuleMeta, ModuleOption, OptionType
 
 
@@ -32,10 +35,18 @@ class Module(BaseModule):
         ],
     )
 
-    def run(self, ctx) -> List[Finding]:
+    def check(self, ctx: Any) -> bool:
+        """Return True — basic check that nmap exists on PATH."""
+        import shutil
+        if shutil.which("nmap") is None:
+            ctx.emit("nmap binary not found on PATH — skipping scan.", event_type="warning")
+            return False
+        return True
+
+    def run(self, ctx: Any) -> List[Finding]:
         target = self.options.get("TARGET")
         ports = self.options.get("PORTS", "1-1024")
-        ctx.emit("info", {"message": f"Scanning target {target} on ports {ports}"})
+        ctx.emit(f"Scanning target {target} on ports {ports}")
 
         # Run subprocess nmap or stub
         res = ctx.run_subprocess(["nmap", "-p", ports, target])
