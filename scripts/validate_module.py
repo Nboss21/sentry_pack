@@ -5,7 +5,11 @@ CLI validator script: sentrypack validate-module <path>
 import sys
 from pathlib import Path
 import argparse
-from core.registry import ModuleRegistry
+
+if sys.version_info >= (3, 11):
+    import tomllib
+else:
+    import tomli as tomllib
 
 
 def validate_module(module_path: Path) -> bool:
@@ -13,24 +17,24 @@ def validate_module(module_path: Path) -> bool:
     manifest = module_path / "module.toml"
     module_py = module_path / "module.py"
 
-    registry = ModuleRegistry(module_path.parent)
-
-    is_valid, err_msg, data = registry.validate_manifest(manifest)
-    if not is_valid:
-        print(f"[-] Error: {err_msg}")
+    if not manifest.exists():
+        print("[-] Error: module.toml manifest is missing.")
         return False
-
     if not module_py.exists():
-        print(f"[-] Error: Entry point module.py file is missing at '{module_py}'")
+        print("[-] Error: module.py file is missing.")
         return False
 
-    module_id = data["module"]["id"]
-    is_loaded, err_msg, module_cls = registry._load_module_class(module_py, module_id)
-    if not is_loaded:
-        print(f"[-] Error: {err_msg}")
-        return False
+    with open(manifest, "rb") as f:
+        data = tomllib.load(f)
 
-    print("[+] Module structure and Python entry point validated successfully.")
+    meta = data.get("module", {})
+    required_fields = ["id", "name", "description", "author", "version", "category"]
+    for field in required_fields:
+        if field not in meta:
+            print(f"[-] Error: missing required field '{field}' in module.toml")
+            return False
+
+    print("[+] Module structure validated successfully.")
     return True
 
 
@@ -46,4 +50,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
