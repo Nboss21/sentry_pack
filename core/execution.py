@@ -1,123 +1,43 @@
 """
-Execution context for subprocess isolation, timeouts, and event emission.
-
-:class:`ExecutionContext` is created by the runner for every module
-invocation and passed as the single ``ctx`` argument to both
-:meth:`~core.base_module.BaseModule.check` and
-:meth:`~core.base_module.BaseModule.run`.
+Execution context for subprocess isolation, timeouts, and event/finding emission.
 """
-
-from __future__ import annotations
 
 import subprocess
 import time
 from typing import Callable, List, Optional
-
 from core.base_module import Finding
 
 
 class ExecutionContext:
-    """Per-run container for findings, live event streaming, and subprocess execution.
-
-    Attributes:
-        run_id:   Unique identifier for this specific module invocation.
-        target:   The host / IP / URL the module is operating against.
-        findings: Accumulates :class:`~core.base_module.Finding` objects
-                  produced during the run.
+    """
+    Provides isolated execution environment, subprocess execution wrapper,
+    and event emitting mechanisms.
     """
 
-    def __init__(
-        self,
-        run_id: str,
-        target: str,
-        emit_callback: Optional[Callable[[dict], None]] = None,
-    ) -> None:
-        """
-        Args:
-            run_id:        Unique identifier for this run (UUIDv4 recommended).
-            target:        Target host or IP string.
-            emit_callback: Optional callable that receives every event payload
-                           dict; used by the API WebSocket layer to stream
-                           output to connected GUI clients.
-        """
-        self.run_id: str = run_id
-        self.target: str = target
-        self._emit_callback: Optional[Callable[[dict], None]] = emit_callback
+    def __init__(self, run_id: str, target: str, emit_callback: Optional[Callable[[dict], None]] = None):
+        self.run_id = run_id
+        self.target = target
+        self.emit_callback = emit_callback
         self.findings: List[Finding] = []
 
-    # ------------------------------------------------------------------
-    # Event emission
-    # ------------------------------------------------------------------
-
-    def emit(self, message: str, event_type: str = "log") -> None:
-        """Broadcast a plain-text log message to all connected listeners.
-
-        This is the primary way for a module to report progress.  The
-        architecture spec deliberately keeps the signature simple::
-
-            ctx.emit("still working...")
-            ctx.emit("Port 22 is open", event_type="info")
-
-        Args:
-            message:    Human-readable status / log line.
-            event_type: Optional discriminator tag (default ``"log"``).
-                        Common values: ``"log"``, ``"info"``, ``"warning"``,
-                        ``"error"``, ``"finding"``.
-        """
-        payload: dict = {
+    def emit(self, event_type: str, data: dict) -> None:
+        """Emit real-time status/log event to registered listener."""
+        payload = {
             "run_id": self.run_id,
             "target": self.target,
             "timestamp": time.time(),
             "event_type": event_type,
-            "message": message,
+            "data": data,
         }
-        if self._emit_callback is not None:
-            self._emit_callback(payload)
-
-    # ------------------------------------------------------------------
-    # Finding management
-    # ------------------------------------------------------------------
+        if self.emit_callback:
+            self.emit_callback(payload)
 
     def add_finding(self, finding: Finding) -> None:
-        """Append *finding* to the run's result set and emit a finding event.
-
-        Args:
-            finding: A :class:`~core.base_module.Finding` produced by the module.
-        """
+        """Record finding and emit finding event."""
         self.findings.append(finding)
-        self.emit(
-            f"[finding] {finding.severity.upper()} – {finding.title}",
-            event_type="finding",
-        )
+        self.emit("finding", {"title": finding.title, "severity": finding.severity})
 
-    # ------------------------------------------------------------------
-    # Subprocess execution
-    # ------------------------------------------------------------------
-
-    def run_subprocess(
-        self,
-        cmd: List[str],
-        timeout: int = 300,
-    ) -> subprocess.CompletedProcess:
-        """Run an external command inside a managed subprocess.
-
-        Emits a ``"log"`` event before execution and captures both stdout
-        and stderr so the module can inspect output without side effects.
-
-        Args:
-            cmd:     Command and arguments as a list of strings
-                     (never use ``shell=True``).
-            timeout: Maximum wall-clock seconds to wait; raises
-                     :exc:`subprocess.TimeoutExpired` on breach.
-
-        Returns:
-            A :class:`subprocess.CompletedProcess` with ``stdout`` and
-            ``stderr`` available as strings.
-        """
-        self.emit(f"Executing: {' '.join(cmd)}")
-        return subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-        )
+    def run_subprocess(self, cmd: List[str], timeout: int = 300) -> subprocess.CompletedProcess:
+        """Run external CLI tool securely within isolation wrapper."""
+        self.emit("log", {"message": f"Executing command: {' '.join(cmd)}"})
+        return subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
