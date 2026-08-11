@@ -2,17 +2,21 @@
 Execution context — per-run container for the emit queue, findings, and
 subprocess execution helpers.
 
-:class:`ExecutionContext` is created by :mod:`core.runner` for every module
-invocation and passed as the ``ctx`` argument to both
-:meth:`~core.base_module.BaseModule.check` and
-:meth:`~core.base_module.BaseModule.run`.
+:class:`ExecutionContext` is created for every module invocation and passed
+as the ``ctx`` argument to both :meth:`~core.base_module.BaseModule.check`
+and :meth:`~core.base_module.BaseModule.run`.
 
 Design
 ------
 ``ctx.emit(message)`` is intentionally synchronous from the module's
-perspective.  Internally it puts a dict onto an :class:`asyncio.Queue` using
-``put_nowait`` so it never blocks the calling thread.  The API WebSocket layer
-drains the same queue asynchronously to stream events to connected GUI clients.
+perspective.  Internally it:
+
+1. Puts a dict onto an :class:`asyncio.Queue` via ``put_nowait`` (used by
+   the queue-based runner / WebSocket layer).
+2. Optionally calls a synchronous ``emit_callback`` (used by
+   :class:`~core.run_manager.RunManager` for its subscriber fan-out).
+
+Both channels are optional; at least one should be provided.
 
 A ``cancelled`` :class:`threading.Event` lets the runner signal a timeout to
 the module without killing the OS thread — modules should check
@@ -25,7 +29,7 @@ import subprocess
 import threading
 import time
 from asyncio import Queue
-from typing import List, Optional
+from typing import Callable, List, Optional
 
 from core.base_module import Finding
 
@@ -39,8 +43,8 @@ class ExecutionContext:
     Attributes:
         run_id:    Unique identifier for this specific module invocation.
         target:    The host / IP / URL the module is operating against.
-        queue:     :class:`asyncio.Queue` of event dicts; drained by the
-                   WebSocket layer.  Ends with a ``None`` sentinel.
+        queue:     Optional :class:`asyncio.Queue` of event dicts; drained by
+                   the WebSocket layer.  Ends with a ``None`` sentinel.
         cancelled: :class:`threading.Event` set by the runner when the module
                    timeout fires.  Modules may check this flag to abort early.
         findings:  Accumulates :class:`~core.base_module.Finding` objects
@@ -51,21 +55,26 @@ class ExecutionContext:
         self,
         run_id: str,
         target: str,
-        queue: Queue,
+        queue: Optional[Queue] = None,
+        emit_callback: Optional[Callable[[dict], None]] = None,
         cancelled: Optional[threading.Event] = None,
     ) -> None:
         """
         Args:
-            run_id:    Unique identifier for this run (UUIDv4 recommended).
-            target:    Target host or IP string.
-            queue:     Pre-created :class:`asyncio.Queue`; shared with the
-                       runner and the WebSocket handler.
-            cancelled: Optional :class:`threading.Event` controlled by the
-                       runner.  Defaults to a new event (never set) if omitted.
+            run_id:        Unique identifier for this run (UUIDv4 recommended).
+            target:        Target host or IP string.
+            queue:         Optional pre-created :class:`asyncio.Queue`; shared
+                           with the runner and the WebSocket handler.
+            emit_callback: Optional synchronous callable receiving every event
+                           payload dict; used by :class:`~core.run_manager.RunManager`
+                           for live subscriber fan-out.
+            cancelled:     Optional :class:`threading.Event` controlled by the
+                           runner.  Defaults to a new event (never set) if omitted.
         """
         self.run_id: str = run_id
         self.target: str = target
-        self.queue: Queue = queue
+        self.queue: Optional[Queue] = queue
+        self._emit_callback: Optional[Callable[[dict], None]] = emit_callback
         self.cancelled: threading.Event = cancelled or threading.Event()
         self.findings: List[Finding] = []
 
@@ -74,16 +83,15 @@ class ExecutionContext:
     # ------------------------------------------------------------------
 
     def emit(self, message: str, event_type: str = "log") -> None:
-        """Put a log event onto the queue without blocking.
+        """Put a log event onto the queue and/or call the emit callback.
 
         This is the primary way for a module to report progress::
 
             ctx.emit("still working...")
             ctx.emit("Port 22 is open", event_type="info")
 
-        The call is **non-blocking** — it uses ``queue.put_nowait()``.
-        The queue has no bounded size by default, so it will never raise
-        ``asyncio.QueueFull`` under normal operation.
+        The call is **non-blocking** — it uses ``queue.put_nowait()`` when a
+        queue is present and never raises even if the queue is full.
 
         Args:
             message:    Human-readable status / log line.
@@ -99,7 +107,10 @@ class ExecutionContext:
             "event_type": event_type,
             "message": message,
         }
-        self.queue.put_nowait(payload)
+        if self.queue is not None:
+            self.queue.put_nowait(payload)
+        if self._emit_callback is not None:
+            self._emit_callback(payload)
 
     # ------------------------------------------------------------------
     # Finding management

@@ -71,12 +71,21 @@ class RunManager:
                 self._set_status(run_id, "running"),
                 loop,
             )
+
+            import threading as _threading
+            cancelled_flag = _threading.Event()
+
+            # Resolve timeout: meta.timeout → DEFAULT (60 s)
+            meta_obj = getattr(module_class, "meta", None)
+            timeout_secs: int = getattr(meta_obj, "timeout", None) or 60
+
             try:
                 mod_instance = module_class(options=options)
                 ctx = ExecutionContext(
                     run_id=run_id,
                     target=target,
                     emit_callback=emit_callback,
+                    cancelled=cancelled_flag,
                 )
 
                 can_run = mod_instance.check(ctx)
@@ -92,7 +101,60 @@ class RunManager:
                     )
                     return
 
-                findings = mod_instance.run(ctx)
+                # --- Run with timeout via a nested thread + Event ---
+                result_holder: list = []
+                exc_holder: list = []
+
+                def _run_with_timeout() -> None:
+                    try:
+                        result_holder.append(mod_instance.run(ctx))
+                    except Exception as e:
+                        exc_holder.append(e)
+
+                import threading as _t
+                worker_thread = _t.Thread(target=_run_with_timeout, daemon=True)
+                worker_thread.start()
+                worker_thread.join(timeout=timeout_secs)
+
+                if worker_thread.is_alive():
+                    # Timed out — signal cooperative cancellation
+                    cancelled_flag.set()
+                    from core.base_module import Finding as _Finding
+                    timeout_finding = _Finding(
+                        title="Module Timeout",
+                        severity="High",
+                        description=(
+                            f"Module did not complete within {timeout_secs}s. "
+                            "The run was forcibly terminated."
+                        ),
+                        remediation=(
+                            "Increase the module timeout in module.toml or "
+                            "narrow the target scope."
+                        ),
+                    )
+                    ctx.findings.append(timeout_finding)
+                    asyncio.run_coroutine_threadsafe(
+                        self._record_and_broadcast(run_id, {
+                            "type": "timeout",
+                            "run_id": run_id,
+                            "message": f"Module timed out after {timeout_secs}s",
+                        }),
+                        loop,
+                    )
+                    err_event = {
+                        "type": "error",
+                        "run_id": run_id,
+                        "message": f"Module timed out after {timeout_secs}s",
+                    }
+                    asyncio.run_coroutine_threadsafe(
+                        self._finish_run(run_id, "timeout", err_event, findings=ctx.findings),
+                        loop,
+                    )
+                    return
+
+                if exc_holder:
+                    raise exc_holder[0]
+
                 serialized_findings = [_serialize_finding(f) for f in ctx.findings]
                 comp_event = {
                     "type": "complete",

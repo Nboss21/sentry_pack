@@ -11,9 +11,11 @@ GET  /api/runs/{run_id}/status
 """
 
 from datetime import datetime
+import logging
 from pathlib import Path
 from typing import Any, Dict, Optional
 import uuid
+
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
