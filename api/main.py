@@ -6,6 +6,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes import modules, projects, targets, runs, findings, sessions, reports
 from api.ws import run_stream, session_stream
+from core.run_store import run_store as _run_store  # noqa: F401
+
 
 app = FastAPI(
     title="SentryPack API",
