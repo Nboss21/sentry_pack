@@ -95,6 +95,9 @@ class ModuleMeta:
         version:     Semantic version string (``"MAJOR.MINOR.PATCH"``).
         category:    Top-level category slug (``"recon"``, ``"exploit"``, …).
         options:     Ordered list of :class:`ModuleOption` the module accepts.
+        timeout:     Maximum wall-clock seconds the runner grants to
+                     :meth:`~BaseModule.run` before it is forcibly killed.
+                     ``None`` means "use the runner's global default" (60 s).
     """
 
     id: str
@@ -104,6 +107,8 @@ class ModuleMeta:
     version: str
     category: str
     options: List[ModuleOption] = field(default_factory=list)
+    timeout: Optional[int] = None
+
 
 
 # ---------------------------------------------------------------------------

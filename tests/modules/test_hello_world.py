@@ -10,9 +10,9 @@ Verifies the exact behaviour specified in the task:
 
 from __future__ import annotations
 
+import asyncio
 import time
 from typing import Any, List
-from unittest.mock import MagicMock
 
 import pytest
 
@@ -20,12 +20,21 @@ from core.base_module import Finding, OptionType
 from core.execution import ExecutionContext
 
 
-def _make_ctx(emit_callback=None) -> ExecutionContext:
+def _make_ctx() -> ExecutionContext:
+    """Create a test ExecutionContext backed by a fresh asyncio.Queue."""
     return ExecutionContext(
         run_id="test-run-001",
         target="127.0.0.1",
-        emit_callback=emit_callback,
+        queue=asyncio.Queue(),
     )
+
+
+def _drain_queue(ctx: ExecutionContext) -> list[dict]:
+    """Synchronously drain all events currently in ctx.queue."""
+    events = []
+    while not ctx.queue.empty():
+        events.append(ctx.queue.get_nowait())
+    return events
 
 
 def _load_module():
@@ -106,12 +115,12 @@ class TestHelloWorldModule:
         assert isinstance(findings[0], Finding)
 
     def test_run_emits_still_working_exactly_once(self):
-        emitted: list = []
-        ctx = _make_ctx(emit_callback=lambda p: emitted.append(p))
         mod = self.Module()
+        ctx = _make_ctx()
         mod.run(ctx)
-        # Filter events to only the module's own "still working..." emit
-        log_msgs = [e["message"] for e in emitted if "still working" in e.get("message", "")]
+        # Drain all events from the queue
+        events = _drain_queue(ctx)
+        log_msgs = [e["message"] for e in events if "still working" in e.get("message", "")]
         assert len(log_msgs) == 1
         assert "still working" in log_msgs[0]
 

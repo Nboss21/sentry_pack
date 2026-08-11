@@ -1,15 +1,27 @@
 """
-WebSocket live run stream endpoint (/ws/runs/{run_id}).
+WebSocket live run-stream endpoint — /ws/runs/{run_id}
+
+Drains the asyncio.Queue registered in core.run_store.run_store and forwards
+every event as a JSON message to connected clients.
 """
+
+from __future__ import annotations
+
+import asyncio
+import logging
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from core.run_manager import run_manager
 
 router = APIRouter()
 
+_QUEUE_WAIT_TIMEOUT = 10.0
+_QUEUE_POLL_INTERVAL = 0.05
+
 
 @router.websocket("/ws/runs/{run_id}")
-async def run_stream(websocket: WebSocket, run_id: str):
+async def run_stream(websocket: WebSocket, run_id: str) -> None:
+    """Stream live run events to the connected client."""
     await websocket.accept()
     queue, snapshot = run_manager.subscribe(run_id)
 

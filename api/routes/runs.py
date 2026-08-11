@@ -1,11 +1,21 @@
 """
-Module execution routes (POST /api/targets/{id}/run).
+Module execution routes.
+
+POST /api/targets/{target_id}/run
+    Instantiate and launch the requested module against a target in a
+    background asyncio task.  Returns immediately with the new ``run_id``
+    so the caller can subscribe to the WebSocket stream.
+
+GET  /api/runs/{run_id}/status
+    Poll the run status (pending / running / completed / timeout / error).
 """
 
 from datetime import datetime
+import logging
 from pathlib import Path
 from typing import Any, Dict, Optional
 import uuid
+
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
@@ -16,6 +26,7 @@ from api.db.session import get_db
 from core.registry import ModuleRegistry, load_module_class, validate_options
 from core.run_manager import run_manager
 
+logger = logging.getLogger("sentrypack.api.runs")
 router = APIRouter()
 
 MODULES_DIR = Path(__file__).resolve().parent.parent.parent / "modules"
