@@ -5,11 +5,14 @@ Run manager for module execution, event buffering, and WebSocket live broadcasti
 from __future__ import annotations
 
 import asyncio
+import logging
 import time
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 
 from core.base_module import BaseModule, Finding
 from core.execution import ExecutionContext
+
+logger = logging.getLogger("sentrypack.run_manager")
 
 
 def _serialize_finding(f: Finding) -> dict:
@@ -38,6 +41,8 @@ class RunManager:
         module_class: type[BaseModule],
         options: Dict[str, Any],
         target: str,
+        target_id: Any = None,
+        on_finish: Optional[Callable[[str, Any, str, list], None]] = None,
     ) -> str:
         """Kick off background execution of module_class in a thread executor."""
         try:
@@ -52,6 +57,8 @@ class RunManager:
             "findings": [],
             "module_id": getattr(getattr(module_class, "meta", None), "id", ""),
             "target": target,
+            "target_id": target_id,
+            "on_finish": on_finish,
         }
 
         def emit_callback(payload: dict) -> None:
@@ -212,6 +219,20 @@ class RunManager:
         if findings is not None:
             run_data["findings"] = findings
         run_data["buffer"].append(terminal_event)
+
+        # Fire the on_finish callback before broadcasting, but never let it
+        # block or break the subscriber broadcast.
+        on_finish = run_data.get("on_finish")
+        stored_target_id = run_data.get("target_id")
+        if on_finish is not None:
+            try:
+                on_finish(run_id, stored_target_id, status, run_data.get("findings") or [])
+            except Exception:
+                logger.exception(
+                    "on_finish callback raised for run_id=%s; subscriber broadcast will continue",
+                    run_id,
+                )
+
         subscribers: Set[asyncio.Queue] = set(run_data["subscribers"])
         for q in subscribers:
             await q.put(terminal_event)

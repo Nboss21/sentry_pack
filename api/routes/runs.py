@@ -21,8 +21,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from api.db.models import ModuleRun, Target
-from api.db.session import get_db
+from api.db.models import FindingModel, ModuleRun, Target
+from api.db.session import get_db, SessionLocal
 from core.registry import ModuleRegistry, load_module_class, validate_options
 from core.run_manager import run_manager
 
@@ -35,6 +35,49 @@ MODULES_DIR = Path(__file__).resolve().parent.parent.parent / "modules"
 class RunRequest(BaseModel):
     module_id: str
     options: Optional[Dict[str, Any]] = None
+
+
+def _persist_run_results(run_id: str, target_id: Any, status: str, findings: list) -> None:
+    """Callback invoked by RunManager after a run finishes.
+
+    Persists all findings to the DB and updates the target's status column.
+    This function must never raise — all exceptions are caught and logged.
+    """
+    db = SessionLocal()
+    try:
+        try:
+            for finding in findings:
+                db.add(
+                    FindingModel(
+                        target_id=target_id,
+                        title=finding.title,
+                        severity=finding.severity,
+                        description=finding.description,
+                        cve=finding.cve,
+                        cpe=finding.cpe,
+                        remediation=finding.remediation,
+                        evidence=finding.evidence,
+                    )
+                )
+
+            target = db.query(Target).filter(Target.id == target_id).first()
+            if target is not None:
+                if status == "completed":
+                    target.status = "scanned"
+                elif status in ("failed", "timeout"):
+                    target.status = "error"
+                # Otherwise leave status unchanged
+
+            db.commit()
+        except Exception:
+            db.rollback()
+            logger.exception(
+                "_persist_run_results: DB error for run_id=%s target_id=%s",
+                run_id,
+                target_id,
+            )
+    finally:
+        db.close()
 
 
 @router.post("/targets/{target_id}/run")
@@ -87,6 +130,8 @@ async def run_module(
         module_class=module_cls,
         options=req.options or {},
         target=target.ip_address,
+        target_id=target_id,
+        on_finish=_persist_run_results,
     )
 
     return {
