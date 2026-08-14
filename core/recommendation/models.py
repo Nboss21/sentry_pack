@@ -107,24 +107,22 @@ class ServiceResult:
 class ExploitRecord:
     """A single entry in the exploit / known-vulnerability table.
 
-    Phase 1 only needs ``service_name`` for string matching.  All other
-    fields are optional stubs that Phase 4 will populate from the NVD / Exploit
-    DB import.
-
     Attributes:
-        id:           Internal unique identifier (auto-incremented int or UUID).
-        service_name: The canonical service/product name used for matching
-                      (e.g. ``"ssh"``, ``"openssh"``, ``"apache"``).
-        cve_id:       CVE identifier, if known (e.g. ``"CVE-2023-38408"``).
-        module_id:    SentryPack module that exploits this vulnerability,
-                      if one exists (e.g. ``"exploit.ssh_cve_2023_38408"``).
-        severity:     Qualitative severity label
-                      (``"Info"``, ``"Low"``, ``"Medium"``, ``"High"``,
-                      ``"Critical"``).  Defaults to ``"Unknown"`` until
-                      populated.
-        cvss_score:   CVSS v3 base score (0.0 – 10.0).  ``None`` until
-                      populated.
-        description:  Human-readable summary of the vulnerability.
+        id:                       Internal unique identifier.
+        service_name:             The canonical service/product name used for matching.
+        cve_id:                   CVE identifier (e.g. ``"CVE-2023-38408"``).
+        module_id:                SentryPack module that exploits this (e.g. ``"exploit.ssh_cve_2023_38408"``).
+        severity:                 Qualitative severity label.
+        cvss_score:               CVSS v3 base score (0.0 – 10.0).
+        description:              Human-readable summary of the vulnerability.
+        has_public_exploit:       Whether a public exploit script/module is available.
+        published_date:           Publication date (e.g. ``"2026-01-15"``).
+        cpe_prefix:               CPE prefix identifier (e.g. ``"cpe:/a:openbsd:openssh"``).
+        version_start_including: Inclusive lower bound for affected versions.
+        version_start_excluding: Exclusive lower bound for affected versions.
+        version_end_including:   Inclusive upper bound for affected versions.
+        version_end_excluding:   Exclusive upper bound for affected versions.
+        references:              List of reference URLs or advisory IDs.
     """
 
     id: int
@@ -134,6 +132,14 @@ class ExploitRecord:
     severity: str = "Unknown"
     cvss_score: Optional[float] = None
     description: str = ""
+    has_public_exploit: bool = True
+    published_date: Optional[str] = None
+    cpe_prefix: Optional[str] = None
+    version_start_including: Optional[str] = None
+    version_start_excluding: Optional[str] = None
+    version_end_including: Optional[str] = None
+    version_end_excluding: Optional[str] = None
+    references: list[str] = field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
@@ -146,15 +152,20 @@ class MatchResult:
     """A single match produced by the recommendation engine.
 
     Attributes:
-        record:        The :class:`ExploitRecord` that matched the scan result.
-        match_type:    How it matched — ``"exact"`` or ``"prefix"``.
-        matched_field: Which field of the :class:`ServiceResult` triggered
-                       the match — ``"service"`` or ``"product"``.
-        service_result: The :class:`ServiceResult` that was being matched
-                        (back-reference for context).
+        record:          The :class:`ExploitRecord` that matched the scan result.
+        match_type:      How it matched — ``"direct"``, ``"cpe_version"``, ``"exact"``, or ``"prefix"``.
+        matched_field:   Which field of the :class:`ServiceResult` triggered the match.
+        service_result:  The :class:`ServiceResult` that was being matched.
+        is_direct_match: True if this match has a direct module available or direct match.
     """
 
     record: ExploitRecord
-    match_type: str          # "exact" | "prefix"
-    matched_field: str       # "service" | "product"
+    match_type: str          # "direct" | "cpe_version" | "exact" | "prefix"
+    matched_field: str       # "service" | "product" | "cpe" | "module_id"
     service_result: ServiceResult
+    is_direct_match: bool = False
+
+    def __post_init__(self) -> None:
+        if self.match_type == "direct" or (self.record.module_id and self.record.module_id.strip()):
+            self.is_direct_match = True
+

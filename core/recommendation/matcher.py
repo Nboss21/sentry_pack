@@ -1,106 +1,75 @@
 """
-Phase-1 exact and prefix string matching engine.
-
-The :class:`StringMatcher` is the primary entry point for Phase 1 of the
-recommendation engine.  It takes a list of :class:`~.models.ExploitRecord`
-objects (the exploit table) and matches them against
-:class:`~.models.ServiceResult` objects (parsed scan output).
-
-Matching strategy
------------------
-For each ``ExploitRecord`` in the table the matcher checks two fields of the
-``ServiceResult`` — ``service`` and ``product`` — against the record's
-``service_name`` using two strategies:
-
-1. **Exact match** — case-insensitive equality
-   (``result.service.lower() == record.service_name.lower()``).
-2. **Prefix match** — the *scan result field* starts with the record's
-   ``service_name`` (``result.service.lower().startswith(...)``).
-
-Result ordering
----------------
-* Exact matches are always returned before prefix matches.
-* Within the same match type, records preserve their original insertion order
-  in the exploit table.
-
-Deduplication
--------------
-An ``ExploitRecord`` can match via both fields (``service`` *and* ``product``).
-In that case only the *highest-priority* hit (exact > prefix, service > product)
-is included — the same record never appears twice in the output.
-
-Phase scope note
-----------------
-The exploit table is expected to be **mostly empty** in Phase 1.  The point
-is the matching *function*, not the data.  Phase 4 will load the real NVD /
-Exploit DB records into this table.
+Matching engine combining Phase-1 string matching, Phase-2 CPE/version-range matching, and direct module matching.
 """
 
 from __future__ import annotations
 
 from typing import List, Optional
 
+from core.recommendation.cpe_matcher import CPEMatcher
 from core.recommendation.models import ExploitRecord, MatchResult, ServiceResult
 
 
 class StringMatcher:
     """Exact and prefix string matching engine for scan-result services.
 
-    Args:
-        exploit_table: List of :class:`~.models.ExploitRecord` objects to
-                       match against.  Pass an empty list to get a matcher
-                       that always returns no results — useful for testing
-                       the caller without populating data.
-
-    Example::
-
-        table = [
-            ExploitRecord(id=1, service_name="ssh", cve_id="CVE-2023-38408"),
-            ExploitRecord(id=2, service_name="apache"),
-        ]
-        matcher = StringMatcher(table)
-
-        result = ServiceResult(host="10.0.0.1", port=22, protocol="tcp",
-                               service="ssh", product="OpenSSH")
-        matches = matcher.match(result)
-        # → [MatchResult(record=<ssh exploit>, match_type="exact", matched_field="service", ...)]
+    Also integrates Phase 2 CPE/version-range matching when CPE or version-range
+    data is available on exploit records.
     """
 
     def __init__(self, exploit_table: Optional[List[ExploitRecord]] = None) -> None:
         self._table: List[ExploitRecord] = exploit_table or []
-
-    # ------------------------------------------------------------------
-    # Public API
-    # ------------------------------------------------------------------
+        self._cpe_matcher = CPEMatcher(self._table)
 
     def match(self, result: ServiceResult) -> List[MatchResult]:
         """Match a single scan result against the exploit table.
 
-        Args:
-            result: A :class:`~.models.ServiceResult` representing one
-                    discovered service.
-
-        Returns:
-            A deduplicated list of :class:`~.models.MatchResult` objects,
-            exact matches first, then prefix matches.  Returns ``[]`` when
-            the exploit table is empty or no record matches.
+        Phase 2 CPE version-range matching is attempted first for records that specify
+        CPE or version bounds. If no range bounds are present or match fails due to absence
+        of version bounds, falls back to Phase 1 exact/prefix matching.
         """
         exact_matches: List[MatchResult] = []
         prefix_matches: List[MatchResult] = []
+        cpe_matches: List[MatchResult] = []
+        direct_matches: List[MatchResult] = []
+
         seen_ids: set[int] = set()
+
+        # 1. Run CPE / Version-range matcher
+        cpe_results = self._cpe_matcher.match_cpe(result, self._table)
+        for m in cpe_results:
+            seen_ids.add(m.record.id)
+            cpe_matches.append(m)
 
         service_lower = result.service.strip().lower()
         product_lower = result.product.strip().lower()
 
+        # 2. Phase 1 String matching for records not already matched by CPE/version range
         for record in self._table:
+            if record.id in seen_ids:
+                continue
+
             needle = record.service_name.strip().lower()
             if not needle:
                 continue
 
             match_result: Optional[MatchResult] = None
 
+            # --- Direct module match check ---
+            if record.module_id and (
+                (service_lower and service_lower in record.module_id.lower())
+                or (product_lower and product_lower in record.module_id.lower())
+            ):
+                match_result = MatchResult(
+                    record=record,
+                    match_type="direct",
+                    matched_field="module_id",
+                    service_result=result,
+                    is_direct_match=True,
+                )
+
             # --- Exact matching (service field first, then product) ---
-            if service_lower and service_lower == needle:
+            elif service_lower and service_lower == needle:
                 match_result = MatchResult(
                     record=record,
                     match_type="exact",
@@ -135,28 +104,24 @@ class StringMatcher:
                 continue
 
             seen_ids.add(record.id)
-            if match_result.match_type == "exact":
+            if match_result.match_type == "direct":
+                direct_matches.append(match_result)
+            elif match_result.match_type == "exact":
                 exact_matches.append(match_result)
             else:
                 prefix_matches.append(match_result)
 
-        return exact_matches + prefix_matches
+        return direct_matches + cpe_matches + exact_matches + prefix_matches
 
     def match_many(self, results: List[ServiceResult]) -> List[MatchResult]:
-        """Match a list of scan results against the exploit table.
-
-        Convenience wrapper around :meth:`match` that processes an entire
-        scan's worth of services in one call.
-
-        Args:
-            results: List of :class:`~.models.ServiceResult` objects from a
-                     completed scan.
-
-        Returns:
-            Flat list of all :class:`~.models.MatchResult` objects across all
-            results, preserving per-result ordering (exact before prefix).
-        """
+        """Match a list of scan results against the exploit table."""
         all_matches: List[MatchResult] = []
         for result in results:
             all_matches.extend(self.match(result))
         return all_matches
+
+
+class RecommendationMatcher(StringMatcher):
+    """Unified recommendation matcher wrapper."""
+
+    pass
