@@ -7,14 +7,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.routes import modules, projects, targets, runs, findings, sessions, reports, exploits
 from api.ws import run_stream, session_stream
 from core.run_store import run_store as _run_store  # noqa: F401
-
+from api.db.session import init_db
 
 app = FastAPI(
     title="SentryPack API",
     description="Backend REST API and WebSocket interface for SentryPack platform",
     version="0.1.0",
 )
-
+@app.on_event("startup")
+def startup():
+    init_db()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1", "http://localhost"],
@@ -34,7 +36,11 @@ app.include_router(exploits.router, prefix="/api/exploits", tags=["exploits"])
 
 app.include_router(run_stream.router)
 app.include_router(session_stream.router)
-
+app.include_router(
+    projects.router,
+    prefix="/api/projects",
+    tags=["projects"],
+)
 
 @app.get("/health")
 def health_check():
