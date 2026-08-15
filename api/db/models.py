@@ -3,7 +3,7 @@ SQLAlchemy database models for SentryPack.
 """
 
 from datetime import datetime
-from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, JSON, String, Text
+from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, JSON, String, Table, Text
 from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
@@ -76,6 +76,94 @@ class C2Session(Base):
     last_seen = Column(DateTime, default=datetime.utcnow)
 
 
+# ---------------------------------------------------------------------------
+# Exploit DB Relational Schema Junction Tables
+# ---------------------------------------------------------------------------
+
+exploit_cves = Table(
+    "exploit_cves",
+    Base.metadata,
+    Column("exploit_id", Integer, ForeignKey("exploits.id"), primary_key=True),
+    Column("cve_id", Integer, ForeignKey("cves.id"), primary_key=True),
+)
+
+exploit_platforms = Table(
+    "exploit_platforms",
+    Base.metadata,
+    Column("exploit_id", Integer, ForeignKey("exploits.id"), primary_key=True),
+    Column("platform_id", Integer, ForeignKey("platforms.id"), primary_key=True),
+)
+
+exploit_software = Table(
+    "exploit_software",
+    Base.metadata,
+    Column("exploit_id", Integer, ForeignKey("exploits.id"), primary_key=True),
+    Column("software_id", Integer, ForeignKey("software.id"), primary_key=True),
+)
+
+
+# ---------------------------------------------------------------------------
+# Exploit DB Relational Schema Models
+# ---------------------------------------------------------------------------
+
+class CVE(Base):
+    __tablename__ = "cves"
+
+    id = Column(Integer, primary_key=True, index=True)
+    cve_id = Column(String(100), unique=True, nullable=False, index=True)
+    description = Column(Text, nullable=True)
+    cvss_score = Column(Float, nullable=True)
+    published_date = Column(String(50), nullable=True)
+    source = Column(String(50), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    exploits = relationship("ExploitModel", secondary=exploit_cves, back_populates="cves")
+
+
+class Platform(Base):
+    __tablename__ = "platforms"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100), unique=True, nullable=False, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    exploits = relationship("ExploitModel", secondary=exploit_platforms, back_populates="platforms")
+
+
+class Software(Base):
+    __tablename__ = "software"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255), nullable=False, index=True)
+    vendor = Column(String(255), nullable=True)
+    cpe_prefix = Column(String(255), nullable=True, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    exploits = relationship("ExploitModel", secondary=exploit_software, back_populates="software")
+
+
+class ExploitReference(Base):
+    __tablename__ = "references"
+
+    id = Column(Integer, primary_key=True, index=True)
+    exploit_id = Column(Integer, ForeignKey("exploits.id"), nullable=False)
+    url = Column(String(1000), nullable=False)
+    source_type = Column(String(50), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    exploit = relationship("ExploitModel", back_populates="references")
+
+    def __eq__(self, other):
+        if isinstance(other, str):
+            return self.url == other
+        if isinstance(other, ExploitReference):
+            return (self.id == other.id if (self.id is not None and other.id is not None) else True) and self.url == other.url
+        return super().__eq__(other)
+
+    def __repr__(self):
+        return f"<ExploitReference id={self.id} url={self.url!r}>"
+
+
 class ExploitModel(Base):
     __tablename__ = "exploits"
 
@@ -98,8 +186,30 @@ class ExploitModel(Base):
     cvss_score = Column(Float, nullable=True)
     severity = Column(String(50), default="Medium")
     published_date = Column(String(50), nullable=True)
-    references = Column(JSON, nullable=True)
+    references_data = Column("references", JSON, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
+
+    cves = relationship("CVE", secondary=exploit_cves, back_populates="exploits")
+    platforms = relationship("Platform", secondary=exploit_platforms, back_populates="exploits")
+    software = relationship("Software", secondary=exploit_software, back_populates="exploits")
+    references = relationship(
+        "ExploitReference",
+        back_populates="exploit",
+        cascade="all, delete-orphan",
+    )
+
+    def __init__(self, **kwargs):
+        if "references" in kwargs and kwargs["references"] is not None:
+            refs = kwargs["references"]
+            if isinstance(refs, list):
+                coerced_refs = []
+                for r in refs:
+                    if isinstance(r, str):
+                        coerced_refs.append(ExploitReference(url=r))
+                    else:
+                        coerced_refs.append(r)
+                kwargs["references"] = coerced_refs
+        super().__init__(**kwargs)
 
 
 class ExploitDBEntry(Base):
@@ -114,5 +224,3 @@ class ExploitDBEntry(Base):
     platform = Column(String(100), nullable=True)
     port = Column(Integer, nullable=True)
     imported_at = Column(DateTime, default=datetime.utcnow)
-
-
