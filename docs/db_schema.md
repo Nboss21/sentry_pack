@@ -75,3 +75,15 @@ virtual table that mirrors the following columns from `exploits` for full-text s
 - On startup, an `INSERT INTO exploits_fts(exploits_fts) VALUES('rebuild')` backfills
   the index from any pre-existing rows (e.g. from `scripts/import_exploitdb.py`).
 - Queried via `GET /api/exploits/search?q=...` using `bm25()` ranking.
+
+### `exploitdb_entries`
+- `id` (INTEGER, PK, from CSV)
+- `file` (VARCHAR)
+- `description` (TEXT)
+- `date_published` (VARCHAR)
+- `author` (VARCHAR)
+- `type` (VARCHAR)
+- `platform` (VARCHAR)
+- `port` (INTEGER)
+- `imported_at` (DATETIME)
+
