@@ -25,3 +25,22 @@
 ## WebSockets
 - `WS /ws/runs/{run_id}` — Stream live output logs from active module runs.
 - `WS /ws/sessions/{session_id}` — Interactive C2 session terminal stream.
+
+### Exploit DB
+- `GET /api/exploits/search` — Full-text and filtered search over the Exploit DB.
+  FTS5-ranked when a query string (`q`) is provided; falls back to CVSS/date ordering
+  for filter-only browsing. Supports combining free-text with structured filters.
+
+  **Query parameters** (all optional):
+  | Param | Type | Description |
+  |---|---|---|
+  | `q` | string | Free-text FTS5 query; tokens prefix-matched, AND-ed |
+  | `service_name` | string | Partial, case-insensitive match on service name |
+  | `cve_id` | string | Partial, case-insensitive match on CVE ID |
+  | `severity` | string | Exact, case-insensitive match (e.g. `Critical`) |
+  | `min_cvss` | float 0–10 | Lower bound on CVSS score |
+  | `has_public_exploit` | bool | Filter by public exploit availability |
+  | `platform` | string | Partial match on platform |
+  | `exploit_type` | string | Partial match on exploit type |
+  | `limit` | int 1–100 | Results per page (default 25) |
+  | `offset` | int ≥0 | Pagination offset (default 0) |

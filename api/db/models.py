@@ -101,3 +101,18 @@ class ExploitModel(Base):
     references = Column(JSON, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
+class ExploitDBEntry(Base):
+    __tablename__ = "exploitdb_entries"
+
+    id = Column(Integer, primary_key=True, autoincrement=False)
+    file = Column(String(500), nullable=True)
+    description = Column(Text, nullable=True)
+    date_published = Column(String(50), nullable=True)
+    author = Column(String(255), nullable=True)
+    type = Column(String(100), nullable=True)
+    platform = Column(String(100), nullable=True)
+    port = Column(Integer, nullable=True)
+    imported_at = Column(DateTime, default=datetime.utcnow)
+
+

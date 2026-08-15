@@ -4,7 +4,7 @@ FastAPI Application entrypoint. Binds 127.0.0.1 loopback interface only.
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import modules, projects, targets, runs, findings, sessions, reports
+from api.routes import modules, projects, targets, runs, findings, sessions, reports, exploits
 from api.ws import run_stream, session_stream
 from core.run_store import run_store as _run_store  # noqa: F401
 
@@ -30,6 +30,7 @@ app.include_router(runs.router, prefix="/api", tags=["runs"])
 app.include_router(findings.router, prefix="/api", tags=["findings"])
 app.include_router(sessions.router, prefix="/api/sessions", tags=["sessions"])
 app.include_router(reports.router, prefix="/api/projects", tags=["reports"])
+app.include_router(exploits.router, prefix="/api/exploits", tags=["exploits"])
 
 app.include_router(run_stream.router)
 app.include_router(session_stream.router)
