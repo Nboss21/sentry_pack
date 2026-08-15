@@ -7,6 +7,8 @@ PyQt main application shell and navigation layout.
 #from gui.views.module_browser_view import ModuleBrowserView
 import sys
 from gui.views.live_console_view import LiveConsoleView
+from gui.views.projects_view import ProjectsView
+from gui.views.host_graph_view import HostGraphView
 from PyQt6.QtWidgets import (
     QApplication,
     QHBoxLayout,
@@ -42,8 +44,13 @@ class MainWindow(QMainWindow):
         self.sidebar.setFixedWidth(200)
 
         self.views_stack = QStackedWidget()
-        self.views_stack.addWidget(QLabel("Projects View Placeholder"))
-        self.views_stack.addWidget(QLabel("Host Graph View Placeholder"))
+        #self.views_stack.addWidget(QLabel("Projects View Placeholder"))
+        self.projects_view = ProjectsView()
+        self.views_stack.addWidget(self.projects_view)
+        #self.views_stack.addWidget(QLabel("Host Graph View Placeholder"))
+        
+        self.host_graph_view = HostGraphView()
+        self.views_stack.addWidget(self.host_graph_view)
         #self.views_stack.addWidget(QLabel("Module Browser View Placeholder"))
         self.views_stack.addWidget(ModuleBrowserView())#edited on alazar branch
         #self.views_stack.addWidget(QLabel("Console Output View Placeholder"))

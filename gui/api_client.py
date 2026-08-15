@@ -1,8 +1,9 @@
 """
-API Client wrapper for REST endpoints and WebSocket subscriptions.
+API Client wrapper for SentryPack REST endpoints and WebSocket subscriptions.
 """
 
 from typing import Any, Dict, Optional
+
 import requests
 
 
@@ -12,14 +13,183 @@ class SentryPackAPIClient:
     def __init__(self, base_url: str = "http://127.0.0.1:8000"):
         self.base_url = base_url.rstrip("/")
 
+    # ------------------------------------------------------------------
+    # Modules
+    # ------------------------------------------------------------------
+
     def get_modules(self) -> Dict[str, Any]:
         """Fetch available modules."""
         response = requests.get(f"{self.base_url}/api/modules/")
         response.raise_for_status()
         return response.json()
 
+    # ------------------------------------------------------------------
+    # Projects
+    # ------------------------------------------------------------------
+
     def get_projects(self) -> Dict[str, Any]:
-        """Fetch projects list."""
+        """Fetch all projects."""
         response = requests.get(f"{self.base_url}/api/projects/")
+        response.raise_for_status()
+        return response.json()
+
+    def get_project(self, project_id: int) -> Dict[str, Any]:
+        """Fetch a single project by ID."""
+        response = requests.get(
+            f"{self.base_url}/api/projects/{project_id}"
+        )
+        response.raise_for_status()
+        return response.json()
+
+    def create_project(
+        self,
+        name: str,
+        description: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Create a new project."""
+        payload = {
+            "name": name,
+            "description": description,
+        }
+
+        response = requests.post(
+            f"{self.base_url}/api/projects/",
+            json=payload,
+        )
+        response.raise_for_status()
+        return response.json()
+
+    def update_project(
+        self,
+        project_id: int,
+        name: Optional[str] = None,
+        description: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Update an existing project."""
+        payload: Dict[str, Any] = {}
+
+        if name is not None:
+            payload["name"] = name
+
+        if description is not None:
+            payload["description"] = description
+
+        response = requests.put(
+            f"{self.base_url}/api/projects/{project_id}",
+            json=payload,
+        )
+        response.raise_for_status()
+        return response.json()
+
+    def delete_project(self, project_id: int) -> Dict[str, Any]:
+        """Delete a project by ID."""
+        response = requests.delete(
+            f"{self.base_url}/api/projects/{project_id}"
+        )
+        response.raise_for_status()
+        return response.json()
+
+    # ------------------------------------------------------------------
+    # Targets
+    # ------------------------------------------------------------------
+
+    def get_targets(self) -> Dict[str, Any]:
+        """Fetch all targets."""
+        response = requests.get(f"{self.base_url}/api/targets/")
+        response.raise_for_status()
+        return response.json()
+
+    def get_target(self, target_id: int) -> Dict[str, Any]:
+        """Fetch a single target by ID."""
+        response = requests.get(
+            f"{self.base_url}/api/targets/{target_id}"
+        )
+        response.raise_for_status()
+        return response.json()
+
+    # def create_target(
+    #     self,
+    #     project_id: int,
+    #     name: str,
+    #     ip_address: str,
+    # ) -> Dict[str, Any]:
+    #     """Create a new target."""
+    #     params = {
+    #         "project_id": project_id,
+    #         "name": name,
+    #         "ip_address": ip_address,
+    #     }
+
+    #     response = requests.post(
+    #         f"{self.base_url}/api/targets/",
+    #         params=params,
+    #     )
+    #     response.raise_for_status()
+    #     return response.json()
+    def create_target(
+        self,
+        project_id: int,
+        name: str,
+        ip_address: str,
+    ) -> Dict[str, Any]:
+        """Create a new target."""
+        payload = {
+            "project_id": project_id,
+            "name": name,
+            "ip_address": ip_address,
+        }
+
+        response = requests.post(
+            f"{self.base_url}/api/targets/",
+            json=payload,
+        )
+        response.raise_for_status()
+        return response.json()
+    def update_target(
+        self,
+        target_id: int,
+        name: Optional[str] = None,
+        ip_address: Optional[str] = None,
+        status: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Update an existing target."""
+        payload: Dict[str, Any] = {}
+
+        if name is not None:
+            payload["name"] = name
+
+        if ip_address is not None:
+            payload["ip_address"] = ip_address
+
+        if status is not None:
+            payload["status"] = status
+
+        response = requests.put(
+            f"{self.base_url}/api/targets/{target_id}",
+            json=payload,
+        )
+        response.raise_for_status()
+        return response.json()
+
+    def delete_target(self, target_id: int) -> Dict[str, Any]:
+        """Delete a target by ID."""
+        response = requests.delete(
+            f"{self.base_url}/api/targets/{target_id}"
+        )
+        response.raise_for_status()
+        return response.json()
+
+    # ------------------------------------------------------------------
+    # Recommendations
+    # ------------------------------------------------------------------
+
+    def get_target_recommendations(
+        self,
+        target_id: int,
+    ) -> Dict[str, Any]:
+        """Fetch module recommendations for a target."""
+        response = requests.get(
+            f"{self.base_url}/api/targets/{target_id}/recommendations"
+        )
         response.raise_for_status()
         return response.json()
