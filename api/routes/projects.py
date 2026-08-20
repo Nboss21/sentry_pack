@@ -4,6 +4,7 @@ Project CRUD API routes.
 
 from __future__ import annotations
 
+import secrets
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
@@ -150,4 +151,21 @@ def delete_project(
     return {
         "id": project_id,
         "message": f"Project {project_id} deleted",
+    }
+
+
+@router.post("/{project_id}/auth-token", status_code=201)
+def generate_project_auth_token(project_id: int, db: Session = Depends(get_db)):
+    """Generate or rotate the auth token for a project's C2 WebSocket channel."""
+    project = db.query(Project).filter(Project.id == project_id).first()
+    if not project:
+        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    token = secrets.token_urlsafe(32)
+    project.auth_token = token
+    db.commit()
+    return {
+        "project_id": project_id,
+        "auth_token": token,
+        "ws_url": f"ws://127.0.0.1:8000/ws/projects/{project_id}/sessions/{{session_key}}?token={token}",
+        "note": "Store this token securely. It cannot be retrieved again after rotation.",
     }

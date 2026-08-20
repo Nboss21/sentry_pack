@@ -1,0 +1,6 @@
+[transport]
+id = "tcp"
+name = "TCP Raw Socket"
+version = "0.1.0"
+description = "Raw TCP socket transport for C2 sessions."
+author = "SentryPack"
