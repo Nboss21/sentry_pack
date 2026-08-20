@@ -87,3 +87,46 @@ virtual table that mirrors the following columns from `exploits` for full-text s
 - `port` (INTEGER)
 - `imported_at` (DATETIME)
 
+### `cves`
+- `id` (INTEGER, PK, indexed)
+- `cve_id` (VARCHAR(100), unique, NOT NULL, indexed)
+- `description` (TEXT)
+- `cvss_score` (FLOAT)
+- `published_date` (VARCHAR(50))
+- `source` (VARCHAR(50))
+- `created_at` (DATETIME)
+
+### `platforms`
+- `id` (INTEGER, PK, indexed)
+- `name` (VARCHAR(100), unique, NOT NULL, indexed)
+- `created_at` (DATETIME)
+
+### `software`
+- `id` (INTEGER, PK, indexed)
+- `name` (VARCHAR(255), NOT NULL, indexed)
+- `vendor` (VARCHAR(255))
+- `cpe_prefix` (VARCHAR(255), indexed)
+- `created_at` (DATETIME)
+
+### `references`
+- `id` (INTEGER, PK, indexed)
+- `exploit_id` (INTEGER, FK -> exploits.id, NOT NULL)
+- `url` (VARCHAR(1000), NOT NULL)
+- `source_type` (VARCHAR(50))
+- `created_at` (DATETIME)
+
+### `exploit_cves` (Junction Table)
+- `exploit_id` (INTEGER, PK, FK -> exploits.id)
+- `cve_id` (INTEGER, PK, FK -> cves.id)
+
+### `exploit_platforms` (Junction Table)
+- `exploit_id` (INTEGER, PK, FK -> exploits.id)
+- `platform_id` (INTEGER, PK, FK -> platforms.id)
+
+### `exploit_software` (Junction Table)
+- `exploit_id` (INTEGER, PK, FK -> exploits.id)
+- `software_id` (INTEGER, PK, FK -> software.id)
+
+> **Note:** The `cves`, `platforms`, `software`, and `references` tables (and their junction tables) are additive normalized relational tables linked to `exploits`. The flat columns on `exploits` (`cve_id`, `platform`, `references` JSON) remain intact for FTS5 full-text search and recommendation backwards compatibility. Population of these relational tables (e.g. from NVD sync) is handled by separate ingestion pipelines.
+
+
