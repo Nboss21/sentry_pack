@@ -15,6 +15,7 @@ class Project(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), nullable=False)
     description = Column(Text, nullable=True)
+    auth_token = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     targets = relationship("Target", back_populates="project", cascade="all, delete-orphan")
@@ -72,8 +73,26 @@ class C2Session(Base):
     id = Column(Integer, primary_key=True, index=True)
     target_id = Column(Integer, ForeignKey("targets.id"), nullable=True)
     session_key = Column(String(255), unique=True, nullable=False)
+    transport = Column(String(64), nullable=False)
     status = Column(String(50), default="active")
     last_seen = Column(DateTime, default=datetime.utcnow)
+
+    tasks = relationship("SessionTask", back_populates="session", cascade="all, delete-orphan")
+    target = relationship("Target")
+
+
+class SessionTask(Base):
+    __tablename__ = "session_tasks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    session_id = Column(Integer, ForeignKey("c2_sessions.id"), nullable=False)
+    command = Column(Text, nullable=False)
+    status = Column(String(50), default="queued")
+    output = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    completed_at = Column(DateTime, nullable=True)
+
+    session = relationship("C2Session", back_populates="tasks")
 
 
 # ---------------------------------------------------------------------------

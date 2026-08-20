@@ -132,6 +132,17 @@ def ensure_exploits_fts(engine) -> None:
 
 def init_db():
     Base.metadata.create_all(bind=engine)
+    with engine.connect() as conn:
+        try:
+            conn.execute(text("ALTER TABLE c2_sessions ADD COLUMN transport VARCHAR(64) DEFAULT 'unknown' NOT NULL"))
+            conn.commit()
+        except Exception:
+            pass
+        try:
+            conn.execute(text("ALTER TABLE projects ADD COLUMN auth_token VARCHAR(255)"))
+            conn.commit()
+        except Exception:
+            pass
     ensure_exploits_fts(engine)
 
 
