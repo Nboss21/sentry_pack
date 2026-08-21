@@ -51,6 +51,9 @@ class MainWindow(QMainWindow):
         
         self.host_graph_view = HostGraphView()
         self.views_stack.addWidget(self.host_graph_view)
+        self.projects_view.project_selected.connect(
+            self.host_graph_view.set_project
+        )
         #self.views_stack.addWidget(QLabel("Module Browser View Placeholder"))
         self.views_stack.addWidget(ModuleBrowserView())#edited on alazar branch
         #self.views_stack.addWidget(QLabel("Console Output View Placeholder"))

@@ -3,7 +3,7 @@ Projects and targets management view.
 """
 
 from typing import Any, Dict, List, Optional
-
+from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import (
     QFormLayout,
     QGroupBox,
@@ -24,6 +24,7 @@ from gui.api_client import SentryPackAPIClient
 class ProjectsView(QWidget):
     """Display projects and the targets belonging to each project."""
 
+    project_selected = pyqtSignal(int)
     def __init__(self) -> None:
         super().__init__()
 
@@ -176,6 +177,7 @@ class ProjectsView(QWidget):
             )
 
         self.load_targets()
+        self.project_selected.emit(self.selected_project_id)
 
     def create_project(self) -> None:
         """Create a new project using a simple dialog."""
@@ -204,6 +206,7 @@ class ProjectsView(QWidget):
             )
 
             self.load_projects()
+            
 
         except Exception as exc:
             self._show_error(

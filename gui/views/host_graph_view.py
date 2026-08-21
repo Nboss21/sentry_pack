@@ -207,6 +207,31 @@ class HostGraphView(QWidget):
             self.status_label.setText(
                 f"Failed to load targets: {exc}"
             )
+    def set_project(self, project_id: int) -> None:
+   # """Display only targets belonging to the selected project."""
+
+        try:
+            data = self.api_client.get_targets()
+
+            all_targets = data.get("targets", [])
+
+            self.targets = [
+                target
+                for target in all_targets
+                if target.get("project_id") == project_id
+            ]
+
+            self._build_graph()
+
+            self.status_label.setText(
+                f"{len(self.targets)} target(s) in project {project_id}"
+            )
+
+        except Exception as exc:
+            self.scene.clear()
+            self.status_label.setText(
+                f"Failed to load targets: {exc}"
+            )
 
     def _build_graph(self) -> None:
         """Create target nodes and arrange them in the scene."""
