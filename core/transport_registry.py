@@ -23,7 +23,12 @@ class TransportRegistry:
         self._transports: Dict[str, Type[ITransport]] = {}
 
     def scan(self, transport_dir: Path) -> None:
-        """Scan directory tree for transport plugins in subdirectories."""
+        """
+        Scan a single directory tree for transport plugins in immediate subdirectories.
+
+        Each subdirectory under `transport_dir` that contains a `transport.py`
+        file is treated as a transport plugin candidate.
+        """
         t_dir = Path(transport_dir)
         if not t_dir.exists() or not t_dir.is_dir():
             logger.warning("Transport directory %s does not exist or is not a directory", t_dir)
@@ -47,6 +52,17 @@ class TransportRegistry:
                         logger.info("Loaded transport plugin '%s' from %s", t_id, plugin_dir)
             except Exception as exc:
                 logger.warning("Failed to load transport plugin from %s: %s", plugin_dir, exc)
+
+    def scan_many(self, transport_dirs: list) -> None:
+        """
+        Scan multiple transport plugin directories sequentially.
+
+        Use this to load plugins from both modules/transports/ and
+        modules/c2/transports/ (or any arbitrary list of directories)
+        without risking cross-directory ID collisions — first-registered wins.
+        """
+        for d in transport_dirs:
+            self.scan(Path(d))
 
     def load_transport(self, plugin_dir: Path) -> Optional[Type[ITransport]]:
         """Dynamically load and validate an ITransport subclass from a plugin directory."""

@@ -129,4 +129,29 @@ virtual table that mirrors the following columns from `exploits` for full-text s
 
 > **Note:** The `cves`, `platforms`, `software`, and `references` tables (and their junction tables) are additive normalized relational tables linked to `exploits`. The flat columns on `exploits` (`cve_id`, `platform`, `references` JSON) remain intact for FTS5 full-text search and recommendation backwards compatibility. Population of these relational tables (e.g. from NVD sync) is handled by separate ingestion pipelines.
 
+### `c2_sessions`
+- `id` (INTEGER, PK)
+- `target_id` (INTEGER, FK -> targets.id, nullable)
+- `session_key` (VARCHAR(255), unique, NOT NULL)
+- `transport` (VARCHAR(64), NOT NULL)
+- `status` (VARCHAR(50), default='active')
+- `last_seen` (DATETIME)
+
+### `session_tasks`
+- `id` (INTEGER, PK)
+- `session_id` (INTEGER, FK -> c2_sessions.id, NOT NULL)
+- `command` (TEXT, NOT NULL)
+- `status` (VARCHAR(50), default='queued')
+- `output` (TEXT, nullable)
+- `created_at` (DATETIME)
+- `completed_at` (DATETIME, nullable)
+
+### `session_events`
+- `id` (INTEGER, PK)
+- `session_id` (INTEGER, FK -> c2_sessions.id, nullable)
+- `session_key` (VARCHAR(255), indexed, NOT NULL)
+- `event_type` (VARCHAR(100), indexed, NOT NULL) — e.g. `session_start`, `task_sent`, `result_received`, `session_end`
+- `data` (JSON, nullable)
+- `timestamp` (DATETIME, default=UTC)
+
 
