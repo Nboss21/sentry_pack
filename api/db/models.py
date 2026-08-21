@@ -95,6 +95,19 @@ class SessionTask(Base):
     session = relationship("C2Session", back_populates="tasks")
 
 
+class SessionEvent(Base):
+    __tablename__ = "session_events"
+
+    id = Column(Integer, primary_key=True, index=True)
+    session_id = Column(Integer, ForeignKey("c2_sessions.id"), nullable=True)
+    session_key = Column(String(255), nullable=False, index=True)
+    event_type = Column(String(100), nullable=False, index=True)
+    data = Column(JSON, nullable=True)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
+    session = relationship("C2Session")
+
+
 # ---------------------------------------------------------------------------
 # Exploit DB Relational Schema Junction Tables
 # ---------------------------------------------------------------------------

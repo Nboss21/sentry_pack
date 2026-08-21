@@ -17,6 +17,7 @@ from core.transport_registry import transport_registry
 from api.db.session import init_db
 
 TRANSPORTS_DIR = Path(__file__).resolve().parent.parent / "modules" / "transports"
+C2_TRANSPORTS_DIR = Path(__file__).resolve().parent.parent / "modules" / "c2" / "transports"
 
 app = FastAPI(
     title="SentryPack API",
@@ -60,7 +61,7 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
 @app.on_event("startup")
 def startup():
     init_db()
-    transport_registry.scan(TRANSPORTS_DIR)
+    transport_registry.scan_many([TRANSPORTS_DIR, C2_TRANSPORTS_DIR])
 
 
 app.add_middleware(
