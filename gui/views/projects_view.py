@@ -25,6 +25,8 @@ class ProjectsView(QWidget):
     """Display projects and the targets belonging to each project."""
 
     project_selected = pyqtSignal(int)
+
+    target_selected = pyqtSignal(object)
     def __init__(self) -> None:
         super().__init__()
 
@@ -42,6 +44,7 @@ class ProjectsView(QWidget):
     # ------------------------------------------------------------------
 
     def _build_ui(self) -> None:
+        
         layout = QVBoxLayout(self)
 
         title = QLabel("Projects & Targets")
@@ -84,6 +87,9 @@ class ProjectsView(QWidget):
         target_layout = QVBoxLayout(target_group)
 
         self.target_list = QListWidget()
+        self.target_list.currentItemChanged.connect(
+            self._target_selected
+        )
         target_layout.addWidget(self.target_list)
 
         self.add_target_button = QPushButton("Add Target")
@@ -330,3 +336,32 @@ class ProjectsView(QWidget):
             title,
             str(error),
         )
+    def _target_selected(
+        self,
+        current: Optional[QListWidgetItem],
+        previous: Optional[QListWidgetItem],
+    ) -> None:
+        """Emit the selected target."""
+
+        del previous
+
+        if current is None:
+            self.target_selected.emit(None)
+            return
+
+        target_id = current.data(32)
+
+        if target_id is None:
+            self.target_selected.emit(None)
+            return
+
+        target = next(
+            (
+                target
+                for target in self.targets
+                if target.get("id") == target_id
+            ),
+            None,
+        )
+
+        self.target_selected.emit(target)

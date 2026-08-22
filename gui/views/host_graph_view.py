@@ -4,7 +4,7 @@ Armitage-style visual target graph view.
 
 from typing import Any, Dict, List
 
-from PyQt6.QtCore import Qt
+#from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QBrush, QColor, QPen
 from PyQt6.QtWidgets import (
     QGraphicsEllipseItem,
@@ -20,8 +20,7 @@ from PyQt6.QtWidgets import (
 )
 
 from gui.api_client import SentryPackAPIClient
-
-
+from PyQt6.QtCore import Qt, pyqtSignal
 class TargetNode(QGraphicsEllipseItem):
     """Visual node representing a SentryPack target."""
 
@@ -69,6 +68,7 @@ class TargetNode(QGraphicsEllipseItem):
         )
 
         self._add_text()
+    
 
     def _add_text(self) -> None:
         """Add target name and IP text inside the node."""
@@ -123,9 +123,12 @@ class TargetNode(QGraphicsEllipseItem):
         return super().itemChange(change, value)
 
 
+
+
 class HostGraphView(QWidget):
     """Visual graph of all SentryPack targets."""
-
+    
+    target_selected = pyqtSignal(dict)
     def __init__(self) -> None:
         super().__init__()
 
@@ -135,7 +138,7 @@ class HostGraphView(QWidget):
 
         self._build_ui()
         self.load_targets()
-
+    
     def _build_ui(self) -> None:
         """Build the graph UI."""
 
@@ -171,7 +174,9 @@ class HostGraphView(QWidget):
         layout.addLayout(controls)
 
         self.scene = QGraphicsScene()
-
+        self.scene.selectionChanged.connect(
+        self._target_selected
+    )
         self.graph_view = QGraphicsView(
             self.scene
         )
@@ -183,6 +188,18 @@ class HostGraphView(QWidget):
         layout.addWidget(
             self.graph_view
         )
+    def _target_selected(self) -> None:
+        """Emit the selected target when a graph node is selected."""
+
+        selected_items = self.scene.selectedItems()
+
+        if not selected_items:
+            return
+
+        item = selected_items[0]
+
+        if isinstance(item, TargetNode):
+            self.target_selected.emit(item.target)
 
     def load_targets(self) -> None:
         """Load targets from the API and rebuild the graph."""
@@ -271,3 +288,4 @@ class HostGraphView(QWidget):
                 50,
             )
         )
+        

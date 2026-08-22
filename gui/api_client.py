@@ -193,3 +193,17 @@ class SentryPackAPIClient:
         )
         response.raise_for_status()
         return response.json()
+    
+    
+
+
+    def get_target_findings(
+            self,
+            target_id: int,
+        ) -> Dict[str, Any]:
+            """Fetch findings for a target."""
+            response = requests.get(
+                f"{self.base_url}/api/targets/{target_id}/findings"
+            )
+            response.raise_for_status()
+            return response.json()

@@ -18,8 +18,9 @@ from PyQt6.QtWidgets import (
     QStackedWidget,
     QWidget,
 )
-
+#from gui.views.target_detail_view import TargetDetailView
 from gui.views.module_browser_view import ModuleBrowserView
+from gui.views.target_detail_view import TargetDetailView
 class MainWindow(QMainWindow):
     """Main application shell window for SentryPack Desktop GUI."""
 
@@ -47,13 +48,31 @@ class MainWindow(QMainWindow):
         #self.views_stack.addWidget(QLabel("Projects View Placeholder"))
         self.projects_view = ProjectsView()
         self.views_stack.addWidget(self.projects_view)
+        # self.target_detail_view = TargetDetailView()
+        # self.views_stack.addWidget(self.target_detail_view)
         #self.views_stack.addWidget(QLabel("Host Graph View Placeholder"))
         
+        # self.host_graph_view = HostGraphView()
+        # self.views_stack.addWidget(self.host_graph_view)
+        # self.projects_view.project_selected.connect(
+        #     self.host_graph_view.set_project
+        # )
+        # self.target_detail_view = TargetDetailView()
+        host_graph_container = QWidget()
+        host_graph_layout = QHBoxLayout(host_graph_container)
+
         self.host_graph_view = HostGraphView()
-        self.views_stack.addWidget(self.host_graph_view)
         self.projects_view.project_selected.connect(
-            self.host_graph_view.set_project
-        )
+                    self.host_graph_view.set_project
+                )
+        self.target_detail_view = TargetDetailView()
+
+        host_graph_layout.addWidget(self.host_graph_view, 2)
+        host_graph_layout.addWidget(self.target_detail_view, 1)
+        self.host_graph_view.target_selected.connect(
+        self.target_detail_view.set_target
+    )
+        self.views_stack.addWidget(host_graph_container)
         #self.views_stack.addWidget(QLabel("Module Browser View Placeholder"))
         self.views_stack.addWidget(ModuleBrowserView())#edited on alazar branch
         #self.views_stack.addWidget(QLabel("Console Output View Placeholder"))
