@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="AdvancedDLLInj" CodeName="dllinjeccustom.cpp"  Platform="privesc" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="Dec 03 2019" Vulnerability="N/A">
+This is an advanced DLL customized to be used to  find  DLL injection vectors in conjuntion with other tools. It will drop a file under a user-writable directory with the user name, pid and permissions of the hijacked process.</Information>
+    <Targets>
+       Compile it using Visual Studio C++
+    </Targets>
+
+</Module>

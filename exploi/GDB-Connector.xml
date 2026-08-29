@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="GDB-Connector" CodeName="gdbconnector.py"  Platform="others" Service="null" Type="tool" RemotePort="1234" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="Jan 01 2019" Vulnerability="N/A">
+GDB Connector is a remote script to use for controlling a remote target and debug an exploit on a target directly from Exploit Pack. Copy this script to your target and execute it to connect back to your framework.
+</Information>
+    <Targets>
+       Works on all modern Linux OS  
+    </Targets>
+
+</Module>

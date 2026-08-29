@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="SectionsDumper" CodeName="Dump_Sections.idc"  Platform="misc" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="Dec 03 2019" Vulnerability="N/A">
+Memory dump script for IDA Pro by jSacco How to use: Modify the start_address end_address Run it from IDA: File -> Script File</Information><Targets>       
+    </Targets>
+
+</Module>

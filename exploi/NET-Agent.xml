@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="NET-Agent" CodeName="NetAgent.cs"  Platform="others" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="Sep 22 2022" Vulnerability="N/A">
+This is a .NET agent that includes functionalities of the regular Exploit Pack agent, this can be useful on certain scenarios such as bypassing AVs/EDRs. Tested on Windows 10 
+</Information>
+    <Targets>
+       Works on all Windows OS
+    </Targets>
+
+</Module>

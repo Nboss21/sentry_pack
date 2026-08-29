@@ -256,3 +256,37 @@ class ExploitDBEntry(Base):
     platform = Column(String(100), nullable=True)
     port = Column(Integer, nullable=True)
     imported_at = Column(DateTime, default=datetime.utcnow)
+
+
+class ExploitPackEntry(Base):
+    """
+    Represents a single module from an Exploit Pack XML library.
+
+    Each record maps to one <Module> XML file in the exploi/ directory.
+    The `code_path` field points to the actual exploit script in exploi/code/.
+    """
+    __tablename__ = "exploitpack_entries"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    # From XML: <Exploit ...> attributes
+    name_xml = Column(String(500), nullable=True, index=True)   # NameXML attribute
+    code_name = Column(String(500), nullable=True, index=True)   # CodeName attribute (filename of exploit)
+    platform = Column(String(100), nullable=True, index=True)    # e.g. windows, linux, xss
+    service = Column(String(255), nullable=True)                 # e.g. RAT, HTTP, FTP
+    exploit_type = Column(String(100), nullable=True, index=True) # e.g. remote, clientside, local
+    remote_port = Column(String(50), nullable=True)              # RemotePort (string, can be IP in some cases)
+    local_port = Column(String(50), nullable=True)
+    shellcode_available = Column(String(10), nullable=True)      # 'E' = external, '' = none
+    shell_port = Column(String(50), nullable=True)
+    special_args = Column(String(500), nullable=True)            # e.g. OS/arch info
+    # From XML: <Information ...> attributes
+    author = Column(String(255), nullable=True)
+    date_published = Column(String(50), nullable=True, index=True)
+    vulnerability_date = Column(String(50), nullable=True)
+    description = Column(Text, nullable=True)
+    targets = Column(Text, nullable=True)                        # <Targets> element content
+    # File references
+    xml_filename = Column(String(500), nullable=True)            # original XML filename
+    code_path = Column(String(1000), nullable=True)              # absolute path to exploit code file
+    code_exists = Column(Boolean, default=False)                 # True if code file was found on disk
+    imported_at = Column(DateTime, default=datetime.utcnow)

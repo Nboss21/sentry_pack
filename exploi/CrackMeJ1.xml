@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="CrackMeJ1" CodeName="crackme.c"  Platform="exc" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="May 02 2019" Vulnerability="N/A">
+This is a multi-staged crackme that implements several protections for antidebugging.
+Objective: Find the keys ( 3 ) to solve the crackme and make a keygen
+
+Hint: Run it on a VM :-)
+</Information>
+    <Targets>
+       Compile it using Visual Studio 2017+ C++  
+    </Targets>
+
+</Module>

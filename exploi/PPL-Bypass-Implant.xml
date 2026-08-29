@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="PPL-Bypass-Implant" CodeName="PPL-Bypass-Implant.cpp"  Platform="others" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="Sep 22 2022" Vulnerability="N/A">
+This implant can be used to bypass and escalate privileges to PPL ( Protected Proccess Light ) as it runs with PsProtectedSignerWinTcb as services.exe. Tested on Windows 10, it makes uses of different exploits to reach PPL status and phantom DLL hollowing to inject into services during runtime.
+</Information>
+    <Targets>
+       Works on all Windows versions 
+    </Targets>
+
+</Module>

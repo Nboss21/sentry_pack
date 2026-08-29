@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="BoF-Challenge1" CodeName="bof.c"  Platform="exc" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="May 02 2019" Vulnerability="N/A">
+This is an easy challenge based on a Buffer Overflow, you have to reach the secretFunction() in order to win.
+</Information>
+    <Targets>
+       Compile it using GCC 
+    </Targets>
+
+</Module>

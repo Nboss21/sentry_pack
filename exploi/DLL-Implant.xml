@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="DLL-Implant" CodeName="DLL-Implant.cpp"  Platform="others" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="Sep 22 2022" Vulnerability="N/A">
+This is an advanced DLL library that can be used to obtain persistance or just plain inject it into a process to obtain a Exploit Pack shell. Tested on Windows 10 
+</Information>
+    <Targets>
+       Works on all Windows OS
+    </Targets>
+
+</Module>
