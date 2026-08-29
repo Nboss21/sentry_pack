@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="BoF-Challenge3" CodeName="bof3.c"  Platform="exc" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="May 02 2019" Vulnerability="N/A">
+A bit more difficult, On this simple stack-based buffer overflow you need to again identify the vulnerable function and the buffer to overflow, then inject your payload and get a local shell.
+</Information>
+    <Targets>
+       Compile it using GCC 
+    </Targets>
+
+</Module>

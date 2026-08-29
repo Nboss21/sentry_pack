@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="ROPSplit" CodeName="ropsplit.py"  Platform="exc" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="May 02 2019" Vulnerability="N/A">
+This is the solution for the ROPEmporium Split challenge</Information>
+    <Targets>
+       Compile it using GCC 
+    </Targets>
+
+</Module>

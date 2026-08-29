@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="RansomwareRedTeam" CodeName="Ransomware.cpp"  Platform="misc" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="Dec 03 2019" Vulnerability="N/A">
+Ransomware for Red Team excercises and adversary simulations, use only in controlled environments -> Compile it as DLL using MSVisualStudio</Information><Targets>       
+    </Targets>
+
+</Module>

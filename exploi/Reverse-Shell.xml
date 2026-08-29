@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="Reverse-Shell" CodeName="reverseshell.py"  Platform="others" Service="null" Type="tool" RemotePort="1234" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="Jan 01 2019" Vulnerability="N/A">
+Establish a reverse shell and get persistance on your target using this script,copy this script to your target and leave it run it on the background after a successfull exploitation. Multi-sessions are supported. 
+    </Information>
+    <Targets>
+       Works on all modern Linux OS  
+    </Targets>
+
+</Module>

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?><Module><Exploit NameXML="packetstormsecurity.com" CodeName="packetstormsecurity.com.txt"  Platform="linux" Service="" Type="notepad" RemotePort="" LocalPort="" ShellcodeAvailable="" ShellPort="4444" SpecialArgs=""></Exploit><Information Author="ExploitPack" Date="2019-12-03 09:56:51.61" Vulnerability="none">
+</Information><Targets></Targets></Module>

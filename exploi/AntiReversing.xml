@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="AntiReversing" CodeName="Anti_Reversing.idc"  Platform="misc" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="Dec 03 2019" Vulnerability="N/A">
+Antidebugging Breakpoints IDC script for IDA PRO by JSacco v0.2 How to use? Open IDA Pro, press shift+F2 paste the code and run. Last modification date: 2021216     Compile it using Visual Studio C++</Information><Targets>       
+    </Targets>
+
+</Module>

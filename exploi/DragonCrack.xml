@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="DragonCrack" CodeName="dragoncrack.cpp"  Platform="exc" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="May 02 2019" Vulnerability="N/A">
+DragonCrack a C++ Crackme with an RPG_Style story-line. You have to escape the dungeon and retrieve the key. 
+There is a Dragon in the dungeon that fights back by casting spells upon you ( anti-debugging techniques ) 
+there is a twist at the end and you will discover that the key was always you knew already. Hope you like it!
+</Information>
+    <Targets>
+       Compile it using Visual Studio 2017+ C++  
+    </Targets>
+
+</Module>
