@@ -16,6 +16,11 @@ from core.run_store import run_store as _run_store  # noqa: F401
 from core.transport_registry import transport_registry
 from api.db.session import init_db
 
+from core.listener_registry import listener_registry
+from modules.c2.listeners.tls_listener.listener import TLSListener
+
+from core.listener_manager import listener_manager
+from modules.c2.listeners.tls_listener.listener import TLSListener
 TRANSPORTS_DIR = Path(__file__).resolve().parent.parent / "modules" / "transports"
 C2_TRANSPORTS_DIR = Path(__file__).resolve().parent.parent / "modules" / "c2" / "transports"
 
@@ -58,10 +63,22 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     )
 
 
+# @app.on_event("startup")
+# def startup():
+#     init_db()
+#     transport_registry.scan_many([TRANSPORTS_DIR, C2_TRANSPORTS_DIR])
+
 @app.on_event("startup")
 def startup():
     init_db()
-    transport_registry.scan_many([TRANSPORTS_DIR, C2_TRANSPORTS_DIR])
+
+    transport_registry.scan_many(
+        [TRANSPORTS_DIR, C2_TRANSPORTS_DIR]
+    )
+
+    listener_manager.register(TLSListener())
+    print(listener_registry.list())
+    print("Registered listeners:", listener_manager.list())
 
 
 app.add_middleware(

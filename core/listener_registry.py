@@ -59,3 +59,5 @@ class ListenerRegistry:
             )
 
         del self._listeners[listener_id]
+
+listener_registry = ListenerRegistry()
