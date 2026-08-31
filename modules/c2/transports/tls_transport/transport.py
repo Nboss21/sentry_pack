@@ -53,6 +53,16 @@ class TLSTransport(ITransport):
     def __init__(self) -> None:
         self._sock: Optional[ssl.SSLSocket] = None
         self._raw_sock: Optional[socket.socket] = None
+    @classmethod
+    def from_socket(
+        cls,
+        sock: ssl.SSLSocket,
+    ) -> "TLSTransport":
+        """Create a TLS transport from an already-established socket."""
+
+        transport = cls()
+        transport._sock = sock
+        return transport
 
     def connect(self, host_or_config: Any, port: Optional[int] = None, options: Optional[dict] = None, **kwargs) -> bool:
         """
