@@ -195,7 +195,49 @@ class SessionManager:
         )
 
         return session
+    def register_connected_session(
+        self,
+        identity: AgentIdentity,
+        transport: ITransport,
+        metadata: Optional[Dict[str, Any]] = None,
+    ) -> IAgentSession:
+        # """
+        # Register a session around an already-connected transport.
 
+        # This is the inbound counterpart to start_session().
+        # Unlike start_session(), this method does not call
+        # transport.connect().
+        # """
+        session_key = identity.agent_id
+
+        if not transport.is_alive():
+            raise RuntimeError(
+                "Cannot register session: transport is not alive"
+            )
+
+        session = ConcreteAgentSession(
+            session_key=session_key,
+            identity=identity,
+            transport=transport,
+            status=SessionStatus.ACTIVE,
+            metadata=metadata,
+        )
+
+        self.sessions[session_key] = session
+
+        self._record_audit(
+            session_key=session_key,
+            event_type="session_start",
+            data={
+                "agent_id": identity.agent_id,
+                "name": identity.name,
+                "status": SessionStatus.ACTIVE.value,
+                "connected": True,
+                "direction": "inbound",
+            },
+        )
+
+        return session
     def send_task(
         self,
         session_key: str,

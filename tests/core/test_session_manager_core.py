@@ -109,6 +109,57 @@ class TestSessionManagerLifecycle:
         self.mgr.start_session(identity, transport)
         assert self.mgr.get_session("agent-002") is not None
 
+    def test_register_connected_session_accepts_inbound_transport(self):
+        """An already-connected transport can create an inbound session."""
+        transport = MockTransport()
+
+        # Simulate the listener having already accepted the connection.
+        transport._connected = True
+
+        identity = AgentIdentity(
+            agent_id="inbound-agent",
+            name="Inbound Test Agent",
+        )
+
+        session = self.mgr.register_connected_session(
+            identity,
+            transport,
+        )
+
+        assert isinstance(session, ConcreteAgentSession)
+        assert session.session_key == "inbound-agent"
+        assert session.identity is identity
+        assert session.transport is transport
+        assert session.status == SessionStatus.ACTIVE
+
+        assert (
+            self.mgr.get_session("inbound-agent")
+            is session
+        )
+    def test_register_connected_session_does_not_connect_again(self):
+        """Inbound registration must not call transport.connect()."""
+
+        class InboundTransport(MockTransport):
+            def connect(self, *args, **kwargs):
+                raise AssertionError(
+                    "Inbound transport must not call connect()"
+                )
+
+        transport = InboundTransport()
+        transport._connected = True
+
+        identity = AgentIdentity(
+            agent_id="inbound-no-reconnect",
+            name="Inbound Agent",
+        )
+
+        session = self.mgr.register_connected_session(
+            identity,
+            transport,
+        )
+
+        assert session.is_active() is True
+
     def test_start_session_failing_transport_records_error_status(self):
         transport = FailingTransport()
         identity = AgentIdentity(agent_id="bad-agent")
