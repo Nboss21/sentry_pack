@@ -17,6 +17,11 @@ from core.transport_registry import transport_registry
 from core.infra_registry import infra_registry
 from api.db.session import init_db
 
+from core.listener_registry import listener_registry
+from modules.c2.listeners.tls_listener.listener import TLSListener
+
+from core.listener_manager import listener_manager
+#from modules.c2.listeners.tls_listener.listener import TLSListener
 TRANSPORTS_DIR = Path(__file__).resolve().parent.parent / "modules" / "transports"
 C2_TRANSPORTS_DIR = Path(__file__).resolve().parent.parent / "modules" / "c2" / "transports"
 INFRA_MODULES_DIR = Path(__file__).resolve().parent.parent / "modules" / "infra"
@@ -60,12 +65,36 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     )
 
 
+# @app.on_event("startup")
+# def startup():
+#     init_db()
+#     transport_registry.scan_many([TRANSPORTS_DIR, C2_TRANSPORTS_DIR])
+
+# @app.on_event("startup")
+# def startup():
+#     init_db()
+# <<<<<<< HEAD
+#     transport_registry.scan_many([TRANSPORTS_DIR, C2_TRANSPORTS_DIR])
+#     infra_registry.scan(INFRA_MODULES_DIR)
+# =======
+
+#     transport_registry.scan_many(
+#         [TRANSPORTS_DIR, C2_TRANSPORTS_DIR]
+#     )
+
+#     listener_manager.register(TLSListener())
+#     print(listener_registry.list())
+#     print("Registered listeners:", listener_manager.list())
+# >>>>>>> 418babd (Reg on mainAPI)
 @app.on_event("startup")
 def startup():
     init_db()
     transport_registry.scan_many([TRANSPORTS_DIR, C2_TRANSPORTS_DIR])
     infra_registry.scan(INFRA_MODULES_DIR)
 
+    listener_manager.register(TLSListener())
+    print(listener_registry.list())
+    print("Registered listeners:", listener_manager.list())
 
 app.add_middleware(
     CORSMiddleware,
