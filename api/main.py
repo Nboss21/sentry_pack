@@ -10,10 +10,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from api.routes import modules, projects, targets, runs, findings, sessions, reports, exploits, transports ,listeners
+from api.routes import modules, projects, targets, runs, findings, sessions, reports, exploits, transports,infra_modules
 from api.ws import run_stream, session_stream
 from core.run_store import run_store as _run_store  # noqa: F401
 from core.transport_registry import transport_registry
+from core.infra_registry import infra_registry
 from api.db.session import init_db
 
 from core.listener_registry import listener_registry
@@ -23,6 +24,7 @@ from core.listener_manager import listener_manager
 from modules.c2.listeners.tls_listener.listener import TLSListener
 TRANSPORTS_DIR = Path(__file__).resolve().parent.parent / "modules" / "transports"
 C2_TRANSPORTS_DIR = Path(__file__).resolve().parent.parent / "modules" / "c2" / "transports"
+INFRA_MODULES_DIR = Path(__file__).resolve().parent.parent / "modules" / "infra"
 
 app = FastAPI(
     title="SentryPack API",
@@ -79,6 +81,7 @@ def startup():
     listener_manager.register(TLSListener())
     print(listener_registry.list())
     print("Registered listeners:", listener_manager.list())
+    infra_registry.scan(INFRA_MODULES_DIR)
 
 
 app.add_middleware(
@@ -98,6 +101,7 @@ app.include_router(sessions.router, prefix="/api/sessions", tags=["sessions"])
 app.include_router(reports.router, prefix="/api/projects", tags=["reports"])
 app.include_router(exploits.router, prefix="/api/exploits", tags=["exploits"])
 app.include_router(transports.router, prefix="/api/transports", tags=["transports"])
+app.include_router(infra_modules.router, prefix="/api/infra_modules", tags=["infra_modules"])
 
 app.include_router(run_stream.router)
 app.include_router(session_stream.router)

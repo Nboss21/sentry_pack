@@ -1,0 +1,3 @@
+"""
+Stub Infrastructure Module package.
+"""
