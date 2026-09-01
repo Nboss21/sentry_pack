@@ -198,17 +198,16 @@ class SentryPackAPIClient:
 
 
     def get_target_findings(
-        self,
-        target_id: int,
-    ) -> Dict[str, Any]:
-        """Fetch findings for a target."""
-        response = requests.get(
-            f"{self.base_url}/api/targets/{target_id}/findings"
-        )
-        response.raise_for_status()
-        return response.json()
-
-    # ------------------------------------------------------------------
+            self,
+            target_id: int,
+        ) -> Dict[str, Any]:
+            """Fetch findings for a target."""
+            response = requests.get(
+                f"{self.base_url}/api/targets/{target_id}/findings"
+            )
+            response.raise_for_status()
+            return response.json()
+# ------------------------------------------------------------------
     # Module Execution & Runs
     # ------------------------------------------------------------------
 
@@ -295,3 +294,39 @@ class SentryPackAPIClient:
                     continue
 
         return all_findings
+
+    def get_listeners(self):
+        response = requests.get(
+            f"{self.base_url}/api/listeners/"
+        )
+        response.raise_for_status()
+        return response.json()
+
+
+    def get_listener(self, listener_id: str):
+        response = requests.get(
+            f"{self.base_url}/api/listeners/{listener_id}"
+        )
+        response.raise_for_status()
+        return response.json()
+
+
+    def start_listener(
+        self,
+        listener_id: str,
+        config: dict,
+    ):
+        response = requests.post(
+            f"{self.base_url}/api/listeners/{listener_id}/start",
+            json={"config": config},
+        )
+        response.raise_for_status()
+        return response.json()
+
+
+    def stop_listener(self, listener_id: str):
+        response = requests.post(
+            f"{self.base_url}/api/listeners/{listener_id}/stop"
+        )
+        response.raise_for_status()
+        return response.json()

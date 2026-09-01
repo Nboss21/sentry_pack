@@ -43,8 +43,6 @@ from gui.views.projects_view import ProjectsView
 from gui.views.sessions_view import SessionsView
 from gui.views.settings_view import SettingsView
 from gui.views.target_detail_view import TargetDetailView
-
-
 class MainWindow(QMainWindow):
     """Main application shell window for SentryPack Desktop GUI."""
 
