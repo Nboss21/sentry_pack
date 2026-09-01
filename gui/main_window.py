@@ -21,6 +21,7 @@ from PyQt6.QtWidgets import (
 #from gui.views.target_detail_view import TargetDetailView
 from gui.views.module_browser_view import ModuleBrowserView
 from gui.views.target_detail_view import TargetDetailView
+from gui.views.listeners_view import ListenersView
 class MainWindow(QMainWindow):
     """Main application shell window for SentryPack Desktop GUI."""
 
@@ -38,6 +39,7 @@ class MainWindow(QMainWindow):
         self.sidebar.addItem("Host Graph")
         self.sidebar.addItem("Module Browser")
         self.sidebar.addItem("Console Output")
+        self.sidebar.addItem("C2 Listeners")
         self.sidebar.addItem("C2 Sessions")
         self.sidebar.addItem("Connection Analyser")
         self.sidebar.addItem("Findings")
@@ -78,6 +80,9 @@ class MainWindow(QMainWindow):
         #self.views_stack.addWidget(QLabel("Console Output View Placeholder"))
         self.live_console_view = LiveConsoleView()
         self.views_stack.addWidget(self.live_console_view)
+
+        self.listeners_view = ListenersView()
+        self.views_stack.addWidget(self.listeners_view)
         self.views_stack.addWidget(QLabel("C2 Sessions View Placeholder"))
         self.views_stack.addWidget(QLabel("Connection Analyser View Placeholder"))
         self.views_stack.addWidget(QLabel("Findings View Placeholder"))

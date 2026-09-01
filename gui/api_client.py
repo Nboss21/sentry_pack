@@ -207,3 +207,39 @@ class SentryPackAPIClient:
             )
             response.raise_for_status()
             return response.json()
+    
+    def get_listeners(self):
+        response = requests.get(
+            f"{self.base_url}/api/listeners/"
+        )
+        response.raise_for_status()
+        return response.json()
+
+
+    def get_listener(self, listener_id: str):
+        response = requests.get(
+            f"{self.base_url}/api/listeners/{listener_id}"
+        )
+        response.raise_for_status()
+        return response.json()
+
+
+    def start_listener(
+        self,
+        listener_id: str,
+        config: dict,
+    ):
+        response = requests.post(
+            f"{self.base_url}/api/listeners/{listener_id}/start",
+            json={"config": config},
+        )
+        response.raise_for_status()
+        return response.json()
+
+
+    def stop_listener(self, listener_id: str):
+        response = requests.post(
+            f"{self.base_url}/api/listeners/{listener_id}/stop"
+        )
+        response.raise_for_status()
+        return response.json()
