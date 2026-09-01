@@ -86,10 +86,18 @@ def test_tls_listener_receives_inbound_data():
 
     connected = threading.Event()
 
+    # def on_connection(connection):
+    #     handle_tls_connection(connection, manager)
+    #     connected.set()
     def on_connection(connection):
-        handle_tls_connection(connection, manager)
-        connected.set()
-
+        try:
+            handle_tls_connection(connection, manager)
+            connected.set()
+        except Exception as exc:
+            print(
+                f"CALLBACK ERROR: {type(exc).__name__}: {exc}"
+            )
+            raise
     listener.start(
         {
             "host": "127.0.0.1",

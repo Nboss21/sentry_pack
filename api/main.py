@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from api.routes import modules, projects, targets, runs, findings, sessions, reports, exploits, transports
+from api.routes import modules, projects, targets, runs, findings, sessions, reports, exploits, transports ,listeners
 from api.ws import run_stream, session_stream
 from core.run_store import run_store as _run_store  # noqa: F401
 from core.transport_registry import transport_registry
@@ -101,6 +101,11 @@ app.include_router(transports.router, prefix="/api/transports", tags=["transport
 
 app.include_router(run_stream.router)
 app.include_router(session_stream.router)
+app.include_router(
+    listeners.router,
+    prefix="/api/listeners",
+    tags=["listeners"],
+)
 
 
 @app.get("/health")
