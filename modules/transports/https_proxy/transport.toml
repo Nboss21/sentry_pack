@@ -1,0 +1,6 @@
+[transport]
+id = "https_proxy"
+name = "HTTP/S Proxy"
+version = "0.1.0"
+description = "HTTP/S proxy transport that tunnels C2 traffic over HTTP CONNECT or HTTPS."
+author = "Burka Zelalem"
