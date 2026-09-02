@@ -172,6 +172,7 @@ async def test_timeout_run_completes_within_deadline():
     assert elapsed < 4.0
 
 
+
 def test_run_store_crud():
     store = RunStore()
     q: asyncio.Queue = asyncio.Queue()
@@ -180,3 +181,94 @@ def test_run_store_crud():
     assert store.active_run_ids() == ["run-001"]
     store.release("run-001")
     assert store.get("run-001") is None
+
+
+# ---------------------------------------------------------------------------
+# None-return guard (bug fix: Phase 7)
+# ---------------------------------------------------------------------------
+
+
+class _NoneReturnModule(BaseModule):
+    """Buggy module that returns None from run() instead of a list."""
+
+    meta = _make_meta("test.none_return")
+
+    def check(self, ctx: Any) -> bool:
+        return True
+
+    def run(self, ctx: Any) -> List[Finding]:  # type: ignore[return]
+        return None  # type: ignore[return-value]  # deliberate bug
+
+
+@pytest.mark.asyncio
+async def test_none_return_from_run_does_not_crash_runner():
+    """Module returning None must not raise TypeError in the runner."""
+    run_id = new_run_id()
+    findings, queue = await run_module(
+        module_cls=_NoneReturnModule,
+        options={},
+        run_id=run_id,
+        target="127.0.0.1",
+    )
+    assert findings == []
+
+
+@pytest.mark.asyncio
+async def test_none_return_emits_error_event():
+    """None return must emit an 'error' event so the issue is visible."""
+    run_id = new_run_id()
+    _findings, queue = await run_module(
+        module_cls=_NoneReturnModule,
+        options={},
+        run_id=run_id,
+        target="127.0.0.1",
+    )
+    events = []
+    while True:
+        item = await asyncio.wait_for(queue.get(), timeout=5)
+        if item is QUEUE_SENTINEL:
+            break
+        events.append(item)
+    error_events = [e for e in events if e.get("event_type") == "error"]
+    assert len(error_events) >= 1, "Expected an 'error' event for None return from run()"
+
+
+# ---------------------------------------------------------------------------
+# execution.py run_subprocess error-wrapping (bug fix: Phase 7)
+# ---------------------------------------------------------------------------
+
+
+def test_run_subprocess_wraps_file_not_found():
+    """FileNotFoundError in run_subprocess must become RuntimeError."""
+    import threading
+    from core.execution import ExecutionContext
+
+    ctx = ExecutionContext(
+        run_id="test-fnf",
+        target="127.0.0.1",
+        queue=asyncio.Queue(),
+        cancelled=threading.Event(),
+    )
+    with pytest.raises(RuntimeError, match="not found"):
+        ctx.run_subprocess(["__nonexistent_binary_xyz__"])
+
+
+def test_run_subprocess_file_not_found_emits_error_event():
+    """FileNotFoundError must also emit an error event to the queue."""
+    import threading
+    from core.execution import ExecutionContext
+
+    q: asyncio.Queue = asyncio.Queue()
+    ctx = ExecutionContext(
+        run_id="test-fnf-event",
+        target="127.0.0.1",
+        queue=q,
+        cancelled=threading.Event(),
+    )
+    with pytest.raises(RuntimeError):
+        ctx.run_subprocess(["__nonexistent_binary_xyz__"])
+    items = []
+    while not q.empty():
+        items.append(q.get_nowait())
+    error_events = [i for i in items if isinstance(i, dict) and i.get("event_type") == "error"]
+    assert len(error_events) >= 1
