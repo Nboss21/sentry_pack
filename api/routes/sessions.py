@@ -150,7 +150,7 @@ def list_sessions(
         q = q.filter(C2Session.target_id == target_id)
 
     total = q.count()
-    sessions = q.order_by(C2Session.id).offset(offset).limit(limit).all()
+    sessions = q.order_by(C2Session.id.desc()).offset(offset).limit(limit).all()
 
     return SessionListResponse(
         sessions=[_session_to_response(s) for s in sessions],
