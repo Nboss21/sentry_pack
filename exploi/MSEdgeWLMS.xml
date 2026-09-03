@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="MSEdgeWLMS" CodeName="MSEdgeWLMS.bat"  Platform="misc" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="Dec 03 2019" Vulnerability="N/A">
+MSEDGE Free VM from MS WLMS Service killer</Information><Targets>       
+    </Targets>
+
+</Module>

@@ -10,17 +10,21 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional
 from sqlalchemy.orm import Session
 
-from api.db.models import ExploitModel, FindingModel
+from api.db.models import ExploitModel, ExploitPackEntry, FindingModel
 from core.recommendation.matcher import StringMatcher
 from core.recommendation.models import ExploitRecord, MatchResult, ServiceResult
 from core.recommendation.ranker import rank_recommendations
 
 
 def get_exploit_records_from_db(db: Session) -> List[ExploitRecord]:
-    """Query ExploitModel table and convert to ExploitRecord dataclass instances."""
+    """Query ExploitModel and ExploitPackEntry tables and convert to ExploitRecord dataclass instances."""
     models = db.query(ExploitModel).all()
     records: List[ExploitRecord] = []
+    seen_cves: set[str] = set()
+
     for m in models:
+        if m.cve_id:
+            seen_cves.add(m.cve_id.upper())
         records.append(
             ExploitRecord(
                 id=m.id,
@@ -40,6 +44,34 @@ def get_exploit_records_from_db(db: Session) -> List[ExploitRecord]:
                 references=m.references or [],
             )
         )
+
+    # Also include Exploit Pack entries if available
+    try:
+        ep_entries = db.query(ExploitPackEntry).all()
+        for ep in ep_entries:
+            svc_name = str(ep.service or "http").strip().lower()
+            if not svc_name or svc_name in ("none", "n/a", "null"):
+                svc_name = "http"
+
+            desc = ep.name_xml or ep.description or f"Exploit Pack module for {svc_name}"
+            is_rce = "rce" in desc.lower() or ep.exploit_type == "remote"
+            records.append(
+                ExploitRecord(
+                    id=100000 + ep.id,
+                    service_name=svc_name,
+                    cve_id=None,
+                    module_id=f"exploit.exploitpack_{ep.id}",
+                    severity="High" if is_rce else "Medium",
+                    cvss_score=8.5 if is_rce else 6.5,
+                    description=desc,
+                    has_public_exploit=True,
+                    published_date=ep.date_published,
+                    references=[],
+                )
+            )
+    except Exception:
+        pass
+
     return records
 
 
@@ -50,12 +82,64 @@ class RecommendationEngine:
         self._exploit_table = exploit_table
 
     def get_service_results_for_target(self, target_id: int, db: Session) -> List[ServiceResult]:
-        """Fetch all findings for target and convert evidence to ServiceResult objects."""
+        """Fetch all findings for target and convert evidence to ServiceResult objects,
+        inferring service and port from finding metadata when evidence is not direct nmap format."""
         findings = db.query(FindingModel).filter(FindingModel.target_id == target_id).all()
         results: List[ServiceResult] = []
         for f in findings:
-            if f.evidence and isinstance(f.evidence, dict):
-                results.append(ServiceResult.from_finding_evidence(f.evidence))
+            ev = f.evidence if isinstance(f.evidence, dict) else {}
+            svc = str(ev.get("service") or "").strip()
+            prod = str(ev.get("product") or "").strip()
+            port = int(ev.get("port") or 0)
+            proto = str(ev.get("protocol") or "tcp").strip().lower()
+            cpe = str(ev.get("cpe") or "").strip()
+
+            # Auto-infer service and port if not explicitly set in evidence
+            if not svc:
+                title_l = (f.title or "").lower()
+                cve_val = (f.cve or "").upper()
+
+                if "apache" in title_l or "log4j" in title_l or "http" in title_l or "xss" in title_l or "sql" in title_l:
+                    svc = "apache"
+                    if not port:
+                        port = 80
+                elif "smb" in title_l or "eternalblue" in title_l or proto == "smb":
+                    svc = "smb"
+                    if not port:
+                        port = 445
+                elif "rdp" in title_l or "bluekeep" in title_l:
+                    svc = "rdp"
+                    if not port:
+                        port = 3389
+                elif "postgres" in title_l:
+                    svc = "postgresql"
+                    if not port:
+                        port = 5432
+                elif "redis" in title_l:
+                    svc = "redis"
+                    if not port:
+                        port = 6379
+                elif "ssh" in title_l:
+                    svc = "ssh"
+                    if not port:
+                        port = 22
+                elif "ftp" in title_l:
+                    svc = "ftp"
+                    if not port:
+                        port = 21
+
+            results.append(
+                ServiceResult(
+                    host=str(ev.get("host") or "127.0.0.1"),
+                    port=port,
+                    protocol=proto,
+                    service=svc,
+                    product=prod,
+                    version=str(ev.get("version") or ""),
+                    extrainfo=str(ev.get("extrainfo") or ""),
+                    cpe=cpe,
+                )
+            )
         return results
 
     def recommend_for_target(

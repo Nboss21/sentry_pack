@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="ComputerDefaults" CodeName="ComputerDefaults.bat"  Platform="privesc" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="Dec 03 2019" Vulnerability="N/A">
+Auto-Elevate process using ComputerDefaults.exe</Information>
+    <Targets>
+       Windows 10
+    </Targets>
+
+</Module>

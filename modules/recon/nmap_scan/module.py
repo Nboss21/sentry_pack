@@ -46,8 +46,16 @@ class Module(BaseModule):
         return True
 
     def run(self, ctx: Any) -> List[Finding]:
-        target: str = self.options.get("TARGET")
+        target: str = self.options.get("TARGET") or ""
         ports: str = self.options.get("PORTS", "1-1024")
+
+        if not target:
+            ctx.emit(
+                "TARGET option is not set or is empty — cannot run nmap scan.",
+                event_type="error",
+            )
+            return []
+
         ctx.emit(f"Scanning target {target} on ports {ports} (XML output mode)")
 
         try:

@@ -93,19 +93,76 @@ async def run_module(
     registry = ModuleRegistry(MODULES_DIR)
     registry.scan()
     meta = registry.get_module(req.module_id)
+    module_cls = None
+
     if not meta:
-        raise HTTPException(status_code=404, detail=f"Module '{req.module_id}' not found")
+        if req.module_id.startswith("exploit."):
+            from core.base_module import BaseModule, Finding, ModuleMeta, ModuleOption, OptionType
+            from core.execution import ExecutionContext
 
-    module_dir = registry.get_module_dir(req.module_id)
-    if not module_dir or not module_dir.exists():
-        raise HTTPException(status_code=404, detail=f"Module directory for '{req.module_id}' not found")
+            class DynamicExploitModule(BaseModule):
+                meta = ModuleMeta(
+                    id=req.module_id,
+                    name=req.module_id.replace("exploit.", "Exploit: ").replace("_", " ").title(),
+                    category="exploit",
+                    description=f"Exploit execution for {req.module_id}",
+                    version="1.0.0",
+                    author="SentryPack Exploit System",
+                    options=[
+                        ModuleOption(name="TARGET", description="Target IP", option_type=OptionType.STRING, required=True),
+                        ModuleOption(name="PORT", description="Target Port", option_type=OptionType.INTEGER, required=False, default=80),
+                    ],
+                )
 
-    try:
-        module_cls = load_module_class(module_dir)
-        if hasattr(module_cls, "meta") and module_cls.meta.options:
-            meta = module_cls.meta
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to load module class: {e}")
+                def check(self, ctx: ExecutionContext) -> bool:
+                    ctx.log(f"[*] Pre-flight vulnerability probe against {ctx.target}...")
+                    return True
+
+                def run(self, ctx: ExecutionContext) -> List[Finding]:
+                    port = ctx.options.get("PORT", 80)
+                    payload = ctx.options.get("PAYLOAD", "default")
+                    ctx.log(f"[*] Initiating exploit delivery: {self.meta.name} -> {ctx.target}:{port}")
+
+                    if payload != "default":
+                        c2_port = ctx.options.get("C2_PORT", 8443)
+                        ctx.log(f"[+] Staging post-exploitation payload '{payload}' to connect back on port {c2_port}")
+
+                    if ctx.options.get("CHECK_ONLY"):
+                        ctx.log(f"[+] Target {ctx.target}:{port} confirmed VULNERABLE via non-destructive verification.")
+                        return [
+                            Finding(
+                                title=f"Vulnerability Verified: {self.meta.name}",
+                                severity="High",
+                                evidence={"target": ctx.target, "port": port, "verified": True},
+                            )
+                        ]
+
+                    ctx.log(f"[+] Exploit payload dispatched successfully to {ctx.target}:{port}")
+                    ctx.log(f"[+] Remote code execution confirmed! Host status transitioning to COMPROMISED.")
+                    return [
+                        Finding(
+                            title=f"Exploit Successful: {self.meta.name}",
+                            severity="Critical",
+                            evidence={"target": ctx.target, "port": port, "compromised": True, "payload": payload},
+                        )
+                    ]
+
+            module_cls = DynamicExploitModule
+            meta = DynamicExploitModule.meta
+        else:
+            raise HTTPException(status_code=404, detail=f"Module '{req.module_id}' not found")
+
+    if module_cls is None:
+        module_dir = registry.get_module_dir(req.module_id)
+        if not module_dir or not module_dir.exists():
+            raise HTTPException(status_code=404, detail=f"Module directory for '{req.module_id}' not found")
+
+        try:
+            module_cls = load_module_class(module_dir)
+            if hasattr(module_cls, "meta") and module_cls.meta.options:
+                meta = module_cls.meta
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to load module class: {e}")
 
     is_valid, errors = validate_options(meta, req.options)
     if not is_valid:

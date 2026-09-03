@@ -376,3 +376,41 @@ class TestNmapScanModule:
         findings = mod.run(ctx)
         for f in findings:
             assert "None" not in f.description
+
+    # ------------------------------------------------------------------
+    # run() — missing / empty TARGET guard (bug fix: Phase 7)
+    # ------------------------------------------------------------------
+
+    def test_missing_target_returns_empty_list(self):
+        """run() with no TARGET option must return [] without crashing nmap."""
+        mod = self.Module(options={})  # no TARGET at all
+        ctx = _make_ctx()
+        findings = mod.run(ctx)
+        assert findings == []
+
+    def test_missing_target_does_not_raise(self):
+        mod = self.Module(options={})
+        ctx = _make_ctx()
+        mod.run(ctx)  # must not raise
+
+    def test_missing_target_emits_error_event(self):
+        mod = self.Module(options={})
+        ctx = _make_ctx()
+        emitted: list = []
+        original_emit = ctx.emit
+
+        def _capture(msg, event_type="log"):
+            emitted.append((msg, event_type))
+            original_emit(msg, event_type=event_type)
+
+        ctx.emit = _capture
+        mod.run(ctx)
+        error_events = [t for _, t in emitted if t == "error"]
+        assert len(error_events) >= 1, "Expected at least one 'error' event for missing TARGET"
+
+    def test_empty_string_target_returns_empty_list(self):
+        """run() with TARGET='' must also return [] cleanly."""
+        mod = self.Module(options={"TARGET": ""})
+        ctx = _make_ctx()
+        findings = mod.run(ctx)
+        assert findings == []

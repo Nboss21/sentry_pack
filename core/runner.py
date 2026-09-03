@@ -75,8 +75,19 @@ def _run_module_in_thread(
     runs in a worker thread without blocking the event loop.
 
     Returns the list of :class:`~core.base_module.Finding` objects produced.
+    If the module returns ``None`` (a common beginner mistake) an empty list
+    is returned and an ``"error"`` event is emitted so the issue is visible
+    in the event stream without crashing the runner.
     """
-    return module.run(ctx)
+    result = module.run(ctx)
+    if result is None:
+        ctx.emit(
+            f"Module '{module.meta.id}' returned None from run() instead of a "
+            "list. Returning empty findings list.",
+            event_type="error",
+        )
+        return []
+    return result
 
 
 async def run_module(

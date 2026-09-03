@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="KnownDLLUnHook" CodeName="KnownDLLUnHook.cpp"  Platform="others" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="Feb 3 2023" Vulnerability="N/A">
+Advanced KnownDLL unhooker ( All libraries from KnownDLL ) to bypass EDR and AV hooks in userland
+Tested on Windows 11 
+</Information>
+    <Targets>
+       Works on all Windows OS
+    </Targets>
+
+</Module>

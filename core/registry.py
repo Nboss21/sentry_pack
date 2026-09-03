@@ -4,6 +4,7 @@ and dynamically loading/validating modules.
 """
 
 import importlib.util
+import logging
 from pathlib import Path
 from typing import Dict, List, Optional
 import sys
@@ -14,6 +15,8 @@ else:
     import tomli as tomllib
 
 from core.base_module import BaseModule, ModuleMeta, ModuleOption, OptionType
+
+logger = logging.getLogger("sentrypack.registry")
 
 
 class ModuleRegistry:
@@ -66,7 +69,7 @@ class ModuleRegistry:
                     )
                     self.module_paths[module_id] = manifest_path.parent
             except Exception as e:
-                print(f"Error loading manifest {manifest_path}: {e}")
+                logger.warning("Error loading manifest %s: %s", manifest_path, e)
         return self.loaded_modules
 
     def get_module(self, module_id: str) -> Optional[ModuleMeta]:
@@ -79,7 +82,13 @@ class ModuleRegistry:
 
 
 def load_module_class(module_dir: Path):
-    """Dynamically import the Module class from a module directory."""
+    """Dynamically import the Module class from a module directory.
+
+    Raises:
+        FileNotFoundError: If module.py does not exist in *module_dir*.
+        ImportError:       If the module has unresolvable import-time dependencies.
+        SyntaxError:       If module.py contains invalid Python syntax.
+    """
     module_file = Path(module_dir) / "module.py"
     if not module_file.exists():
         raise FileNotFoundError(f"module.py not found in {module_dir}")
@@ -87,8 +96,25 @@ def load_module_class(module_dir: Path):
     if spec is None or spec.loader is None:
         raise ImportError(f"Could not load spec for {module_file}")
     mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return getattr(mod, "Module")
+    try:
+        spec.loader.exec_module(mod)
+    except SyntaxError as exc:
+        raise SyntaxError(
+            f"{module_file}: syntax error on line {exc.lineno}: {exc.msg}"
+        ) from exc
+    except ImportError as exc:
+        raise ImportError(
+            f"{module_file}: import failed — {exc}"
+        ) from exc
+    except Exception as exc:
+        raise RuntimeError(
+            f"{module_file}: unexpected error during import — "
+            f"{type(exc).__name__}: {exc}"
+        ) from exc
+    cls = getattr(mod, "Module", None)
+    if cls is None:
+        raise ImportError(f"{module_file}: no top-level 'Module' class found")
+    return cls
 
 
 def validate_options(meta: ModuleMeta, options: Optional[dict] = None) -> tuple[bool, List[dict]]:

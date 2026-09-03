@@ -1,0 +1,1207 @@
+# Pentest notes for: google.com [Exploit Pack]
+# Nmap 7.80 scan initiated Tue Dec  3 09:27:33 2019 as: /usr/bin/nmap -sV -A -oA log/exploitpack.com exploitpack.com
+Nmap scan report for exploitpack.com (132.148.22.104)
+Host is up (0.18s latency).
+rDNS record for 132.148.22.104: ip-132-148-22-104.ip.secureserver.net
+Not shown: 986 closed ports
+PORT     STATE    SERVICE     VERSION
+22/tcp   open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c6:cb:df:ee:f8:6f:71:47:74:24:77:53:33:5e:04:a1 (RSA)
+|   256 46:17:1f:9c:f9:6c:23:26:8a:48:61:2e:b0:ed:c1:f4 (ECDSA)
+|_  256 ad:25:36:67:81:2c:e9:fc:9e:c6:96:0c:4a:ea:c5:b4 (ED25519)
+42/tcp   filtered nameserver
+80/tcp   open     http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+111/tcp  open     rpcbind     2-4 (RPC #100000)
+135/tcp  filtered msrpc
+139/tcp  filtered netbios-ssn
+161/tcp  filtered snmp
+443/tcp  open     ssl/ssl     Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=exploitpack.com
+| Subject Alternative Name: DNS:exploitpack.com, DNS:www.exploitpack.com
+| Not valid before: 2019-07-14T09:48:11
+|_Not valid after:  2020-07-14T09:48:11
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+1028/tcp filtered unknown
+1080/tcp filtered socks
+3128/tcp filtered squid-http
+6666/tcp filtered irc
+6667/tcp filtered irc
+6668/tcp filtered irc
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:28:15 2019 -- 1 IP address (1 host up) scanned in 42.45 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:27:33 2019 as: /usr/bin/nmap -sV -A -oA log/exploitpack.com exploitpack.com
+Nmap scan report for exploitpack.com (132.148.22.104)
+Host is up (0.18s latency).
+rDNS record for 132.148.22.104: ip-132-148-22-104.ip.secureserver.net
+Not shown: 986 closed ports
+PORT     STATE    SERVICE     VERSION
+22/tcp   open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c6:cb:df:ee:f8:6f:71:47:74:24:77:53:33:5e:04:a1 (RSA)
+|   256 46:17:1f:9c:f9:6c:23:26:8a:48:61:2e:b0:ed:c1:f4 (ECDSA)
+|_  256 ad:25:36:67:81:2c:e9:fc:9e:c6:96:0c:4a:ea:c5:b4 (ED25519)
+42/tcp   filtered nameserver
+80/tcp   open     http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+111/tcp  open     rpcbind     2-4 (RPC #100000)
+135/tcp  filtered msrpc
+139/tcp  filtered netbios-ssn
+161/tcp  filtered snmp
+443/tcp  open     ssl/ssl     Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=exploitpack.com
+| Subject Alternative Name: DNS:exploitpack.com, DNS:www.exploitpack.com
+| Not valid before: 2019-07-14T09:48:11
+|_Not valid after:  2020-07-14T09:48:11
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+1028/tcp filtered unknown
+1080/tcp filtered socks
+3128/tcp filtered squid-http
+6666/tcp filtered irc
+6667/tcp filtered irc
+6668/tcp filtered irc
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:28:15 2019 -- 1 IP address (1 host up) scanned in 42.45 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:27:33 2019 as: /usr/bin/nmap -sV -A -oA log/exploitpack.com exploitpack.com
+Nmap scan report for exploitpack.com (132.148.22.104)
+Host is up (0.18s latency).
+rDNS record for 132.148.22.104: ip-132-148-22-104.ip.secureserver.net
+Not shown: 986 closed ports
+PORT     STATE    SERVICE     VERSION
+22/tcp   open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c6:cb:df:ee:f8:6f:71:47:74:24:77:53:33:5e:04:a1 (RSA)
+|   256 46:17:1f:9c:f9:6c:23:26:8a:48:61:2e:b0:ed:c1:f4 (ECDSA)
+|_  256 ad:25:36:67:81:2c:e9:fc:9e:c6:96:0c:4a:ea:c5:b4 (ED25519)
+42/tcp   filtered nameserver
+80/tcp   open     http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+111/tcp  open     rpcbind     2-4 (RPC #100000)
+135/tcp  filtered msrpc
+139/tcp  filtered netbios-ssn
+161/tcp  filtered snmp
+443/tcp  open     ssl/ssl     Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=exploitpack.com
+| Subject Alternative Name: DNS:exploitpack.com, DNS:www.exploitpack.com
+| Not valid before: 2019-07-14T09:48:11
+|_Not valid after:  2020-07-14T09:48:11
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+1028/tcp filtered unknown
+1080/tcp filtered socks
+3128/tcp filtered squid-http
+6666/tcp filtered irc
+6667/tcp filtered irc
+6668/tcp filtered irc
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:28:15 2019 -- 1 IP address (1 host up) scanned in 42.45 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:27:33 2019 as: /usr/bin/nmap -sV -A -oA log/exploitpack.com exploitpack.com
+Nmap scan report for exploitpack.com (132.148.22.104)
+Host is up (0.18s latency).
+rDNS record for 132.148.22.104: ip-132-148-22-104.ip.secureserver.net
+Not shown: 986 closed ports
+PORT     STATE    SERVICE     VERSION
+22/tcp   open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c6:cb:df:ee:f8:6f:71:47:74:24:77:53:33:5e:04:a1 (RSA)
+|   256 46:17:1f:9c:f9:6c:23:26:8a:48:61:2e:b0:ed:c1:f4 (ECDSA)
+|_  256 ad:25:36:67:81:2c:e9:fc:9e:c6:96:0c:4a:ea:c5:b4 (ED25519)
+42/tcp   filtered nameserver
+80/tcp   open     http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+111/tcp  open     rpcbind     2-4 (RPC #100000)
+135/tcp  filtered msrpc
+139/tcp  filtered netbios-ssn
+161/tcp  filtered snmp
+443/tcp  open     ssl/ssl     Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=exploitpack.com
+| Subject Alternative Name: DNS:exploitpack.com, DNS:www.exploitpack.com
+| Not valid before: 2019-07-14T09:48:11
+|_Not valid after:  2020-07-14T09:48:11
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+1028/tcp filtered unknown
+1080/tcp filtered socks
+3128/tcp filtered squid-http
+6666/tcp filtered irc
+6667/tcp filtered irc
+6668/tcp filtered irc
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:28:15 2019 -- 1 IP address (1 host up) scanned in 42.45 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:27:33 2019 as: /usr/bin/nmap -sV -A -oA log/exploitpack.com exploitpack.com
+Nmap scan report for exploitpack.com (132.148.22.104)
+Host is up (0.18s latency).
+rDNS record for 132.148.22.104: ip-132-148-22-104.ip.secureserver.net
+Not shown: 986 closed ports
+PORT     STATE    SERVICE     VERSION
+22/tcp   open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c6:cb:df:ee:f8:6f:71:47:74:24:77:53:33:5e:04:a1 (RSA)
+|   256 46:17:1f:9c:f9:6c:23:26:8a:48:61:2e:b0:ed:c1:f4 (ECDSA)
+|_  256 ad:25:36:67:81:2c:e9:fc:9e:c6:96:0c:4a:ea:c5:b4 (ED25519)
+42/tcp   filtered nameserver
+80/tcp   open     http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+111/tcp  open     rpcbind     2-4 (RPC #100000)
+135/tcp  filtered msrpc
+139/tcp  filtered netbios-ssn
+161/tcp  filtered snmp
+443/tcp  open     ssl/ssl     Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=exploitpack.com
+| Subject Alternative Name: DNS:exploitpack.com, DNS:www.exploitpack.com
+| Not valid before: 2019-07-14T09:48:11
+|_Not valid after:  2020-07-14T09:48:11
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+1028/tcp filtered unknown
+1080/tcp filtered socks
+3128/tcp filtered squid-http
+6666/tcp filtered irc
+6667/tcp filtered irc
+6668/tcp filtered irc
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:28:15 2019 -- 1 IP address (1 host up) scanned in 42.45 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:27:33 2019 as: /usr/bin/nmap -sV -A -oA log/exploitpack.com exploitpack.com
+Nmap scan report for exploitpack.com (132.148.22.104)
+Host is up (0.18s latency).
+rDNS record for 132.148.22.104: ip-132-148-22-104.ip.secureserver.net
+Not shown: 986 closed ports
+PORT     STATE    SERVICE     VERSION
+22/tcp   open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c6:cb:df:ee:f8:6f:71:47:74:24:77:53:33:5e:04:a1 (RSA)
+|   256 46:17:1f:9c:f9:6c:23:26:8a:48:61:2e:b0:ed:c1:f4 (ECDSA)
+|_  256 ad:25:36:67:81:2c:e9:fc:9e:c6:96:0c:4a:ea:c5:b4 (ED25519)
+42/tcp   filtered nameserver
+80/tcp   open     http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+111/tcp  open     rpcbind     2-4 (RPC #100000)
+135/tcp  filtered msrpc
+139/tcp  filtered netbios-ssn
+161/tcp  filtered snmp
+443/tcp  open     ssl/ssl     Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=exploitpack.com
+| Subject Alternative Name: DNS:exploitpack.com, DNS:www.exploitpack.com
+| Not valid before: 2019-07-14T09:48:11
+|_Not valid after:  2020-07-14T09:48:11
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+1028/tcp filtered unknown
+1080/tcp filtered socks
+3128/tcp filtered squid-http
+6666/tcp filtered irc
+6667/tcp filtered irc
+6668/tcp filtered irc
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:28:15 2019 -- 1 IP address (1 host up) scanned in 42.45 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:27:33 2019 as: /usr/bin/nmap -sV -A -oA log/exploitpack.com exploitpack.com
+Nmap scan report for exploitpack.com (132.148.22.104)
+Host is up (0.18s latency).
+rDNS record for 132.148.22.104: ip-132-148-22-104.ip.secureserver.net
+Not shown: 986 closed ports
+PORT     STATE    SERVICE     VERSION
+22/tcp   open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c6:cb:df:ee:f8:6f:71:47:74:24:77:53:33:5e:04:a1 (RSA)
+|   256 46:17:1f:9c:f9:6c:23:26:8a:48:61:2e:b0:ed:c1:f4 (ECDSA)
+|_  256 ad:25:36:67:81:2c:e9:fc:9e:c6:96:0c:4a:ea:c5:b4 (ED25519)
+42/tcp   filtered nameserver
+80/tcp   open     http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+111/tcp  open     rpcbind     2-4 (RPC #100000)
+135/tcp  filtered msrpc
+139/tcp  filtered netbios-ssn
+161/tcp  filtered snmp
+443/tcp  open     ssl/ssl     Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=exploitpack.com
+| Subject Alternative Name: DNS:exploitpack.com, DNS:www.exploitpack.com
+| Not valid before: 2019-07-14T09:48:11
+|_Not valid after:  2020-07-14T09:48:11
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+1028/tcp filtered unknown
+1080/tcp filtered socks
+3128/tcp filtered squid-http
+6666/tcp filtered irc
+6667/tcp filtered irc
+6668/tcp filtered irc
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:28:15 2019 -- 1 IP address (1 host up) scanned in 42.45 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:27:33 2019 as: /usr/bin/nmap -sV -A -oA log/exploitpack.com exploitpack.com
+Nmap scan report for exploitpack.com (132.148.22.104)
+Host is up (0.18s latency).
+rDNS record for 132.148.22.104: ip-132-148-22-104.ip.secureserver.net
+Not shown: 986 closed ports
+PORT     STATE    SERVICE     VERSION
+22/tcp   open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c6:cb:df:ee:f8:6f:71:47:74:24:77:53:33:5e:04:a1 (RSA)
+|   256 46:17:1f:9c:f9:6c:23:26:8a:48:61:2e:b0:ed:c1:f4 (ECDSA)
+|_  256 ad:25:36:67:81:2c:e9:fc:9e:c6:96:0c:4a:ea:c5:b4 (ED25519)
+42/tcp   filtered nameserver
+80/tcp   open     http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+111/tcp  open     rpcbind     2-4 (RPC #100000)
+135/tcp  filtered msrpc
+139/tcp  filtered netbios-ssn
+161/tcp  filtered snmp
+443/tcp  open     ssl/ssl     Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=exploitpack.com
+| Subject Alternative Name: DNS:exploitpack.com, DNS:www.exploitpack.com
+| Not valid before: 2019-07-14T09:48:11
+|_Not valid after:  2020-07-14T09:48:11
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+1028/tcp filtered unknown
+1080/tcp filtered socks
+3128/tcp filtered squid-http
+6666/tcp filtered irc
+6667/tcp filtered irc
+6668/tcp filtered irc
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:28:15 2019 -- 1 IP address (1 host up) scanned in 42.45 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:27:33 2019 as: /usr/bin/nmap -sV -A -oA log/exploitpack.com exploitpack.com
+Nmap scan report for exploitpack.com (132.148.22.104)
+Host is up (0.18s latency).
+rDNS record for 132.148.22.104: ip-132-148-22-104.ip.secureserver.net
+Not shown: 986 closed ports
+PORT     STATE    SERVICE     VERSION
+22/tcp   open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c6:cb:df:ee:f8:6f:71:47:74:24:77:53:33:5e:04:a1 (RSA)
+|   256 46:17:1f:9c:f9:6c:23:26:8a:48:61:2e:b0:ed:c1:f4 (ECDSA)
+|_  256 ad:25:36:67:81:2c:e9:fc:9e:c6:96:0c:4a:ea:c5:b4 (ED25519)
+42/tcp   filtered nameserver
+80/tcp   open     http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+111/tcp  open     rpcbind     2-4 (RPC #100000)
+135/tcp  filtered msrpc
+139/tcp  filtered netbios-ssn
+161/tcp  filtered snmp
+443/tcp  open     ssl/ssl     Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=exploitpack.com
+| Subject Alternative Name: DNS:exploitpack.com, DNS:www.exploitpack.com
+| Not valid before: 2019-07-14T09:48:11
+|_Not valid after:  2020-07-14T09:48:11
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+1028/tcp filtered unknown
+1080/tcp filtered socks
+3128/tcp filtered squid-http
+6666/tcp filtered irc
+6667/tcp filtered irc
+6668/tcp filtered irc
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:28:15 2019 -- 1 IP address (1 host up) scanned in 42.45 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:27:33 2019 as: /usr/bin/nmap -sV -A -oA log/exploitpack.com exploitpack.com
+Nmap scan report for exploitpack.com (132.148.22.104)
+Host is up (0.18s latency).
+rDNS record for 132.148.22.104: ip-132-148-22-104.ip.secureserver.net
+Not shown: 986 closed ports
+PORT     STATE    SERVICE     VERSION
+22/tcp   open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c6:cb:df:ee:f8:6f:71:47:74:24:77:53:33:5e:04:a1 (RSA)
+|   256 46:17:1f:9c:f9:6c:23:26:8a:48:61:2e:b0:ed:c1:f4 (ECDSA)
+|_  256 ad:25:36:67:81:2c:e9:fc:9e:c6:96:0c:4a:ea:c5:b4 (ED25519)
+42/tcp   filtered nameserver
+80/tcp   open     http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+111/tcp  open     rpcbind     2-4 (RPC #100000)
+135/tcp  filtered msrpc
+139/tcp  filtered netbios-ssn
+161/tcp  filtered snmp
+443/tcp  open     ssl/ssl     Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=exploitpack.com
+| Subject Alternative Name: DNS:exploitpack.com, DNS:www.exploitpack.com
+| Not valid before: 2019-07-14T09:48:11
+|_Not valid after:  2020-07-14T09:48:11
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+1028/tcp filtered unknown
+1080/tcp filtered socks
+3128/tcp filtered squid-http
+6666/tcp filtered irc
+6667/tcp filtered irc
+6668/tcp filtered irc
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:28:15 2019 -- 1 IP address (1 host up) scanned in 42.45 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:27:33 2019 as: /usr/bin/nmap -sV -A -oA log/exploitpack.com exploitpack.com
+Nmap scan report for exploitpack.com (132.148.22.104)
+Host is up (0.18s latency).
+rDNS record for 132.148.22.104: ip-132-148-22-104.ip.secureserver.net
+Not shown: 986 closed ports
+PORT     STATE    SERVICE     VERSION
+22/tcp   open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c6:cb:df:ee:f8:6f:71:47:74:24:77:53:33:5e:04:a1 (RSA)
+|   256 46:17:1f:9c:f9:6c:23:26:8a:48:61:2e:b0:ed:c1:f4 (ECDSA)
+|_  256 ad:25:36:67:81:2c:e9:fc:9e:c6:96:0c:4a:ea:c5:b4 (ED25519)
+42/tcp   filtered nameserver
+80/tcp   open     http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+111/tcp  open     rpcbind     2-4 (RPC #100000)
+135/tcp  filtered msrpc
+139/tcp  filtered netbios-ssn
+161/tcp  filtered snmp
+443/tcp  open     ssl/ssl     Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=exploitpack.com
+| Subject Alternative Name: DNS:exploitpack.com, DNS:www.exploitpack.com
+| Not valid before: 2019-07-14T09:48:11
+|_Not valid after:  2020-07-14T09:48:11
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+1028/tcp filtered unknown
+1080/tcp filtered socks
+3128/tcp filtered squid-http
+6666/tcp filtered irc
+6667/tcp filtered irc
+6668/tcp filtered irc
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:28:15 2019 -- 1 IP address (1 host up) scanned in 42.45 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:27:33 2019 as: /usr/bin/nmap -sV -A -oA log/exploitpack.com exploitpack.com
+Nmap scan report for exploitpack.com (132.148.22.104)
+Host is up (0.18s latency).
+rDNS record for 132.148.22.104: ip-132-148-22-104.ip.secureserver.net
+Not shown: 986 closed ports
+PORT     STATE    SERVICE     VERSION
+22/tcp   open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c6:cb:df:ee:f8:6f:71:47:74:24:77:53:33:5e:04:a1 (RSA)
+|   256 46:17:1f:9c:f9:6c:23:26:8a:48:61:2e:b0:ed:c1:f4 (ECDSA)
+|_  256 ad:25:36:67:81:2c:e9:fc:9e:c6:96:0c:4a:ea:c5:b4 (ED25519)
+42/tcp   filtered nameserver
+80/tcp   open     http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+111/tcp  open     rpcbind     2-4 (RPC #100000)
+135/tcp  filtered msrpc
+139/tcp  filtered netbios-ssn
+161/tcp  filtered snmp
+443/tcp  open     ssl/ssl     Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=exploitpack.com
+| Subject Alternative Name: DNS:exploitpack.com, DNS:www.exploitpack.com
+| Not valid before: 2019-07-14T09:48:11
+|_Not valid after:  2020-07-14T09:48:11
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+1028/tcp filtered unknown
+1080/tcp filtered socks
+3128/tcp filtered squid-http
+6666/tcp filtered irc
+6667/tcp filtered irc
+6668/tcp filtered irc
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:28:15 2019 -- 1 IP address (1 host up) scanned in 42.45 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:27:33 2019 as: /usr/bin/nmap -sV -A -oA log/exploitpack.com exploitpack.com
+Nmap scan report for exploitpack.com (132.148.22.104)
+Host is up (0.18s latency).
+rDNS record for 132.148.22.104: ip-132-148-22-104.ip.secureserver.net
+Not shown: 986 closed ports
+PORT     STATE    SERVICE     VERSION
+22/tcp   open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c6:cb:df:ee:f8:6f:71:47:74:24:77:53:33:5e:04:a1 (RSA)
+|   256 46:17:1f:9c:f9:6c:23:26:8a:48:61:2e:b0:ed:c1:f4 (ECDSA)
+|_  256 ad:25:36:67:81:2c:e9:fc:9e:c6:96:0c:4a:ea:c5:b4 (ED25519)
+42/tcp   filtered nameserver
+80/tcp   open     http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+111/tcp  open     rpcbind     2-4 (RPC #100000)
+135/tcp  filtered msrpc
+139/tcp  filtered netbios-ssn
+161/tcp  filtered snmp
+443/tcp  open     ssl/ssl     Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=exploitpack.com
+| Subject Alternative Name: DNS:exploitpack.com, DNS:www.exploitpack.com
+| Not valid before: 2019-07-14T09:48:11
+|_Not valid after:  2020-07-14T09:48:11
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+1028/tcp filtered unknown
+1080/tcp filtered socks
+3128/tcp filtered squid-http
+6666/tcp filtered irc
+6667/tcp filtered irc
+6668/tcp filtered irc
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:28:15 2019 -- 1 IP address (1 host up) scanned in 42.45 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:27:33 2019 as: /usr/bin/nmap -sV -A -oA log/exploitpack.com exploitpack.com
+Nmap scan report for exploitpack.com (132.148.22.104)
+Host is up (0.18s latency).
+rDNS record for 132.148.22.104: ip-132-148-22-104.ip.secureserver.net
+Not shown: 986 closed ports
+PORT     STATE    SERVICE     VERSION
+22/tcp   open     ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 c6:cb:df:ee:f8:6f:71:47:74:24:77:53:33:5e:04:a1 (RSA)
+|   256 46:17:1f:9c:f9:6c:23:26:8a:48:61:2e:b0:ed:c1:f4 (ECDSA)
+|_  256 ad:25:36:67:81:2c:e9:fc:9e:c6:96:0c:4a:ea:c5:b4 (ED25519)
+42/tcp   filtered nameserver
+80/tcp   open     http        Apache httpd 2.4.18 ((Ubuntu))
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+111/tcp  open     rpcbind     2-4 (RPC #100000)
+135/tcp  filtered msrpc
+139/tcp  filtered netbios-ssn
+161/tcp  filtered snmp
+443/tcp  open     ssl/ssl     Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: 403 Forbidden
+| ssl-cert: Subject: commonName=exploitpack.com
+| Subject Alternative Name: DNS:exploitpack.com, DNS:www.exploitpack.com
+| Not valid before: 2019-07-14T09:48:11
+|_Not valid after:  2020-07-14T09:48:11
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+1028/tcp filtered unknown
+1080/tcp filtered socks
+3128/tcp filtered squid-http
+6666/tcp filtered irc
+6667/tcp filtered irc
+6668/tcp filtered irc
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:28:15 2019 -- 1 IP address (1 host up) scanned in 42.45 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:29:28 2019 as: /usr/bin/nmap -sV -A -oA log/google.com google.com
+Nmap scan report for google.com (172.217.17.110)
+Host is up (0.028s latency).
+Other addresses for google.com (not scanned): 2a00:1450:400e:806::200e
+rDNS record for 172.217.17.110: ams15s29-in-f14.1e100.net
+Not shown: 998 filtered ports
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      gws
+| fingerprint-strings: 
+|   GetRequest: 
+|     HTTP/1.0 200 OK
+|     Date: Tue, 03 Dec 2019 08:29:41 GMT
+|     Expires: -1
+|     Cache-Control: private, max-age=0
+|     Content-Type: text/html; charset=ISO-8859-1
+|     P3P: CP="This is not a P3P policy! See g.co/p3phelp for more info."
+|     Server: gws
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     Set-Cookie: 1P_JAR=2019-12-03-08; expires=Thu, 02-Jan-2020 08:29:41 GMT; path=/; domain=.google.com
+|     Set-Cookie: NID=192=vudjysQ8riWY3OYYxDhiGX72sfF9v1NDl1Yk2I-3aE-s2HANSABws2qDkcVe04i7udCUNvwkx906Vo3yvSJzDBjqLT3MHagoSFAg_D37y5x_26ei2SMpriPx-Sb_2nGUVPVROeaIyGUD8Wa7soVWDanmgEgxU5hlsC3yrSJpOs8; expires=Wed, 03-Jun-2020 08:29:41 GMT; path=/; domain=.google.com; HttpOnly
+|     Accept-Ranges: none
+|     Vary: Accept-Encoding
+|     <!doctype html><html itemscope="" itemtype="http://schema.org/WebPage" lang="nl"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta content="/images/branding/googleg/1x/googleg
+|   HTTPOptions: 
+|     HTTP/1.0 405 Method Not Allowed
+|     Allow: GET, HEAD
+|     Date: Tue, 03 Dec 2019 08:29:41 GMT
+|     Content-Type: text/html; charset=UTF-8
+|     Server: gws
+|     Content-Length: 1592
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     <!DOCTYPE html>
+|     <html lang=en>
+|     <meta charset=utf-8>
+|     <meta name=viewport content="initial-scale=1, minimum-scale=1, width=device-width">
+|     <title>Error 405 (Method Not Allowed)!!1</title>
+|     <style>
+|_    *{margin:0;padding:0}html,code{font:15px/22px arial,sans-serif}html{background:#fff;color:#222;padding:15px}body{margin:7% auto 0;max-width:390px;min-height:180px;padding:30px 0 15px}* > body{background:url(//www.google.com/images/errors/robot.png) 100% 5px no-repeat;padding-right:205px}p{margin:11px 0 22px;overflow:hidden}ins{color:#777;text-decoration:none}a img{border:0}@media screen and (max-width:772px){body{background:none;margin-top:0;max-width:none;padding-right:0}}#l
+|_http-server-header: gws
+|_http-title: Did not follow redirect to http://www.google.com/
+443/tcp open  ssl/https gws
+| fingerprint-strings: 
+|   GetRequest: 
+|     HTTP/1.0 200 OK
+|     Date: Tue, 03 Dec 2019 08:29:47 GMT
+|     Expires: -1
+|     Cache-Control: private, max-age=0
+|     Content-Type: text/html; charset=ISO-8859-1
+|     P3P: CP="This is not a P3P policy! See g.co/p3phelp for more info."
+|     Server: gws
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     Set-Cookie: 1P_JAR=2019-12-03-08; expires=Thu, 02-Jan-2020 08:29:47 GMT; path=/; domain=.google.com
+|     Set-Cookie: NID=192=8GmbQeo7zbaBoAdMV3o_ByCpeXjGwjMayk0Fp1Mfoq_oU7zQRaM0qD1rvffs7WybiuzmleoXxc5LkziV5_P2pT4qR9JdLBTvTmLHqKdabu_6SbyOLJJJKQdqQpAr22s9oTLkPf4i2etaQHC4bRalkpZwLYfLPamxUFq0eQqoBK8; expires=Wed, 03-Jun-2020 08:29:47 GMT; path=/; domain=.google.com; HttpOnly
+|     Alt-Svc: quic=":443"; ma=2592000; v="46,43",h3-Q050=":443"; ma=2592000,h3-Q049=":443"; ma=2592000,h3-Q048=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000
+|     Accept-Ranges: none
+|     Vary: Accept-Encoding
+|     <!doctype html><html ite
+|   HTTPOptions: 
+|     HTTP/1.0 405 Method Not Allowed
+|     Allow: GET, HEAD
+|     Date: Tue, 03 Dec 2019 08:29:47 GMT
+|     Content-Type: text/html; charset=UTF-8
+|     Server: gws
+|     Content-Length: 1592
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     Alt-Svc: quic=":443"; ma=2592000; v="46,43",h3-Q050=":443"; ma=2592000,h3-Q049=":443"; ma=2592000,h3-Q048=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000
+|     <!DOCTYPE html>
+|     <html lang=en>
+|     <meta charset=utf-8>
+|     <meta name=viewport content="initial-scale=1, minimum-scale=1, width=device-width">
+|     <title>Error 405 (Method Not Allowed)!!1</title>
+|     <style>
+|_    *{margin:0;padding:0}html,code{font:15px/22px arial,sans-serif}html{background:#fff;color:#222;padding:15px}body{margin:7% auto 0;max-width:390px;min-height:180px;padding:30px 0 15px}* > body{background:url(//www.google.com/images/errors/robot.png) 100% 5px no-repeat;padding-right:205px}p{margin:11p
+|_http-server-header: gws
+|_http-title: Did not follow redirect to https://www.google.com/
+| ssl-cert: Subject: commonName=*.google.com/organizationName=Google LLC/stateOrProvinceName=California/countryName=US
+| Subject Alternative Name: DNS:*.google.com, DNS:*.android.com, DNS:*.appengine.google.com, DNS:*.cloud.google.com, DNS:*.crowdsource.google.com, DNS:*.g.co, DNS:*.gcp.gvt2.com, DNS:*.gcpcdn.gvt1.com, DNS:*.ggpht.cn, DNS:*.gkecnapps.cn, DNS:*.google-analytics.com, DNS:*.google.ca, DNS:*.google.cl, DNS:*.google.co.in, DNS:*.google.co.jp, DNS:*.google.co.uk, DNS:*.google.com.ar, DNS:*.google.com.au, DNS:*.google.com.br, DNS:*.google.com.co, DNS:*.google.com.mx, DNS:*.google.com.tr, DNS:*.google.com.vn, DNS:*.google.de, DNS:*.google.es, DNS:*.google.fr, DNS:*.google.hu, DNS:*.google.it, DNS:*.google.nl, DNS:*.google.pl, DNS:*.google.pt, DNS:*.googleadapis.com, DNS:*.googleapis.cn, DNS:*.googlecnapps.cn, DNS:*.googlecommerce.com, DNS:*.googlevideo.com, DNS:*.gstatic.cn, DNS:*.gstatic.com, DNS:*.gstaticcnapps.cn, DNS:*.gvt1.com, DNS:*.gvt2.com, DNS:*.metric.gstatic.com, DNS:*.urchin.com, DNS:*.url.google.com, DNS:*.wear.gkecnapps.cn, DNS:*.youtube-nocookie.com, DNS:*.youtube.com, DNS:*.youtubeeducation.com, DNS:*.youtubekids.com, DNS:*.yt.be, DNS:*.ytimg.com, DNS:android.clients.google.com, DNS:android.com, DNS:developer.android.google.cn, DNS:developers.android.google.cn, DNS:g.co, DNS:ggpht.cn, DNS:gkecnapps.cn, DNS:goo.gl, DNS:google-analytics.com, DNS:google.com, DNS:googlecnapps.cn, DNS:googlecommerce.com, DNS:source.android.google.cn, DNS:urchin.com, DNS:www.goo.gl, DNS:youtu.be, DNS:youtube.com, DNS:youtubeeducation.com, DNS:youtubekids.com, DNS:yt.be
+| Not valid before: 2019-11-05T07:46:16
+|_Not valid after:  2020-01-28T07:46:16
+|_ssl-date: 2019-12-03T08:30:46+00:00; 0s from scanner time.
+| tls-alpn: 
+|   grpc-exp
+|   h2
+|_  http/1.1
+| tls-nextprotoneg: 
+|   grpc-exp
+|   h2
+|_  http/1.1
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.80%I=7%D=12/3%Time=5DE61CF5%P=x86_64-pc-linux-gnu%r(GetR
+SF:equest,3CEE,"HTTP/1\.0\x20200\x20OK\r\nDate:\x20Tue,\x2003\x20Dec\x2020
+SF:19\x2008:29:41\x20GMT\r\nExpires:\x20-1\r\nCache-Control:\x20private,\x
+SF:20max-age=0\r\nContent-Type:\x20text/html;\x20charset=ISO-8859-1\r\nP3P
+SF::\x20CP=\"This\x20is\x20not\x20a\x20P3P\x20policy!\x20See\x20g\.co/p3ph
+SF:elp\x20for\x20more\x20info\.\"\r\nServer:\x20gws\r\nX-XSS-Protection:\x
+SF:200\r\nX-Frame-Options:\x20SAMEORIGIN\r\nSet-Cookie:\x201P_JAR=2019-12-
+SF:03-08;\x20expires=Thu,\x2002-Jan-2020\x2008:29:41\x20GMT;\x20path=/;\x2
+SF:0domain=\.google\.com\r\nSet-Cookie:\x20NID=192=vudjysQ8riWY3OYYxDhiGX7
+SF:2sfF9v1NDl1Yk2I-3aE-s2HANSABws2qDkcVe04i7udCUNvwkx906Vo3yvSJzDBjqLT3MHa
+SF:goSFAg_D37y5x_26ei2SMpriPx-Sb_2nGUVPVROeaIyGUD8Wa7soVWDanmgEgxU5hlsC3yr
+SF:SJpOs8;\x20expires=Wed,\x2003-Jun-2020\x2008:29:41\x20GMT;\x20path=/;\x
+SF:20domain=\.google\.com;\x20HttpOnly\r\nAccept-Ranges:\x20none\r\nVary:\
+SF:x20Accept-Encoding\r\n\r\n<!doctype\x20html><html\x20itemscope=\"\"\x20
+SF:itemtype=\"http://schema\.org/WebPage\"\x20lang=\"nl\"><head><meta\x20c
+SF:ontent=\"text/html;\x20charset=UTF-8\"\x20http-equiv=\"Content-Type\"><
+SF:meta\x20content=\"/images/branding/googleg/1x/googleg")%r(HTTPOptions,7
+SF:0F,"HTTP/1\.0\x20405\x20Method\x20Not\x20Allowed\r\nAllow:\x20GET,\x20H
+SF:EAD\r\nDate:\x20Tue,\x2003\x20Dec\x202019\x2008:29:41\x20GMT\r\nContent
+SF:-Type:\x20text/html;\x20charset=UTF-8\r\nServer:\x20gws\r\nContent-Leng
+SF:th:\x201592\r\nX-XSS-Protection:\x200\r\nX-Frame-Options:\x20SAMEORIGIN
+SF:\r\n\r\n<!DOCTYPE\x20html>\n<html\x20lang=en>\n\x20\x20<meta\x20charset
+SF:=utf-8>\n\x20\x20<meta\x20name=viewport\x20content=\"initial-scale=1,\x
+SF:20minimum-scale=1,\x20width=device-width\">\n\x20\x20<title>Error\x2040
+SF:5\x20\(Method\x20Not\x20Allowed\)!!1</title>\n\x20\x20<style>\n\x20\x20
+SF:\x20\x20\*{margin:0;padding:0}html,code{font:15px/22px\x20arial,sans-se
+SF:rif}html{background:#fff;color:#222;padding:15px}body{margin:7%\x20auto
+SF:\x200;max-width:390px;min-height:180px;padding:30px\x200\x2015px}\*\x20
+SF:>\x20body{background:url\(//www\.google\.com/images/errors/robot\.png\)
+SF:\x20100%\x205px\x20no-repeat;padding-right:205px}p{margin:11px\x200\x20
+SF:22px;overflow:hidden}ins{color:#777;text-decoration:none}a\x20img{borde
+SF:r:0}@media\x20screen\x20and\x20\(max-width:772px\){body{background:none
+SF:;margin-top:0;max-width:none;padding-right:0}}#l");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.80%T=SSL%I=7%D=12/3%Time=5DE61CFB%P=x86_64-pc-linux-gnu
+SF:%r(GetRequest,4170,"HTTP/1\.0\x20200\x20OK\r\nDate:\x20Tue,\x2003\x20De
+SF:c\x202019\x2008:29:47\x20GMT\r\nExpires:\x20-1\r\nCache-Control:\x20pri
+SF:vate,\x20max-age=0\r\nContent-Type:\x20text/html;\x20charset=ISO-8859-1
+SF:\r\nP3P:\x20CP=\"This\x20is\x20not\x20a\x20P3P\x20policy!\x20See\x20g\.
+SF:co/p3phelp\x20for\x20more\x20info\.\"\r\nServer:\x20gws\r\nX-XSS-Protec
+SF:tion:\x200\r\nX-Frame-Options:\x20SAMEORIGIN\r\nSet-Cookie:\x201P_JAR=2
+SF:019-12-03-08;\x20expires=Thu,\x2002-Jan-2020\x2008:29:47\x20GMT;\x20pat
+SF:h=/;\x20domain=\.google\.com\r\nSet-Cookie:\x20NID=192=8GmbQeo7zbaBoAdM
+SF:V3o_ByCpeXjGwjMayk0Fp1Mfoq_oU7zQRaM0qD1rvffs7WybiuzmleoXxc5LkziV5_P2pT4
+SF:qR9JdLBTvTmLHqKdabu_6SbyOLJJJKQdqQpAr22s9oTLkPf4i2etaQHC4bRalkpZwLYfLPa
+SF:mxUFq0eQqoBK8;\x20expires=Wed,\x2003-Jun-2020\x2008:29:47\x20GMT;\x20pa
+SF:th=/;\x20domain=\.google\.com;\x20HttpOnly\r\nAlt-Svc:\x20quic=\":443\"
+SF:;\x20ma=2592000;\x20v=\"46,43\",h3-Q050=\":443\";\x20ma=2592000,h3-Q049
+SF:=\":443\";\x20ma=2592000,h3-Q048=\":443\";\x20ma=2592000,h3-Q046=\":443
+SF:\";\x20ma=2592000,h3-Q043=\":443\";\x20ma=2592000\r\nAccept-Ranges:\x20
+SF:none\r\nVary:\x20Accept-Encoding\r\n\r\n<!doctype\x20html><html\x20ite"
+SF:)%r(HTTPOptions,7C3,"HTTP/1\.0\x20405\x20Method\x20Not\x20Allowed\r\nAl
+SF:low:\x20GET,\x20HEAD\r\nDate:\x20Tue,\x2003\x20Dec\x202019\x2008:29:47\
+SF:x20GMT\r\nContent-Type:\x20text/html;\x20charset=UTF-8\r\nServer:\x20gw
+SF:s\r\nContent-Length:\x201592\r\nX-XSS-Protection:\x200\r\nX-Frame-Optio
+SF:ns:\x20SAMEORIGIN\r\nAlt-Svc:\x20quic=\":443\";\x20ma=2592000;\x20v=\"4
+SF:6,43\",h3-Q050=\":443\";\x20ma=2592000,h3-Q049=\":443\";\x20ma=2592000,
+SF:h3-Q048=\":443\";\x20ma=2592000,h3-Q046=\":443\";\x20ma=2592000,h3-Q043
+SF:=\":443\";\x20ma=2592000\r\n\r\n<!DOCTYPE\x20html>\n<html\x20lang=en>\n
+SF:\x20\x20<meta\x20charset=utf-8>\n\x20\x20<meta\x20name=viewport\x20cont
+SF:ent=\"initial-scale=1,\x20minimum-scale=1,\x20width=device-width\">\n\x
+SF:20\x20<title>Error\x20405\x20\(Method\x20Not\x20Allowed\)!!1</title>\n\
+SF:x20\x20<style>\n\x20\x20\x20\x20\*{margin:0;padding:0}html,code{font:15
+SF:px/22px\x20arial,sans-serif}html{background:#fff;color:#222;padding:15p
+SF:x}body{margin:7%\x20auto\x200;max-width:390px;min-height:180px;padding:
+SF:30px\x200\x2015px}\*\x20>\x20body{background:url\(//www\.google\.com/im
+SF:ages/errors/robot\.png\)\x20100%\x205px\x20no-repeat;padding-right:205p
+SF:x}p{margin:11p");
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:30:47 2019 -- 1 IP address (1 host up) scanned in 79.33 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:29:28 2019 as: /usr/bin/nmap -sV -A -oA log/google.com google.com
+Nmap scan report for google.com (172.217.17.110)
+Host is up (0.028s latency).
+Other addresses for google.com (not scanned): 2a00:1450:400e:806::200e
+rDNS record for 172.217.17.110: ams15s29-in-f14.1e100.net
+Not shown: 998 filtered ports
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      gws
+| fingerprint-strings: 
+|   GetRequest: 
+|     HTTP/1.0 200 OK
+|     Date: Tue, 03 Dec 2019 08:29:41 GMT
+|     Expires: -1
+|     Cache-Control: private, max-age=0
+|     Content-Type: text/html; charset=ISO-8859-1
+|     P3P: CP="This is not a P3P policy! See g.co/p3phelp for more info."
+|     Server: gws
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     Set-Cookie: 1P_JAR=2019-12-03-08; expires=Thu, 02-Jan-2020 08:29:41 GMT; path=/; domain=.google.com
+|     Set-Cookie: NID=192=vudjysQ8riWY3OYYxDhiGX72sfF9v1NDl1Yk2I-3aE-s2HANSABws2qDkcVe04i7udCUNvwkx906Vo3yvSJzDBjqLT3MHagoSFAg_D37y5x_26ei2SMpriPx-Sb_2nGUVPVROeaIyGUD8Wa7soVWDanmgEgxU5hlsC3yrSJpOs8; expires=Wed, 03-Jun-2020 08:29:41 GMT; path=/; domain=.google.com; HttpOnly
+|     Accept-Ranges: none
+|     Vary: Accept-Encoding
+|     <!doctype html><html itemscope="" itemtype="http://schema.org/WebPage" lang="nl"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta content="/images/branding/googleg/1x/googleg
+|   HTTPOptions: 
+|     HTTP/1.0 405 Method Not Allowed
+|     Allow: GET, HEAD
+|     Date: Tue, 03 Dec 2019 08:29:41 GMT
+|     Content-Type: text/html; charset=UTF-8
+|     Server: gws
+|     Content-Length: 1592
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     <!DOCTYPE html>
+|     <html lang=en>
+|     <meta charset=utf-8>
+|     <meta name=viewport content="initial-scale=1, minimum-scale=1, width=device-width">
+|     <title>Error 405 (Method Not Allowed)!!1</title>
+|     <style>
+|_    *{margin:0;padding:0}html,code{font:15px/22px arial,sans-serif}html{background:#fff;color:#222;padding:15px}body{margin:7% auto 0;max-width:390px;min-height:180px;padding:30px 0 15px}* > body{background:url(//www.google.com/images/errors/robot.png) 100% 5px no-repeat;padding-right:205px}p{margin:11px 0 22px;overflow:hidden}ins{color:#777;text-decoration:none}a img{border:0}@media screen and (max-width:772px){body{background:none;margin-top:0;max-width:none;padding-right:0}}#l
+|_http-server-header: gws
+|_http-title: Did not follow redirect to http://www.google.com/
+443/tcp open  ssl/https gws
+| fingerprint-strings: 
+|   GetRequest: 
+|     HTTP/1.0 200 OK
+|     Date: Tue, 03 Dec 2019 08:29:47 GMT
+|     Expires: -1
+|     Cache-Control: private, max-age=0
+|     Content-Type: text/html; charset=ISO-8859-1
+|     P3P: CP="This is not a P3P policy! See g.co/p3phelp for more info."
+|     Server: gws
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     Set-Cookie: 1P_JAR=2019-12-03-08; expires=Thu, 02-Jan-2020 08:29:47 GMT; path=/; domain=.google.com
+|     Set-Cookie: NID=192=8GmbQeo7zbaBoAdMV3o_ByCpeXjGwjMayk0Fp1Mfoq_oU7zQRaM0qD1rvffs7WybiuzmleoXxc5LkziV5_P2pT4qR9JdLBTvTmLHqKdabu_6SbyOLJJJKQdqQpAr22s9oTLkPf4i2etaQHC4bRalkpZwLYfLPamxUFq0eQqoBK8; expires=Wed, 03-Jun-2020 08:29:47 GMT; path=/; domain=.google.com; HttpOnly
+|     Alt-Svc: quic=":443"; ma=2592000; v="46,43",h3-Q050=":443"; ma=2592000,h3-Q049=":443"; ma=2592000,h3-Q048=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000
+|     Accept-Ranges: none
+|     Vary: Accept-Encoding
+|     <!doctype html><html ite
+|   HTTPOptions: 
+|     HTTP/1.0 405 Method Not Allowed
+|     Allow: GET, HEAD
+|     Date: Tue, 03 Dec 2019 08:29:47 GMT
+|     Content-Type: text/html; charset=UTF-8
+|     Server: gws
+|     Content-Length: 1592
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     Alt-Svc: quic=":443"; ma=2592000; v="46,43",h3-Q050=":443"; ma=2592000,h3-Q049=":443"; ma=2592000,h3-Q048=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000
+|     <!DOCTYPE html>
+|     <html lang=en>
+|     <meta charset=utf-8>
+|     <meta name=viewport content="initial-scale=1, minimum-scale=1, width=device-width">
+|     <title>Error 405 (Method Not Allowed)!!1</title>
+|     <style>
+|_    *{margin:0;padding:0}html,code{font:15px/22px arial,sans-serif}html{background:#fff;color:#222;padding:15px}body{margin:7% auto 0;max-width:390px;min-height:180px;padding:30px 0 15px}* > body{background:url(//www.google.com/images/errors/robot.png) 100% 5px no-repeat;padding-right:205px}p{margin:11p
+|_http-server-header: gws
+|_http-title: Did not follow redirect to https://www.google.com/
+| ssl-cert: Subject: commonName=*.google.com/organizationName=Google LLC/stateOrProvinceName=California/countryName=US
+| Subject Alternative Name: DNS:*.google.com, DNS:*.android.com, DNS:*.appengine.google.com, DNS:*.cloud.google.com, DNS:*.crowdsource.google.com, DNS:*.g.co, DNS:*.gcp.gvt2.com, DNS:*.gcpcdn.gvt1.com, DNS:*.ggpht.cn, DNS:*.gkecnapps.cn, DNS:*.google-analytics.com, DNS:*.google.ca, DNS:*.google.cl, DNS:*.google.co.in, DNS:*.google.co.jp, DNS:*.google.co.uk, DNS:*.google.com.ar, DNS:*.google.com.au, DNS:*.google.com.br, DNS:*.google.com.co, DNS:*.google.com.mx, DNS:*.google.com.tr, DNS:*.google.com.vn, DNS:*.google.de, DNS:*.google.es, DNS:*.google.fr, DNS:*.google.hu, DNS:*.google.it, DNS:*.google.nl, DNS:*.google.pl, DNS:*.google.pt, DNS:*.googleadapis.com, DNS:*.googleapis.cn, DNS:*.googlecnapps.cn, DNS:*.googlecommerce.com, DNS:*.googlevideo.com, DNS:*.gstatic.cn, DNS:*.gstatic.com, DNS:*.gstaticcnapps.cn, DNS:*.gvt1.com, DNS:*.gvt2.com, DNS:*.metric.gstatic.com, DNS:*.urchin.com, DNS:*.url.google.com, DNS:*.wear.gkecnapps.cn, DNS:*.youtube-nocookie.com, DNS:*.youtube.com, DNS:*.youtubeeducation.com, DNS:*.youtubekids.com, DNS:*.yt.be, DNS:*.ytimg.com, DNS:android.clients.google.com, DNS:android.com, DNS:developer.android.google.cn, DNS:developers.android.google.cn, DNS:g.co, DNS:ggpht.cn, DNS:gkecnapps.cn, DNS:goo.gl, DNS:google-analytics.com, DNS:google.com, DNS:googlecnapps.cn, DNS:googlecommerce.com, DNS:source.android.google.cn, DNS:urchin.com, DNS:www.goo.gl, DNS:youtu.be, DNS:youtube.com, DNS:youtubeeducation.com, DNS:youtubekids.com, DNS:yt.be
+| Not valid before: 2019-11-05T07:46:16
+|_Not valid after:  2020-01-28T07:46:16
+|_ssl-date: 2019-12-03T08:30:46+00:00; 0s from scanner time.
+| tls-alpn: 
+|   grpc-exp
+|   h2
+|_  http/1.1
+| tls-nextprotoneg: 
+|   grpc-exp
+|   h2
+|_  http/1.1
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.80%I=7%D=12/3%Time=5DE61CF5%P=x86_64-pc-linux-gnu%r(GetR
+SF:equest,3CEE,"HTTP/1\.0\x20200\x20OK\r\nDate:\x20Tue,\x2003\x20Dec\x2020
+SF:19\x2008:29:41\x20GMT\r\nExpires:\x20-1\r\nCache-Control:\x20private,\x
+SF:20max-age=0\r\nContent-Type:\x20text/html;\x20charset=ISO-8859-1\r\nP3P
+SF::\x20CP=\"This\x20is\x20not\x20a\x20P3P\x20policy!\x20See\x20g\.co/p3ph
+SF:elp\x20for\x20more\x20info\.\"\r\nServer:\x20gws\r\nX-XSS-Protection:\x
+SF:200\r\nX-Frame-Options:\x20SAMEORIGIN\r\nSet-Cookie:\x201P_JAR=2019-12-
+SF:03-08;\x20expires=Thu,\x2002-Jan-2020\x2008:29:41\x20GMT;\x20path=/;\x2
+SF:0domain=\.google\.com\r\nSet-Cookie:\x20NID=192=vudjysQ8riWY3OYYxDhiGX7
+SF:2sfF9v1NDl1Yk2I-3aE-s2HANSABws2qDkcVe04i7udCUNvwkx906Vo3yvSJzDBjqLT3MHa
+SF:goSFAg_D37y5x_26ei2SMpriPx-Sb_2nGUVPVROeaIyGUD8Wa7soVWDanmgEgxU5hlsC3yr
+SF:SJpOs8;\x20expires=Wed,\x2003-Jun-2020\x2008:29:41\x20GMT;\x20path=/;\x
+SF:20domain=\.google\.com;\x20HttpOnly\r\nAccept-Ranges:\x20none\r\nVary:\
+SF:x20Accept-Encoding\r\n\r\n<!doctype\x20html><html\x20itemscope=\"\"\x20
+SF:itemtype=\"http://schema\.org/WebPage\"\x20lang=\"nl\"><head><meta\x20c
+SF:ontent=\"text/html;\x20charset=UTF-8\"\x20http-equiv=\"Content-Type\"><
+SF:meta\x20content=\"/images/branding/googleg/1x/googleg")%r(HTTPOptions,7
+SF:0F,"HTTP/1\.0\x20405\x20Method\x20Not\x20Allowed\r\nAllow:\x20GET,\x20H
+SF:EAD\r\nDate:\x20Tue,\x2003\x20Dec\x202019\x2008:29:41\x20GMT\r\nContent
+SF:-Type:\x20text/html;\x20charset=UTF-8\r\nServer:\x20gws\r\nContent-Leng
+SF:th:\x201592\r\nX-XSS-Protection:\x200\r\nX-Frame-Options:\x20SAMEORIGIN
+SF:\r\n\r\n<!DOCTYPE\x20html>\n<html\x20lang=en>\n\x20\x20<meta\x20charset
+SF:=utf-8>\n\x20\x20<meta\x20name=viewport\x20content=\"initial-scale=1,\x
+SF:20minimum-scale=1,\x20width=device-width\">\n\x20\x20<title>Error\x2040
+SF:5\x20\(Method\x20Not\x20Allowed\)!!1</title>\n\x20\x20<style>\n\x20\x20
+SF:\x20\x20\*{margin:0;padding:0}html,code{font:15px/22px\x20arial,sans-se
+SF:rif}html{background:#fff;color:#222;padding:15px}body{margin:7%\x20auto
+SF:\x200;max-width:390px;min-height:180px;padding:30px\x200\x2015px}\*\x20
+SF:>\x20body{background:url\(//www\.google\.com/images/errors/robot\.png\)
+SF:\x20100%\x205px\x20no-repeat;padding-right:205px}p{margin:11px\x200\x20
+SF:22px;overflow:hidden}ins{color:#777;text-decoration:none}a\x20img{borde
+SF:r:0}@media\x20screen\x20and\x20\(max-width:772px\){body{background:none
+SF:;margin-top:0;max-width:none;padding-right:0}}#l");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.80%T=SSL%I=7%D=12/3%Time=5DE61CFB%P=x86_64-pc-linux-gnu
+SF:%r(GetRequest,4170,"HTTP/1\.0\x20200\x20OK\r\nDate:\x20Tue,\x2003\x20De
+SF:c\x202019\x2008:29:47\x20GMT\r\nExpires:\x20-1\r\nCache-Control:\x20pri
+SF:vate,\x20max-age=0\r\nContent-Type:\x20text/html;\x20charset=ISO-8859-1
+SF:\r\nP3P:\x20CP=\"This\x20is\x20not\x20a\x20P3P\x20policy!\x20See\x20g\.
+SF:co/p3phelp\x20for\x20more\x20info\.\"\r\nServer:\x20gws\r\nX-XSS-Protec
+SF:tion:\x200\r\nX-Frame-Options:\x20SAMEORIGIN\r\nSet-Cookie:\x201P_JAR=2
+SF:019-12-03-08;\x20expires=Thu,\x2002-Jan-2020\x2008:29:47\x20GMT;\x20pat
+SF:h=/;\x20domain=\.google\.com\r\nSet-Cookie:\x20NID=192=8GmbQeo7zbaBoAdM
+SF:V3o_ByCpeXjGwjMayk0Fp1Mfoq_oU7zQRaM0qD1rvffs7WybiuzmleoXxc5LkziV5_P2pT4
+SF:qR9JdLBTvTmLHqKdabu_6SbyOLJJJKQdqQpAr22s9oTLkPf4i2etaQHC4bRalkpZwLYfLPa
+SF:mxUFq0eQqoBK8;\x20expires=Wed,\x2003-Jun-2020\x2008:29:47\x20GMT;\x20pa
+SF:th=/;\x20domain=\.google\.com;\x20HttpOnly\r\nAlt-Svc:\x20quic=\":443\"
+SF:;\x20ma=2592000;\x20v=\"46,43\",h3-Q050=\":443\";\x20ma=2592000,h3-Q049
+SF:=\":443\";\x20ma=2592000,h3-Q048=\":443\";\x20ma=2592000,h3-Q046=\":443
+SF:\";\x20ma=2592000,h3-Q043=\":443\";\x20ma=2592000\r\nAccept-Ranges:\x20
+SF:none\r\nVary:\x20Accept-Encoding\r\n\r\n<!doctype\x20html><html\x20ite"
+SF:)%r(HTTPOptions,7C3,"HTTP/1\.0\x20405\x20Method\x20Not\x20Allowed\r\nAl
+SF:low:\x20GET,\x20HEAD\r\nDate:\x20Tue,\x2003\x20Dec\x202019\x2008:29:47\
+SF:x20GMT\r\nContent-Type:\x20text/html;\x20charset=UTF-8\r\nServer:\x20gw
+SF:s\r\nContent-Length:\x201592\r\nX-XSS-Protection:\x200\r\nX-Frame-Optio
+SF:ns:\x20SAMEORIGIN\r\nAlt-Svc:\x20quic=\":443\";\x20ma=2592000;\x20v=\"4
+SF:6,43\",h3-Q050=\":443\";\x20ma=2592000,h3-Q049=\":443\";\x20ma=2592000,
+SF:h3-Q048=\":443\";\x20ma=2592000,h3-Q046=\":443\";\x20ma=2592000,h3-Q043
+SF:=\":443\";\x20ma=2592000\r\n\r\n<!DOCTYPE\x20html>\n<html\x20lang=en>\n
+SF:\x20\x20<meta\x20charset=utf-8>\n\x20\x20<meta\x20name=viewport\x20cont
+SF:ent=\"initial-scale=1,\x20minimum-scale=1,\x20width=device-width\">\n\x
+SF:20\x20<title>Error\x20405\x20\(Method\x20Not\x20Allowed\)!!1</title>\n\
+SF:x20\x20<style>\n\x20\x20\x20\x20\*{margin:0;padding:0}html,code{font:15
+SF:px/22px\x20arial,sans-serif}html{background:#fff;color:#222;padding:15p
+SF:x}body{margin:7%\x20auto\x200;max-width:390px;min-height:180px;padding:
+SF:30px\x200\x2015px}\*\x20>\x20body{background:url\(//www\.google\.com/im
+SF:ages/errors/robot\.png\)\x20100%\x205px\x20no-repeat;padding-right:205p
+SF:x}p{margin:11p");
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:30:47 2019 -- 1 IP address (1 host up) scanned in 79.33 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:51:24 2019 as: /usr/bin/nmap -sV -A -oA log/google.com google.com
+Nmap scan report for google.com (172.217.17.110)
+Host is up (0.081s latency).
+Other addresses for google.com (not scanned): 2a00:1450:400e:806::200e
+rDNS record for 172.217.17.110: ams15s29-in-f110.1e100.net
+Not shown: 998 filtered ports
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      gws
+| fingerprint-strings: 
+|   GetRequest: 
+|     HTTP/1.0 200 OK
+|     Date: Tue, 03 Dec 2019 08:51:40 GMT
+|     Expires: -1
+|     Cache-Control: private, max-age=0
+|     Content-Type: text/html; charset=ISO-8859-1
+|     P3P: CP="This is not a P3P policy! See g.co/p3phelp for more info."
+|     Server: gws
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     Set-Cookie: 1P_JAR=2019-12-03-08; expires=Thu, 02-Jan-2020 08:51:40 GMT; path=/; domain=.google.com
+|     Set-Cookie: NID=192=AYEWhDWIMep2tAz90wzeqWh5QVh--xn-z2z5vFe9RqnkZbuoJkkX1jV5agChLjHXC-yqUEHyaTWGxooB5MY1CWhB-3CcrU_BaINqFS7lmMsprwjfC0yQYr7usClvqfA4u_5NIlw6sGjMz_q0EXomfyKVLip-ZNsGhGoM3jmHM6U; expires=Wed, 03-Jun-2020 08:51:40 GMT; path=/; domain=.google.com; HttpOnly
+|     Accept-Ranges: none
+|     Vary: Accept-Encoding
+|     <!doctype html><html itemscope="" itemtype="http://schema.org/WebPage" lang="nl"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta content="/images/branding/googleg/1x/googleg
+|   HTTPOptions: 
+|     HTTP/1.0 405 Method Not Allowed
+|     Allow: GET, HEAD
+|     Date: Tue, 03 Dec 2019 08:51:41 GMT
+|     Content-Type: text/html; charset=UTF-8
+|     Server: gws
+|     Content-Length: 1592
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     <!DOCTYPE html>
+|     <html lang=en>
+|     <meta charset=utf-8>
+|     <meta name=viewport content="initial-scale=1, minimum-scale=1, width=device-width">
+|     <title>Error 405 (Method Not Allowed)!!1</title>
+|     <style>
+|_    *{margin:0;padding:0}html,code{font:15px/22px arial,sans-serif}html{background:#fff;color:#222;padding:15px}body{margin:7% auto 0;max-width:390px;min-height:180px;padding:30px 0 15px}* > body{background:url(//www.google.com/images/errors/robot.png) 100% 5px no-repeat;padding-right:205px}p{margin:11px 0 22px;overflow:hidden}ins{color:#777;text-decoration:none}a img{border:0}@media screen and (max-width:772px){body{background:none;margin-top:0;max-width:none;padding-right:0}}#l
+|_http-server-header: gws
+|_http-title: Did not follow redirect to http://www.google.com/
+443/tcp open  ssl/https gws
+| fingerprint-strings: 
+|   GetRequest: 
+|     HTTP/1.0 200 OK
+|     Date: Tue, 03 Dec 2019 08:51:46 GMT
+|     Expires: -1
+|     Cache-Control: private, max-age=0
+|     Content-Type: text/html; charset=ISO-8859-1
+|     P3P: CP="This is not a P3P policy! See g.co/p3phelp for more info."
+|     Server: gws
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     Set-Cookie: 1P_JAR=2019-12-03-08; expires=Thu, 02-Jan-2020 08:51:46 GMT; path=/; domain=.google.com
+|     Set-Cookie: NID=192=Qp822E0H36sFWv6uD4wbXHDnt0xWXKlRUlrNMZY6s9qqB-34n6UICvpHirxNiyXr_KGvGWX5W-73fJrS8iOTcOYqEqeNsQVq9PoTA-xsuf0RToBVcHJ8rU6Y3avcWjMKsSCVN9QN6J5AVhpHBM3L8VEcbZh3Nyhb-q6eR74OgWY; expires=Wed, 03-Jun-2020 08:51:46 GMT; path=/; domain=.google.com; HttpOnly
+|     Alt-Svc: quic=":443"; ma=2592000; v="46,43",h3-Q050=":443"; ma=2592000,h3-Q049=":443"; ma=2592000,h3-Q048=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000
+|     Accept-Ranges: none
+|     Vary: Accept-Encoding
+|     <!doctype html><html ite
+|   HTTPOptions: 
+|     HTTP/1.0 405 Method Not Allowed
+|     Allow: GET, HEAD
+|     Date: Tue, 03 Dec 2019 08:51:47 GMT
+|     Content-Type: text/html; charset=UTF-8
+|     Server: gws
+|     Content-Length: 1592
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     Alt-Svc: quic=":443"; ma=2592000; v="46,43",h3-Q050=":443"; ma=2592000,h3-Q049=":443"; ma=2592000,h3-Q048=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000
+|     <!DOCTYPE html>
+|     <html lang=en>
+|     <meta charset=utf-8>
+|     <meta name=viewport content="initial-scale=1, minimum-scale=1, width=device-width">
+|     <title>Error 405 (Method Not Allowed)!!1</title>
+|     <style>
+|_    *{margin:0;padding:0}html,code{font:15px/22px arial,sans-serif}html{background:#fff;color:#222;padding:15px}body{margin:7% auto 0;max-width:390px;min-height:180px;padding:30px 0 15px}* > body{background:url(//www.google.com/images/errors/robot.png) 100% 5px no-repeat;padding-right:205px}p{margin:11p
+|_http-server-header: gws
+|_http-title: Did not follow redirect to https://www.google.com/
+| ssl-cert: Subject: commonName=*.google.com/organizationName=Google LLC/stateOrProvinceName=California/countryName=US
+| Subject Alternative Name: DNS:*.google.com, DNS:*.android.com, DNS:*.appengine.google.com, DNS:*.cloud.google.com, DNS:*.crowdsource.google.com, DNS:*.g.co, DNS:*.gcp.gvt2.com, DNS:*.gcpcdn.gvt1.com, DNS:*.ggpht.cn, DNS:*.gkecnapps.cn, DNS:*.google-analytics.com, DNS:*.google.ca, DNS:*.google.cl, DNS:*.google.co.in, DNS:*.google.co.jp, DNS:*.google.co.uk, DNS:*.google.com.ar, DNS:*.google.com.au, DNS:*.google.com.br, DNS:*.google.com.co, DNS:*.google.com.mx, DNS:*.google.com.tr, DNS:*.google.com.vn, DNS:*.google.de, DNS:*.google.es, DNS:*.google.fr, DNS:*.google.hu, DNS:*.google.it, DNS:*.google.nl, DNS:*.google.pl, DNS:*.google.pt, DNS:*.googleadapis.com, DNS:*.googleapis.cn, DNS:*.googlecnapps.cn, DNS:*.googlecommerce.com, DNS:*.googlevideo.com, DNS:*.gstatic.cn, DNS:*.gstatic.com, DNS:*.gstaticcnapps.cn, DNS:*.gvt1.com, DNS:*.gvt2.com, DNS:*.metric.gstatic.com, DNS:*.urchin.com, DNS:*.url.google.com, DNS:*.wear.gkecnapps.cn, DNS:*.youtube-nocookie.com, DNS:*.youtube.com, DNS:*.youtubeeducation.com, DNS:*.youtubekids.com, DNS:*.yt.be, DNS:*.ytimg.com, DNS:android.clients.google.com, DNS:android.com, DNS:developer.android.google.cn, DNS:developers.android.google.cn, DNS:g.co, DNS:ggpht.cn, DNS:gkecnapps.cn, DNS:goo.gl, DNS:google-analytics.com, DNS:google.com, DNS:googlecnapps.cn, DNS:googlecommerce.com, DNS:source.android.google.cn, DNS:urchin.com, DNS:www.goo.gl, DNS:youtu.be, DNS:youtube.com, DNS:youtubeeducation.com, DNS:youtubekids.com, DNS:yt.be
+| Not valid before: 2019-11-05T07:46:16
+|_Not valid after:  2020-01-28T07:46:16
+|_ssl-date: 2019-12-03T08:52:45+00:00; 0s from scanner time.
+| tls-alpn: 
+|   grpc-exp
+|   h2
+|_  http/1.1
+| tls-nextprotoneg: 
+|   grpc-exp
+|   h2
+|_  http/1.1
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.80%I=7%D=12/3%Time=5DE6221C%P=x86_64-pc-linux-gnu%r(GetR
+SF:equest,3764,"HTTP/1\.0\x20200\x20OK\r\nDate:\x20Tue,\x2003\x20Dec\x2020
+SF:19\x2008:51:40\x20GMT\r\nExpires:\x20-1\r\nCache-Control:\x20private,\x
+SF:20max-age=0\r\nContent-Type:\x20text/html;\x20charset=ISO-8859-1\r\nP3P
+SF::\x20CP=\"This\x20is\x20not\x20a\x20P3P\x20policy!\x20See\x20g\.co/p3ph
+SF:elp\x20for\x20more\x20info\.\"\r\nServer:\x20gws\r\nX-XSS-Protection:\x
+SF:200\r\nX-Frame-Options:\x20SAMEORIGIN\r\nSet-Cookie:\x201P_JAR=2019-12-
+SF:03-08;\x20expires=Thu,\x2002-Jan-2020\x2008:51:40\x20GMT;\x20path=/;\x2
+SF:0domain=\.google\.com\r\nSet-Cookie:\x20NID=192=AYEWhDWIMep2tAz90wzeqWh
+SF:5QVh--xn-z2z5vFe9RqnkZbuoJkkX1jV5agChLjHXC-yqUEHyaTWGxooB5MY1CWhB-3CcrU
+SF:_BaINqFS7lmMsprwjfC0yQYr7usClvqfA4u_5NIlw6sGjMz_q0EXomfyKVLip-ZNsGhGoM3
+SF:jmHM6U;\x20expires=Wed,\x2003-Jun-2020\x2008:51:40\x20GMT;\x20path=/;\x
+SF:20domain=\.google\.com;\x20HttpOnly\r\nAccept-Ranges:\x20none\r\nVary:\
+SF:x20Accept-Encoding\r\n\r\n<!doctype\x20html><html\x20itemscope=\"\"\x20
+SF:itemtype=\"http://schema\.org/WebPage\"\x20lang=\"nl\"><head><meta\x20c
+SF:ontent=\"text/html;\x20charset=UTF-8\"\x20http-equiv=\"Content-Type\"><
+SF:meta\x20content=\"/images/branding/googleg/1x/googleg")%r(HTTPOptions,7
+SF:0F,"HTTP/1\.0\x20405\x20Method\x20Not\x20Allowed\r\nAllow:\x20GET,\x20H
+SF:EAD\r\nDate:\x20Tue,\x2003\x20Dec\x202019\x2008:51:41\x20GMT\r\nContent
+SF:-Type:\x20text/html;\x20charset=UTF-8\r\nServer:\x20gws\r\nContent-Leng
+SF:th:\x201592\r\nX-XSS-Protection:\x200\r\nX-Frame-Options:\x20SAMEORIGIN
+SF:\r\n\r\n<!DOCTYPE\x20html>\n<html\x20lang=en>\n\x20\x20<meta\x20charset
+SF:=utf-8>\n\x20\x20<meta\x20name=viewport\x20content=\"initial-scale=1,\x
+SF:20minimum-scale=1,\x20width=device-width\">\n\x20\x20<title>Error\x2040
+SF:5\x20\(Method\x20Not\x20Allowed\)!!1</title>\n\x20\x20<style>\n\x20\x20
+SF:\x20\x20\*{margin:0;padding:0}html,code{font:15px/22px\x20arial,sans-se
+SF:rif}html{background:#fff;color:#222;padding:15px}body{margin:7%\x20auto
+SF:\x200;max-width:390px;min-height:180px;padding:30px\x200\x2015px}\*\x20
+SF:>\x20body{background:url\(//www\.google\.com/images/errors/robot\.png\)
+SF:\x20100%\x205px\x20no-repeat;padding-right:205px}p{margin:11px\x200\x20
+SF:22px;overflow:hidden}ins{color:#777;text-decoration:none}a\x20img{borde
+SF:r:0}@media\x20screen\x20and\x20\(max-width:772px\){body{background:none
+SF:;margin-top:0;max-width:none;padding-right:0}}#l");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.80%T=SSL%I=7%D=12/3%Time=5DE62223%P=x86_64-pc-linux-gnu
+SF:%r(GetRequest,3BFC,"HTTP/1\.0\x20200\x20OK\r\nDate:\x20Tue,\x2003\x20De
+SF:c\x202019\x2008:51:46\x20GMT\r\nExpires:\x20-1\r\nCache-Control:\x20pri
+SF:vate,\x20max-age=0\r\nContent-Type:\x20text/html;\x20charset=ISO-8859-1
+SF:\r\nP3P:\x20CP=\"This\x20is\x20not\x20a\x20P3P\x20policy!\x20See\x20g\.
+SF:co/p3phelp\x20for\x20more\x20info\.\"\r\nServer:\x20gws\r\nX-XSS-Protec
+SF:tion:\x200\r\nX-Frame-Options:\x20SAMEORIGIN\r\nSet-Cookie:\x201P_JAR=2
+SF:019-12-03-08;\x20expires=Thu,\x2002-Jan-2020\x2008:51:46\x20GMT;\x20pat
+SF:h=/;\x20domain=\.google\.com\r\nSet-Cookie:\x20NID=192=Qp822E0H36sFWv6u
+SF:D4wbXHDnt0xWXKlRUlrNMZY6s9qqB-34n6UICvpHirxNiyXr_KGvGWX5W-73fJrS8iOTcOY
+SF:qEqeNsQVq9PoTA-xsuf0RToBVcHJ8rU6Y3avcWjMKsSCVN9QN6J5AVhpHBM3L8VEcbZh3Ny
+SF:hb-q6eR74OgWY;\x20expires=Wed,\x2003-Jun-2020\x2008:51:46\x20GMT;\x20pa
+SF:th=/;\x20domain=\.google\.com;\x20HttpOnly\r\nAlt-Svc:\x20quic=\":443\"
+SF:;\x20ma=2592000;\x20v=\"46,43\",h3-Q050=\":443\";\x20ma=2592000,h3-Q049
+SF:=\":443\";\x20ma=2592000,h3-Q048=\":443\";\x20ma=2592000,h3-Q046=\":443
+SF:\";\x20ma=2592000,h3-Q043=\":443\";\x20ma=2592000\r\nAccept-Ranges:\x20
+SF:none\r\nVary:\x20Accept-Encoding\r\n\r\n<!doctype\x20html><html\x20ite"
+SF:)%r(HTTPOptions,7C3,"HTTP/1\.0\x20405\x20Method\x20Not\x20Allowed\r\nAl
+SF:low:\x20GET,\x20HEAD\r\nDate:\x20Tue,\x2003\x20Dec\x202019\x2008:51:47\
+SF:x20GMT\r\nContent-Type:\x20text/html;\x20charset=UTF-8\r\nServer:\x20gw
+SF:s\r\nContent-Length:\x201592\r\nX-XSS-Protection:\x200\r\nX-Frame-Optio
+SF:ns:\x20SAMEORIGIN\r\nAlt-Svc:\x20quic=\":443\";\x20ma=2592000;\x20v=\"4
+SF:6,43\",h3-Q050=\":443\";\x20ma=2592000,h3-Q049=\":443\";\x20ma=2592000,
+SF:h3-Q048=\":443\";\x20ma=2592000,h3-Q046=\":443\";\x20ma=2592000,h3-Q043
+SF:=\":443\";\x20ma=2592000\r\n\r\n<!DOCTYPE\x20html>\n<html\x20lang=en>\n
+SF:\x20\x20<meta\x20charset=utf-8>\n\x20\x20<meta\x20name=viewport\x20cont
+SF:ent=\"initial-scale=1,\x20minimum-scale=1,\x20width=device-width\">\n\x
+SF:20\x20<title>Error\x20405\x20\(Method\x20Not\x20Allowed\)!!1</title>\n\
+SF:x20\x20<style>\n\x20\x20\x20\x20\*{margin:0;padding:0}html,code{font:15
+SF:px/22px\x20arial,sans-serif}html{background:#fff;color:#222;padding:15p
+SF:x}body{margin:7%\x20auto\x200;max-width:390px;min-height:180px;padding:
+SF:30px\x200\x2015px}\*\x20>\x20body{background:url\(//www\.google\.com/im
+SF:ages/errors/robot\.png\)\x20100%\x205px\x20no-repeat;padding-right:205p
+SF:x}p{margin:11p");
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:52:46 2019 -- 1 IP address (1 host up) scanned in 81.60 seconds
+# Nmap 7.80 scan initiated Tue Dec  3 09:51:24 2019 as: /usr/bin/nmap -sV -A -oA log/google.com google.com
+Nmap scan report for google.com (172.217.17.110)
+Host is up (0.081s latency).
+Other addresses for google.com (not scanned): 2a00:1450:400e:806::200e
+rDNS record for 172.217.17.110: ams15s29-in-f110.1e100.net
+Not shown: 998 filtered ports
+PORT    STATE SERVICE   VERSION
+80/tcp  open  http      gws
+| fingerprint-strings: 
+|   GetRequest: 
+|     HTTP/1.0 200 OK
+|     Date: Tue, 03 Dec 2019 08:51:40 GMT
+|     Expires: -1
+|     Cache-Control: private, max-age=0
+|     Content-Type: text/html; charset=ISO-8859-1
+|     P3P: CP="This is not a P3P policy! See g.co/p3phelp for more info."
+|     Server: gws
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     Set-Cookie: 1P_JAR=2019-12-03-08; expires=Thu, 02-Jan-2020 08:51:40 GMT; path=/; domain=.google.com
+|     Set-Cookie: NID=192=AYEWhDWIMep2tAz90wzeqWh5QVh--xn-z2z5vFe9RqnkZbuoJkkX1jV5agChLjHXC-yqUEHyaTWGxooB5MY1CWhB-3CcrU_BaINqFS7lmMsprwjfC0yQYr7usClvqfA4u_5NIlw6sGjMz_q0EXomfyKVLip-ZNsGhGoM3jmHM6U; expires=Wed, 03-Jun-2020 08:51:40 GMT; path=/; domain=.google.com; HttpOnly
+|     Accept-Ranges: none
+|     Vary: Accept-Encoding
+|     <!doctype html><html itemscope="" itemtype="http://schema.org/WebPage" lang="nl"><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type"><meta content="/images/branding/googleg/1x/googleg
+|   HTTPOptions: 
+|     HTTP/1.0 405 Method Not Allowed
+|     Allow: GET, HEAD
+|     Date: Tue, 03 Dec 2019 08:51:41 GMT
+|     Content-Type: text/html; charset=UTF-8
+|     Server: gws
+|     Content-Length: 1592
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     <!DOCTYPE html>
+|     <html lang=en>
+|     <meta charset=utf-8>
+|     <meta name=viewport content="initial-scale=1, minimum-scale=1, width=device-width">
+|     <title>Error 405 (Method Not Allowed)!!1</title>
+|     <style>
+|_    *{margin:0;padding:0}html,code{font:15px/22px arial,sans-serif}html{background:#fff;color:#222;padding:15px}body{margin:7% auto 0;max-width:390px;min-height:180px;padding:30px 0 15px}* > body{background:url(//www.google.com/images/errors/robot.png) 100% 5px no-repeat;padding-right:205px}p{margin:11px 0 22px;overflow:hidden}ins{color:#777;text-decoration:none}a img{border:0}@media screen and (max-width:772px){body{background:none;margin-top:0;max-width:none;padding-right:0}}#l
+|_http-server-header: gws
+|_http-title: Did not follow redirect to http://www.google.com/
+443/tcp open  ssl/https gws
+| fingerprint-strings: 
+|   GetRequest: 
+|     HTTP/1.0 200 OK
+|     Date: Tue, 03 Dec 2019 08:51:46 GMT
+|     Expires: -1
+|     Cache-Control: private, max-age=0
+|     Content-Type: text/html; charset=ISO-8859-1
+|     P3P: CP="This is not a P3P policy! See g.co/p3phelp for more info."
+|     Server: gws
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     Set-Cookie: 1P_JAR=2019-12-03-08; expires=Thu, 02-Jan-2020 08:51:46 GMT; path=/; domain=.google.com
+|     Set-Cookie: NID=192=Qp822E0H36sFWv6uD4wbXHDnt0xWXKlRUlrNMZY6s9qqB-34n6UICvpHirxNiyXr_KGvGWX5W-73fJrS8iOTcOYqEqeNsQVq9PoTA-xsuf0RToBVcHJ8rU6Y3avcWjMKsSCVN9QN6J5AVhpHBM3L8VEcbZh3Nyhb-q6eR74OgWY; expires=Wed, 03-Jun-2020 08:51:46 GMT; path=/; domain=.google.com; HttpOnly
+|     Alt-Svc: quic=":443"; ma=2592000; v="46,43",h3-Q050=":443"; ma=2592000,h3-Q049=":443"; ma=2592000,h3-Q048=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000
+|     Accept-Ranges: none
+|     Vary: Accept-Encoding
+|     <!doctype html><html ite
+|   HTTPOptions: 
+|     HTTP/1.0 405 Method Not Allowed
+|     Allow: GET, HEAD
+|     Date: Tue, 03 Dec 2019 08:51:47 GMT
+|     Content-Type: text/html; charset=UTF-8
+|     Server: gws
+|     Content-Length: 1592
+|     X-XSS-Protection: 0
+|     X-Frame-Options: SAMEORIGIN
+|     Alt-Svc: quic=":443"; ma=2592000; v="46,43",h3-Q050=":443"; ma=2592000,h3-Q049=":443"; ma=2592000,h3-Q048=":443"; ma=2592000,h3-Q046=":443"; ma=2592000,h3-Q043=":443"; ma=2592000
+|     <!DOCTYPE html>
+|     <html lang=en>
+|     <meta charset=utf-8>
+|     <meta name=viewport content="initial-scale=1, minimum-scale=1, width=device-width">
+|     <title>Error 405 (Method Not Allowed)!!1</title>
+|     <style>
+|_    *{margin:0;padding:0}html,code{font:15px/22px arial,sans-serif}html{background:#fff;color:#222;padding:15px}body{margin:7% auto 0;max-width:390px;min-height:180px;padding:30px 0 15px}* > body{background:url(//www.google.com/images/errors/robot.png) 100% 5px no-repeat;padding-right:205px}p{margin:11p
+|_http-server-header: gws
+|_http-title: Did not follow redirect to https://www.google.com/
+| ssl-cert: Subject: commonName=*.google.com/organizationName=Google LLC/stateOrProvinceName=California/countryName=US
+| Subject Alternative Name: DNS:*.google.com, DNS:*.android.com, DNS:*.appengine.google.com, DNS:*.cloud.google.com, DNS:*.crowdsource.google.com, DNS:*.g.co, DNS:*.gcp.gvt2.com, DNS:*.gcpcdn.gvt1.com, DNS:*.ggpht.cn, DNS:*.gkecnapps.cn, DNS:*.google-analytics.com, DNS:*.google.ca, DNS:*.google.cl, DNS:*.google.co.in, DNS:*.google.co.jp, DNS:*.google.co.uk, DNS:*.google.com.ar, DNS:*.google.com.au, DNS:*.google.com.br, DNS:*.google.com.co, DNS:*.google.com.mx, DNS:*.google.com.tr, DNS:*.google.com.vn, DNS:*.google.de, DNS:*.google.es, DNS:*.google.fr, DNS:*.google.hu, DNS:*.google.it, DNS:*.google.nl, DNS:*.google.pl, DNS:*.google.pt, DNS:*.googleadapis.com, DNS:*.googleapis.cn, DNS:*.googlecnapps.cn, DNS:*.googlecommerce.com, DNS:*.googlevideo.com, DNS:*.gstatic.cn, DNS:*.gstatic.com, DNS:*.gstaticcnapps.cn, DNS:*.gvt1.com, DNS:*.gvt2.com, DNS:*.metric.gstatic.com, DNS:*.urchin.com, DNS:*.url.google.com, DNS:*.wear.gkecnapps.cn, DNS:*.youtube-nocookie.com, DNS:*.youtube.com, DNS:*.youtubeeducation.com, DNS:*.youtubekids.com, DNS:*.yt.be, DNS:*.ytimg.com, DNS:android.clients.google.com, DNS:android.com, DNS:developer.android.google.cn, DNS:developers.android.google.cn, DNS:g.co, DNS:ggpht.cn, DNS:gkecnapps.cn, DNS:goo.gl, DNS:google-analytics.com, DNS:google.com, DNS:googlecnapps.cn, DNS:googlecommerce.com, DNS:source.android.google.cn, DNS:urchin.com, DNS:www.goo.gl, DNS:youtu.be, DNS:youtube.com, DNS:youtubeeducation.com, DNS:youtubekids.com, DNS:yt.be
+| Not valid before: 2019-11-05T07:46:16
+|_Not valid after:  2020-01-28T07:46:16
+|_ssl-date: 2019-12-03T08:52:45+00:00; 0s from scanner time.
+| tls-alpn: 
+|   grpc-exp
+|   h2
+|_  http/1.1
+| tls-nextprotoneg: 
+|   grpc-exp
+|   h2
+|_  http/1.1
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port80-TCP:V=7.80%I=7%D=12/3%Time=5DE6221C%P=x86_64-pc-linux-gnu%r(GetR
+SF:equest,3764,"HTTP/1\.0\x20200\x20OK\r\nDate:\x20Tue,\x2003\x20Dec\x2020
+SF:19\x2008:51:40\x20GMT\r\nExpires:\x20-1\r\nCache-Control:\x20private,\x
+SF:20max-age=0\r\nContent-Type:\x20text/html;\x20charset=ISO-8859-1\r\nP3P
+SF::\x20CP=\"This\x20is\x20not\x20a\x20P3P\x20policy!\x20See\x20g\.co/p3ph
+SF:elp\x20for\x20more\x20info\.\"\r\nServer:\x20gws\r\nX-XSS-Protection:\x
+SF:200\r\nX-Frame-Options:\x20SAMEORIGIN\r\nSet-Cookie:\x201P_JAR=2019-12-
+SF:03-08;\x20expires=Thu,\x2002-Jan-2020\x2008:51:40\x20GMT;\x20path=/;\x2
+SF:0domain=\.google\.com\r\nSet-Cookie:\x20NID=192=AYEWhDWIMep2tAz90wzeqWh
+SF:5QVh--xn-z2z5vFe9RqnkZbuoJkkX1jV5agChLjHXC-yqUEHyaTWGxooB5MY1CWhB-3CcrU
+SF:_BaINqFS7lmMsprwjfC0yQYr7usClvqfA4u_5NIlw6sGjMz_q0EXomfyKVLip-ZNsGhGoM3
+SF:jmHM6U;\x20expires=Wed,\x2003-Jun-2020\x2008:51:40\x20GMT;\x20path=/;\x
+SF:20domain=\.google\.com;\x20HttpOnly\r\nAccept-Ranges:\x20none\r\nVary:\
+SF:x20Accept-Encoding\r\n\r\n<!doctype\x20html><html\x20itemscope=\"\"\x20
+SF:itemtype=\"http://schema\.org/WebPage\"\x20lang=\"nl\"><head><meta\x20c
+SF:ontent=\"text/html;\x20charset=UTF-8\"\x20http-equiv=\"Content-Type\"><
+SF:meta\x20content=\"/images/branding/googleg/1x/googleg")%r(HTTPOptions,7
+SF:0F,"HTTP/1\.0\x20405\x20Method\x20Not\x20Allowed\r\nAllow:\x20GET,\x20H
+SF:EAD\r\nDate:\x20Tue,\x2003\x20Dec\x202019\x2008:51:41\x20GMT\r\nContent
+SF:-Type:\x20text/html;\x20charset=UTF-8\r\nServer:\x20gws\r\nContent-Leng
+SF:th:\x201592\r\nX-XSS-Protection:\x200\r\nX-Frame-Options:\x20SAMEORIGIN
+SF:\r\n\r\n<!DOCTYPE\x20html>\n<html\x20lang=en>\n\x20\x20<meta\x20charset
+SF:=utf-8>\n\x20\x20<meta\x20name=viewport\x20content=\"initial-scale=1,\x
+SF:20minimum-scale=1,\x20width=device-width\">\n\x20\x20<title>Error\x2040
+SF:5\x20\(Method\x20Not\x20Allowed\)!!1</title>\n\x20\x20<style>\n\x20\x20
+SF:\x20\x20\*{margin:0;padding:0}html,code{font:15px/22px\x20arial,sans-se
+SF:rif}html{background:#fff;color:#222;padding:15px}body{margin:7%\x20auto
+SF:\x200;max-width:390px;min-height:180px;padding:30px\x200\x2015px}\*\x20
+SF:>\x20body{background:url\(//www\.google\.com/images/errors/robot\.png\)
+SF:\x20100%\x205px\x20no-repeat;padding-right:205px}p{margin:11px\x200\x20
+SF:22px;overflow:hidden}ins{color:#777;text-decoration:none}a\x20img{borde
+SF:r:0}@media\x20screen\x20and\x20\(max-width:772px\){body{background:none
+SF:;margin-top:0;max-width:none;padding-right:0}}#l");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port443-TCP:V=7.80%T=SSL%I=7%D=12/3%Time=5DE62223%P=x86_64-pc-linux-gnu
+SF:%r(GetRequest,3BFC,"HTTP/1\.0\x20200\x20OK\r\nDate:\x20Tue,\x2003\x20De
+SF:c\x202019\x2008:51:46\x20GMT\r\nExpires:\x20-1\r\nCache-Control:\x20pri
+SF:vate,\x20max-age=0\r\nContent-Type:\x20text/html;\x20charset=ISO-8859-1
+SF:\r\nP3P:\x20CP=\"This\x20is\x20not\x20a\x20P3P\x20policy!\x20See\x20g\.
+SF:co/p3phelp\x20for\x20more\x20info\.\"\r\nServer:\x20gws\r\nX-XSS-Protec
+SF:tion:\x200\r\nX-Frame-Options:\x20SAMEORIGIN\r\nSet-Cookie:\x201P_JAR=2
+SF:019-12-03-08;\x20expires=Thu,\x2002-Jan-2020\x2008:51:46\x20GMT;\x20pat
+SF:h=/;\x20domain=\.google\.com\r\nSet-Cookie:\x20NID=192=Qp822E0H36sFWv6u
+SF:D4wbXHDnt0xWXKlRUlrNMZY6s9qqB-34n6UICvpHirxNiyXr_KGvGWX5W-73fJrS8iOTcOY
+SF:qEqeNsQVq9PoTA-xsuf0RToBVcHJ8rU6Y3avcWjMKsSCVN9QN6J5AVhpHBM3L8VEcbZh3Ny
+SF:hb-q6eR74OgWY;\x20expires=Wed,\x2003-Jun-2020\x2008:51:46\x20GMT;\x20pa
+SF:th=/;\x20domain=\.google\.com;\x20HttpOnly\r\nAlt-Svc:\x20quic=\":443\"
+SF:;\x20ma=2592000;\x20v=\"46,43\",h3-Q050=\":443\";\x20ma=2592000,h3-Q049
+SF:=\":443\";\x20ma=2592000,h3-Q048=\":443\";\x20ma=2592000,h3-Q046=\":443
+SF:\";\x20ma=2592000,h3-Q043=\":443\";\x20ma=2592000\r\nAccept-Ranges:\x20
+SF:none\r\nVary:\x20Accept-Encoding\r\n\r\n<!doctype\x20html><html\x20ite"
+SF:)%r(HTTPOptions,7C3,"HTTP/1\.0\x20405\x20Method\x20Not\x20Allowed\r\nAl
+SF:low:\x20GET,\x20HEAD\r\nDate:\x20Tue,\x2003\x20Dec\x202019\x2008:51:47\
+SF:x20GMT\r\nContent-Type:\x20text/html;\x20charset=UTF-8\r\nServer:\x20gw
+SF:s\r\nContent-Length:\x201592\r\nX-XSS-Protection:\x200\r\nX-Frame-Optio
+SF:ns:\x20SAMEORIGIN\r\nAlt-Svc:\x20quic=\":443\";\x20ma=2592000;\x20v=\"4
+SF:6,43\",h3-Q050=\":443\";\x20ma=2592000,h3-Q049=\":443\";\x20ma=2592000,
+SF:h3-Q048=\":443\";\x20ma=2592000,h3-Q046=\":443\";\x20ma=2592000,h3-Q043
+SF:=\":443\";\x20ma=2592000\r\n\r\n<!DOCTYPE\x20html>\n<html\x20lang=en>\n
+SF:\x20\x20<meta\x20charset=utf-8>\n\x20\x20<meta\x20name=viewport\x20cont
+SF:ent=\"initial-scale=1,\x20minimum-scale=1,\x20width=device-width\">\n\x
+SF:20\x20<title>Error\x20405\x20\(Method\x20Not\x20Allowed\)!!1</title>\n\
+SF:x20\x20<style>\n\x20\x20\x20\x20\*{margin:0;padding:0}html,code{font:15
+SF:px/22px\x20arial,sans-serif}html{background:#fff;color:#222;padding:15p
+SF:x}body{margin:7%\x20auto\x200;max-width:390px;min-height:180px;padding:
+SF:30px\x200\x2015px}\*\x20>\x20body{background:url\(//www\.google\.com/im
+SF:ages/errors/robot\.png\)\x20100%\x205px\x20no-repeat;padding-right:205p
+SF:x}p{margin:11p");
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Dec  3 09:52:46 2019 -- 1 IP address (1 host up) scanned in 81.60 seconds

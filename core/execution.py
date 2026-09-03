@@ -142,6 +142,9 @@ class ExecutionContext:
         Emits a ``"log"`` event before execution.  Checks ``self.cancelled``
         after the subprocess returns so callers can short-circuit.
 
+        Raises :exc:`subprocess.TimeoutExpired` when the command exceeds
+        *timeout* seconds — callers should catch this and return ``[]``.
+
         Args:
             cmd:     Command and arguments as a list of strings.
                      **Never** pass ``shell=True``.
@@ -151,11 +154,31 @@ class ExecutionContext:
         Returns:
             :class:`subprocess.CompletedProcess` with ``stdout``/``stderr``
             as strings.
+
+        Raises:
+            subprocess.TimeoutExpired: If the process exceeds *timeout* seconds.
+            RuntimeError: If the binary is not found (``FileNotFoundError``)
+                or the caller lacks permission to execute it
+                (``PermissionError``).  These are converted so that modules
+                receive a consistent error type rather than an OS-level
+                exception leaking through.
         """
         self.emit(f"Executing: {' '.join(cmd)}")
-        return subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-        )
+        try:
+            return subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+            )
+        except FileNotFoundError:
+            msg = f"Binary not found: {cmd[0]!r}. Ensure it is installed and on PATH."
+            self.emit(msg, event_type="error")
+            raise RuntimeError(msg) from None
+        except PermissionError:
+            msg = f"Permission denied executing {cmd[0]!r}."
+            self.emit(msg, event_type="error")
+            raise RuntimeError(msg) from None
+        # subprocess.TimeoutExpired is deliberately NOT caught here — callers
+        # must handle it so they can return [] cleanly and let the runner
+        # decide whether the module as a whole has timed out.

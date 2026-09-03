@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Exploit NameXML="NetProfiler" CodeName="netprofiler.bat"  Platform="privesc" Service="null" Type="tool" RemotePort="80" LocalPort="" ShellcodeAvailable="" ShellPort="PuertoNum" SpecialArgs="">
+    </Exploit>
+
+    <Information Author="Juan Sacco" Date="Dec 03 2019" Vulnerability="N/A">
+On .NET  4, the CLSID must be defined via the HKCR\CLSID{GUID}\InprocServer32 registry key containing the path to the profiling DLL. On recent versions, the CLR uses the COR_PROFILER_PATH environment variable to find the DLL – and falls back to using the CLSID if COR_PROFILER_PATH is not defined.</Information>
+    <Targets>
+       Compile it using Visual Studio 
+    </Targets>
+
+</Module>

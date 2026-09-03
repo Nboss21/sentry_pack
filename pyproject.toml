@@ -22,6 +22,8 @@ dependencies = [
     "requests>=2.31.0",
     "websockets>=11.0",
     "tomli>=2.0.1; python_version < '3.11'",
+    "weasyprint>=60.0",
+    "reportlab>=4.0",
 ]
 
 [project.optional-dependencies]
@@ -32,10 +34,16 @@ dev = [
     "black>=23.0.0",
     "ruff>=0.0.280",
     "pre-commit>=3.3.0",
+    # Optional: requires wkhtmltopdf binary installed separately
+    "pdfkit>=1.0",
 ]
 
 [project.scripts]
 sentrypack = "scripts.validate_module:main"
+sentrypack-validate = "scripts.validate_module:main"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
 
 [tool.setuptools.packages.find]
 where = ["."]
