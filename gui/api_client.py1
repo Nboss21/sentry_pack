@@ -2,7 +2,7 @@
 API Client wrapper for SentryPack REST endpoints and WebSocket subscriptions.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 
 import requests
 
@@ -207,94 +207,7 @@ class SentryPackAPIClient:
             )
             response.raise_for_status()
             return response.json()
-# ------------------------------------------------------------------
-    # Module Execution & Runs
-    # ------------------------------------------------------------------
-
-    def run_module(
-        self,
-        target_id: int,
-        module_id: str,
-        options: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
-        """Trigger execution of a module against a target."""
-        payload = {
-            "module_id": module_id,
-            "options": options or {},
-        }
-        response = requests.post(
-            f"{self.base_url}/api/targets/{target_id}/run",
-            json=payload,
-        )
-        response.raise_for_status()
-        return response.json()
-
-    def get_run_status(self, run_id: str) -> Dict[str, Any]:
-        """Poll the status of an ongoing or completed module run."""
-        response = requests.get(f"{self.base_url}/api/runs/{run_id}/status")
-        response.raise_for_status()
-        return response.json()
-
-    # ------------------------------------------------------------------
-    # C2 Sessions & Interactive Tasks
-    # ------------------------------------------------------------------
-
-    def get_c2_sessions(self, status: Optional[str] = None) -> Dict[str, Any]:
-        """Fetch all C2 sessions, optionally filtered by status."""
-        url = f"{self.base_url}/api/sessions/"
-        params = {"status": status} if status else {}
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        return response.json()
-
-    def get_c2_session(self, session_id: str) -> Dict[str, Any]:
-        """Fetch a single C2 session by ID."""
-        response = requests.get(f"{self.base_url}/api/sessions/{session_id}")
-        response.raise_for_status()
-        return response.json()
-
-    def create_session_task(self, session_id: str, command: str) -> Dict[str, Any]:
-        """Enqueue a command task on an active C2 session."""
-        response = requests.post(
-            f"{self.base_url}/api/sessions/{session_id}/tasks",
-            json={"command": command},
-        )
-        response.raise_for_status()
-        return response.json()
-
-    def get_session_tasks(self, session_id: str) -> Dict[str, Any]:
-        """List tasks for a C2 session."""
-        response = requests.get(f"{self.base_url}/api/sessions/{session_id}/tasks")
-        response.raise_for_status()
-        return response.json()
-
-    # ------------------------------------------------------------------
-    # Global Findings Aggregation
-    # ------------------------------------------------------------------
-
-    def get_all_findings(self, project_id: Optional[int] = None) -> List[Dict[str, Any]]:
-        """Fetch all findings across targets, optionally scoped to a project."""
-        all_findings: List[Dict[str, Any]] = []
-        targets_resp = self.get_targets()
-        targets = targets_resp.get("targets", [])
-
-        if project_id is not None:
-            targets = [t for t in targets if t.get("project_id") == project_id]
-
-        for target in targets:
-            tid = target.get("id")
-            if tid is not None:
-                try:
-                    f_resp = self.get_target_findings(tid)
-                    for f in f_resp.get("findings", []):
-                        f["target_name"] = target.get("name", "Unknown")
-                        f["target_ip"] = target.get("ip_address", "Unknown")
-                        all_findings.append(f)
-                except Exception:
-                    continue
-
-        return all_findings
-
+    
     def get_listeners(self):
         response = requests.get(
             f"{self.base_url}/api/listeners/"
@@ -302,21 +215,20 @@ class SentryPackAPIClient:
         response.raise_for_status()
         return response.json()
 
-    def get_listener(
-        self,
-        listener_id: str,
-    ) -> Dict[str, Any]:
+
+    def get_listener(self, listener_id: str):
         response = requests.get(
             f"{self.base_url}/api/listeners/{listener_id}"
         )
         response.raise_for_status()
         return response.json()
 
+
     def start_listener(
         self,
         listener_id: str,
-        config: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        config: dict,
+    ):
         response = requests.post(
             f"{self.base_url}/api/listeners/{listener_id}/start",
             json={"config": config},
@@ -324,12 +236,15 @@ class SentryPackAPIClient:
         response.raise_for_status()
         return response.json()
 
-    def stop_listener(
-        self,
-        listener_id: str,
-    ) -> Dict[str, Any]:
+
+    def stop_listener(self, listener_id: str):
         response = requests.post(
             f"{self.base_url}/api/listeners/{listener_id}/stop"
         )
+        response.raise_for_status()
+        return response.json()
+
+    def get_sessions(self):
+        response = requests.get(f"{self.base_url}/api/sessions/")
         response.raise_for_status()
         return response.json()
